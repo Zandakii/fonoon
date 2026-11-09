@@ -12,9 +12,10 @@
   :root{
     --graphite:#263035;
     --steel:#5B686E;
-    --alu:#D3D9DB;
-    --mist:#EDF1F1;
-    --white:#FBFCFC;
+    --alu:#C6CED1;
+    --mist:#D8DEE0;
+    --white:#E3E7E8;      /* page background: light grey */
+    --card:#EEF1F2;       /* raised surfaces */
     --teal:#17575C;
     --teal-dark:#0F4145;
     --sun:#E9B44C;
@@ -37,7 +38,7 @@
   .muted{color:var(--steel)}
 
   /* Header */
-  header.top{position:sticky;top:0;z-index:20;background:rgba(251,252,252,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--alu)}
+  header.top{position:sticky;top:0;z-index:20;background:rgba(227,231,232,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--alu)}
   .top .wrap{display:flex;align-items:center;gap:28px;height:68px}
   .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:19px}
   .brand svg{flex:none}
@@ -75,63 +76,112 @@
   .sunray{animation:fadeIn 1.2s ease 1.4s both}
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-  /* Calculator */
-  .calc{background:var(--graphite);color:#fff;padding:80px 0}
-  .calc h2{color:#fff}
-  .calc .intro{color:#B9C4C8;margin-top:12px;max-width:40em}
-  .calc-grid{display:grid;grid-template-columns:400px 1fr;gap:40px;margin-top:40px}
-  @media (max-width:980px){.calc-grid{grid-template-columns:1fr}}
-  .panel{background:#2F3A40;border-radius:var(--radius-m);padding:28px}
-  fieldset{border:0;padding:0;margin:0 0 22px}
-  legend,label.lbl{display:block;font-size:14px;color:#B9C4C8;margin-bottom:8px;padding:0}
-  select,input[type=number]{width:100%;font:inherit;font-size:16px;color:#fff;background:#232C31;border:1px solid #4A575D;border-radius:var(--radius-s);padding:11px 12px}
-  select:focus,input:focus{border-color:var(--sun);outline:none}
-  .dims{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .unit{position:relative}
-  .unit input{padding-inline-end:36px}
-  .unit span{position:absolute;inset-inline-end:12px;top:50%;transform:translateY(-50%);color:#8C989D;font-size:14px;pointer-events:none}
-  .seg{display:flex;flex-wrap:wrap;gap:8px}
-  .seg label{cursor:pointer}
-  .seg input{position:absolute;opacity:0;pointer-events:none}
-  .seg span{display:inline-block;padding:8px 13px;border:1px solid #4A575D;border-radius:var(--radius-s);font-size:14px;color:#D7DFE1}
-  .seg input:checked+span{background:var(--sun);border-color:var(--sun);color:var(--graphite);font-weight:500}
-  .seg input:focus-visible+span{outline:3px solid var(--sun);outline-offset:2px}
-  .check{display:flex;gap:10px;align-items:flex-start;font-size:15px;color:#D7DFE1;margin-bottom:10px;cursor:pointer}
-  .check input{margin-top:5px;accent-color:var(--sun);width:16px;height:16px}
-  .err{color:#F3B8A8;font-size:13px;margin-top:6px;min-height:0}
-  .hidden{display:none!important}
-
-  .result{display:flex;flex-direction:column;gap:20px}
-  .drawing{background:#232C31;border-radius:var(--radius-m);padding:12px}
-  .viewbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:2px 2px 10px}
-  .tabs{display:flex;gap:4px;background:#2F3A40;border-radius:var(--radius-s);padding:3px}
-  .tabs button{font:inherit;font-size:14px;color:#B9C4C8;background:none;border:0;padding:6px 12px;border-radius:3px;cursor:pointer}
-  .tabs button[aria-selected=true]{background:#4A575D;color:#fff}
-  .opbtn{font:inherit;font-size:14px;background:none;border:1px solid #4A575D;color:#fff;border-radius:var(--radius-s);padding:6px 14px;cursor:pointer}
+  /* ===== Configurator: preview, options and price on one screen ===== */
+  #estimate{scroll-margin-top:68px}
+  .cfg{height:calc(100vh - 68px);min-height:640px;display:grid;grid-template-rows:1fr auto;border-top:1px solid var(--alu);border-bottom:1px solid var(--alu)}
+  .cfg-grid{display:grid;grid-template-columns:1fr 460px;min-height:0}
+  .stage{position:relative;min-height:0;display:flex;flex-direction:column;background:#CDD4D7;transition:background .4s}
+  .stage.night{background:#232C31}
+  .viewbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 18px 0;position:relative;z-index:3}
+  .pills{display:flex;gap:4px;background:rgba(255,255,255,.55);border-radius:22px;padding:4px}
+  .night .pills{background:rgba(0,0,0,.28)}
+  .pills button{font:inherit;font-size:14px;color:var(--steel);background:none;border:0;padding:7px 14px;border-radius:18px;cursor:pointer}
+  .night .pills button{color:#B9C4C8}
+  .pills button[aria-selected=true],.pills button[aria-pressed=true]{background:var(--graphite);color:#fff}
+  .night .pills button[aria-pressed=true]{background:var(--sun);color:var(--graphite)}
+  .opbtn{font:inherit;font-size:14px;background:var(--card);border:1px solid var(--alu);color:var(--graphite);border-radius:22px;padding:7px 16px;cursor:pointer}
+  .night .opbtn{background:transparent;border-color:#4A575D;color:#fff}
   .opbtn:hover{border-color:var(--sun)}
-  #view3d{position:relative}
-  #c3d{width:100%;display:block;touch-action:none;cursor:grab;border-radius:6px}
+  #view3d,#drawing{position:relative;flex:1;min-height:0}
+  #c3d{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
   #c3d:active{cursor:grabbing}
-  .zoomctl{position:absolute;bottom:10px;inset-inline-end:12px;display:flex;gap:6px}
-  .zoomctl button{width:34px;height:34px;border-radius:50%;border:1px solid #4A575D;background:rgba(35,44,49,.85);color:#fff;font:inherit;font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center}
+  #drawing{display:flex;align-items:center;justify-content:center;padding:10px 18px 18px}
+  #drawing svg{width:100%;height:100%;max-height:100%;background:#232C31;border-radius:var(--radius-m)}
+  #dims3d{position:absolute;inset:0;pointer-events:none}
+  .dlab{position:absolute;transform:translate(-50%,-50%);font-size:13px;color:#7A5408;background:rgba(238,241,242,.85);padding:1px 6px;border-radius:3px;white-space:nowrap;direction:ltr;unicode-bidi:isolate}
+  .night .dlab{color:var(--sun);background:rgba(35,44,49,.75)}
+  .dlab.open,.night .dlab.open{color:#232C31;background:var(--sun);font-weight:500}
+  .dimtag{position:absolute;top:8px;inset-inline-end:18px;font-size:14px;color:#5B4210;direction:ltr;unicode-bidi:isolate}
+  .night .dimtag{color:var(--sun)}
+  .hint{position:absolute;bottom:12px;inset-inline-start:18px;font-size:13px;color:#5B686E;pointer-events:none;margin:0}
+  .night .hint{color:#8C989D}
+  .zoomctl{position:absolute;bottom:10px;inset-inline-end:16px;display:flex;gap:6px}
+  .zoomctl button{width:34px;height:34px;border-radius:50%;border:1px solid var(--alu);background:rgba(238,241,242,.9);color:var(--graphite);font:inherit;font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center}
   .zoomctl button:hover{border-color:var(--sun)}
   .zoomctl button.reset{width:auto;border-radius:17px;padding:0 12px;font-size:13px}
-  .hint{position:absolute;bottom:10px;inset-inline-start:12px;font-size:13px;color:#8C989D;pointer-events:none}
-  #dims3d{position:absolute;inset:0;pointer-events:none}
-  .dlab{position:absolute;transform:translate(-50%,-50%);font-size:13px;color:var(--sun);background:rgba(35,44,49,.75);padding:1px 6px;border-radius:3px;white-space:nowrap;direction:ltr;unicode-bidi:isolate}
-  .dlab.open{color:#232C31;background:var(--sun);font-weight:500}
-  .dimtag{position:absolute;top:8px;inset-inline-end:12px;font-size:14px;color:var(--sun);direction:ltr;unicode-bidi:isolate}
-  .drawing svg{width:100%;height:auto;display:block}
-  .price{background:#fff;color:var(--graphite);border-radius:var(--radius-m);padding:26px 28px}
-  .price .label{font-size:14px;color:var(--steel)}
-  .price .amount{font-size:clamp(28px,3.6vw,42px);font-weight:700;letter-spacing:-.02em;margin-top:2px;direction:ltr;unicode-bidi:isolate}
-  html[dir=rtl] .price .amount{direction:rtl}
-  .price .perm2{font-size:16px;color:var(--steel);margin-top:2px;font-variant-numeric:tabular-nums}
-  .breakdown{margin:16px 0 0;padding:16px 0 0;border-top:1px solid var(--alu);display:grid;grid-template-columns:1fr auto;gap:6px 16px;font-size:15px}
+  .night .zoomctl button{border-color:#4A575D;background:rgba(35,44,49,.85);color:#fff}
+
+  .panel{background:var(--card);border-inline-start:1px solid var(--alu);overflow-y:auto;padding:20px 24px 24px}
+  .panel h2{font-size:21px;margin-bottom:10px}
+  fieldset{border:0;padding:0;margin:0 0 12px}
+  legend,label.lbl{display:block;font-size:13px;color:var(--steel);margin-bottom:6px;padding:0}
+  legend .sel{color:var(--graphite);font-weight:500}
+  select,input[type=number]{width:100%;font:inherit;font-size:15px;color:var(--graphite);background:#F8F9F9;border:1px solid var(--alu);border-radius:var(--radius-s);padding:9px 11px}
+  select:focus,input:focus{border-color:var(--teal);outline:none}
+  .dims{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .unit{position:relative}
+  .unit input{padding-inline-end:30px}
+  .unit span{position:absolute;inset-inline-end:10px;top:50%;transform:translateY(-50%);color:#8C989D;font-size:13px;pointer-events:none}
+  .seg{display:flex;flex-wrap:wrap;gap:6px}
+  .seg label{cursor:pointer}
+  .seg input{position:absolute;opacity:0;pointer-events:none}
+  .seg span{display:inline-block;padding:6px 11px;border:1px solid var(--alu);border-radius:var(--radius-s);font-size:13.5px;color:var(--graphite);background:#F8F9F9}
+  .seg input:checked+span{background:var(--graphite);border-color:var(--graphite);color:#fff;font-weight:500}
+  .seg input:focus-visible+span{outline:3px solid var(--sun);outline-offset:2px}
+  .seg input:disabled+span{opacity:.4;cursor:not-allowed}
+  /* colour swatches */
+  .sw{gap:8px}
+  .sw span{width:27px;height:27px;padding:0;border-radius:50%;font-size:0;background:var(--c);border:2px solid var(--card);box-shadow:0 0 0 1px var(--alu)}
+  .sw input:checked+span{background:var(--c);border-color:var(--card);box-shadow:0 0 0 2px var(--sun)}
+  .sw .same{background:conic-gradient(var(--c) 0 50%, #F8F9F9 0);}
+  .err{color:#A33A1F;font-size:13px;margin-top:6px}
+  .hidden{display:none!important}
+  #pillarSet{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:center}
+  #pillarSet legend{grid-column:1/-1}
+  #pillarSet .lbl{margin:0;font-size:12.5px}
+  #pillarSet .seg{margin:0!important}
+  .specs{margin-top:6px;border-top:1px solid var(--alu);padding-top:10px}
+  .specs summary{cursor:pointer;font-size:14px;color:var(--teal);font-weight:500}
+  .breakdown{margin:10px 0 0;display:grid;grid-template-columns:1fr auto;gap:5px 14px;font-size:14px}
   .breakdown dt{color:var(--steel)}
   .breakdown dd{margin:0;text-align:end;font-variant-numeric:tabular-nums}
-  .price .note{font-size:13px;color:var(--steel);margin-top:16px}
-  .price .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+  .pricebar{display:flex;align-items:center;gap:28px;padding:14px 28px;background:var(--graphite);color:#fff;flex-wrap:wrap}
+  .pricebar .label{font-size:13px;color:#B9C4C8}
+  .pricebar .amount{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.1;direction:ltr;unicode-bidi:isolate}
+  html[dir=rtl] .pricebar .amount{direction:rtl}
+  .pricebar .perm2{font-size:14px;color:#B9C4C8;font-variant-numeric:tabular-nums}
+  .pricebar .note{font-size:12.5px;color:#B9C4C8;max-width:30em;margin:0}
+  .pricebar .actions{display:flex;gap:10px;margin-inline-start:auto}
+  .pricebar .btn{padding:12px 18px}
+  .btn-light{background:transparent;border:1px solid #6B787D;color:#fff}
+  .btn-light:hover{border-color:var(--sun)}
+  @media (max-width:980px){
+    .cfg{height:auto;min-height:0}
+    .cfg-grid{grid-template-columns:1fr}
+    .stage{height:62vh;min-height:380px}
+    .panel{border-inline-start:0;border-top:1px solid var(--alu);overflow:visible}
+    .pricebar{position:sticky;bottom:0;z-index:15;gap:8px 12px;padding:10px 14px}
+    .pricebar .perm2{font-size:12.5px}
+    .pricebar .note{display:none}
+    .hint{display:none}
+    .wa-float{display:none!important}
+    .pricebar .amount{font-size:22px}
+    .pricebar .actions{width:100%}
+    .pricebar .btn{flex:1;justify-content:center;padding:10px}
+  }
+  /* printable quote (Save as PDF) */
+  #quote{display:none}
+  @media print{
+    body > *:not(#quote){display:none!important}
+    #quote{display:block;color:#000;font-size:13px;padding:10mm}
+    #quote img{max-width:100%;border:1px solid #ccc;margin:10px 0}
+    #quote table{width:100%;border-collapse:collapse;margin-top:8px}
+    #quote td{padding:5px 0;border-bottom:1px solid #ddd}
+    #quote td:last-child{text-align:end}
+    #quote .qp{font-size:26px;font-weight:700;margin:12px 0 2px}
+    @page{margin:12mm}
+  }
 
   /* Products */
   section.block{padding:88px 0}
@@ -177,7 +227,7 @@
   footer{border-top:1px solid var(--alu);padding:28px 0;font-size:14px;color:var(--steel)}
   footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
-  .wa-float{position:fixed;bottom:20px;inset-inline-end:20px;z-index:30;width:56px;height:56px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+  .wa-float{position:fixed;bottom:104px;inset-inline-end:20px;z-index:30;width:56px;height:56px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.25)}
   .wa-float svg{width:30px;height:30px}
 </style>
 </head>
@@ -220,38 +270,78 @@
   </div>
 </section>
 
-<section class="calc" id="estimate">
-  <div class="wrap">
-    <h2 data-t="calcTitle">Get an estimate in one minute</h2>
-    <p class="intro" data-t="calcIntro">Choose a system, enter your measurements and pick your options. The drawing and the price update as you type. Final prices are confirmed after a free site visit.</p>
+<section class="cfg" id="estimate">
+  <div class="cfg-grid">
+    <div class="stage" id="stage" aria-live="polite">
+      <div class="viewbar">
+        <div class="pills" role="tablist">
+          <button type="button" role="tab" id="tab3d" aria-selected="true" data-t="v3d">3D model</button>
+          <button type="button" role="tab" id="tab2d" aria-selected="false" data-t="v2d">Drawing with measurements</button>
+        </div>
+        <div class="pills" aria-label="Day or night">
+          <button type="button" id="dayBtn" aria-pressed="true" data-t="dayLbl">Day</button>
+          <button type="button" id="nightBtn" aria-pressed="false" data-t="nightLbl">Night</button>
+        </div>
+        <button type="button" class="opbtn" id="openBtn">Open the roof</button>
+      </div>
+      <div id="view3d">
+        <canvas id="c3d" tabindex="0" aria-label="3D model of your system. Drag or use the arrow keys to turn it."></canvas>
+        <div id="dims3d"></div>
+        <span class="dimtag" id="dimTag"></span>
+        <p class="hint" data-t="dragHint">Drag to turn, scroll or pinch to zoom</p>
+        <div class="zoomctl">
+          <button type="button" id="zoomOut" aria-label="Zoom out">−</button>
+          <button type="button" class="reset" id="zoomReset" data-t="zoomReset">Reset</button>
+          <button type="button" id="zoomIn" aria-label="Zoom in">+</button>
+        </div>
+      </div>
+      <div id="drawing" class="hidden"></div>
+    </div>
 
-    <div class="calc-grid">
-      <form class="panel" id="calcForm" novalidate>
-        <fieldset>
-          <label class="lbl" for="product" data-t="lProduct">System</label>
-          <select id="product"></select>
-        </fieldset>
+    <form class="panel" id="calcForm" novalidate>
+      <h2 data-t="calcTitle">Build your system</h2>
+      <fieldset>
+        <label class="lbl" for="product" data-t="lProduct">System</label>
+        <select id="product"></select>
+      </fieldset>
 
-        <fieldset>
-          <legend data-t="lDims">Measurements</legend>
-          <div class="dims">
-            <div>
-              <label class="lbl" for="width" data-t="lWidth">Width</label>
-              <div class="unit"><input id="width" type="number" inputmode="decimal" min="1" max="15" step="0.1" value="5"><span data-t="m">m</span></div>
-            </div>
-            <div>
-              <label class="lbl" for="depth" id="depthLbl" data-t="lDepth">Depth</label>
-              <div class="unit"><input id="depth" type="number" inputmode="decimal" min="1" max="10" step="0.1" value="4"><span data-t="m">m</span></div>
-            </div>
+      <fieldset>
+        <legend data-t="lDims">Measurements</legend>
+        <div class="dims">
+          <div>
+            <label class="lbl" for="width" data-t="lWidth">Width</label>
+            <div class="unit"><input id="width" type="number" inputmode="decimal" min="1" max="15" step="0.1" value="5"><span data-t="m">m</span></div>
           </div>
-          <div id="hfWrap" style="margin-top:12px">
-            <label class="lbl" for="hf" data-t="lHf">Front pillar height</label>
+          <div>
+            <label class="lbl" for="depth" id="depthLbl" data-t="lDepth">Depth</label>
+            <div class="unit"><input id="depth" type="number" inputmode="decimal" min="1" max="10" step="0.1" value="4"><span data-t="m">m</span></div>
+          </div>
+          <div id="hfWrap">
+            <label class="lbl" for="hf" data-t="lHfShort">Pillar height</label>
             <div class="unit"><input id="hf" type="number" inputmode="decimal" min="2" max="3.5" step="0.05" value="2.5"><span data-t="m">m</span></div>
           </div>
-          <p class="err" id="dimErr" role="alert"></p>
+        </div>
+        <p class="err" id="dimErr" role="alert"></p>
+      </fieldset>
+
+      <fieldset id="mountSet">
+          <legend data-t="lMount">Behind the pergola</legend>
+          <div class="seg">
+            <label><input type="radio" name="mount" value="wall" checked><span data-t="mWall">Fixed to a wall</span></label>
+            <label><input type="radio" name="mount" value="free"><span data-t="mFree">Freestanding, posts at the back</span></label>
+          </div>
         </fieldset>
 
-        <fieldset id="pillarSet">
+      <fieldset id="smountSet">
+          <legend data-t="lMount">Behind the pergola</legend>
+          <div class="seg">
+            <label><input type="radio" name="smount" value="free" checked><span data-t="smFree">Freestanding</span></label>
+            <label><input type="radio" name="smount" value="wallW"><span data-t="smWallW">Wall on the width side</span></label>
+            <label><input type="radio" name="smount" value="wallD"><span data-t="smWallD">Wall on the depth side</span></label>
+          </div>
+        </fieldset>
+
+      <fieldset id="pillarSet">
           <legend data-t="lPillars">Number of pillars</legend>
           <label class="lbl" data-t="lPilW">Along the width (front and back, each)</label>
           <div class="seg" style="margin-bottom:12px">
@@ -268,15 +358,7 @@
           </div>
         </fieldset>
 
-        <fieldset id="mountSet">
-          <legend data-t="lMount">Behind the pergola</legend>
-          <div class="seg">
-            <label><input type="radio" name="mount" value="wall" checked><span data-t="mWall">Fixed to a wall</span></label>
-            <label><input type="radio" name="mount" value="free"><span data-t="mFree">Freestanding, posts at the back</span></label>
-          </div>
-        </fieldset>
-
-        <fieldset id="structSet">
+      <fieldset id="structSet">
           <legend data-t="lStruct">Structure</legend>
           <div class="seg">
             <label><input type="radio" name="structure" value="aluminium" checked><span data-t="sAlu">Aluminium</span></label>
@@ -284,7 +366,7 @@
           </div>
         </fieldset>
 
-        <fieldset id="glassSet">
+      <fieldset id="glassSet">
           <legend data-t="lGlass">Glass</legend>
           <div class="seg">
             <label><input type="radio" name="glass" value="tempered" checked><span data-t="gTemp">6 mm tempered</span></label>
@@ -293,91 +375,60 @@
           </div>
         </fieldset>
 
-        <fieldset>
-          <legend data-t="lFinish">Aluminium colour</legend>
-          <div class="seg">
-            <label><input type="radio" name="finish" value="black"><span data-t="cBlack">Black</span></label>
-            <label><input type="radio" name="finish" value="white"><span data-t="cWhite">White</span></label>
-            <label><input type="radio" name="finish" value="beige"><span data-t="cBeige">Beige</span></label>
-            <label><input type="radio" name="finish" value="grey" checked><span data-t="cGrey">Grey</span></label>
-            <label><input type="radio" name="finish" value="darkgrey"><span data-t="cDarkGrey">Dark grey</span></label>
-            <label><input type="radio" name="finish" value="brown"><span data-t="cBrown">Brown</span></label>
-            <label><input type="radio" name="finish" value="wood"><span data-t="cWood">Wood effect</span></label>
-          </div>
-        </fieldset>
-
-        <fieldset id="smountSet">
-          <legend data-t="lMount">Behind the pergola</legend>
-          <div class="seg">
-            <label><input type="radio" name="smount" value="free" checked><span data-t="smFree">Freestanding</span></label>
-            <label><input type="radio" name="smount" value="wallW"><span data-t="smWallW">Wall on the width side</span></label>
-            <label><input type="radio" name="smount" value="wallD"><span data-t="smWallD">Wall on the depth side</span></label>
-          </div>
-        </fieldset>
-
-        <fieldset id="bladeColSet">
-          <legend data-t="lBladeCol">Blade colour</legend>
-          <div class="seg">
-            <label><input type="radio" name="bladeCol" value="same" checked><span data-t="cSame">Same as frame</span></label>
-            <label><input type="radio" name="bladeCol" value="black"><span data-t="cBlack">Black</span></label>
-            <label><input type="radio" name="bladeCol" value="white"><span data-t="cWhite">White</span></label>
-            <label><input type="radio" name="bladeCol" value="beige"><span data-t="cBeige">Beige</span></label>
-            <label><input type="radio" name="bladeCol" value="grey"><span data-t="cGrey">Grey</span></label>
-            <label><input type="radio" name="bladeCol" value="darkgrey"><span data-t="cDarkGrey">Dark grey</span></label>
-            <label><input type="radio" name="bladeCol" value="brown"><span data-t="cBrown">Brown</span></label>
-            <label><input type="radio" name="bladeCol" value="wood"><span data-t="cWood">Wood effect</span></label>
-          </div>
-        </fieldset>
-
-        <fieldset id="fabricColSet">
-          <legend data-t="lFabricCol">Fabric colour</legend>
-          <div class="seg">
-            <label><input type="radio" name="fabricCol" value="white" checked><span data-t="fWhite">White</span></label>
-            <label><input type="radio" name="fabricCol" value="beige"><span data-t="fBeige">Beige</span></label>
-            <label><input type="radio" name="fabricCol" value="grey"><span data-t="fGrey">Grey</span></label>
-            <label><input type="radio" name="fabricCol" value="darkgrey"><span data-t="fDarkGrey">Dark grey</span></label>
-          </div>
-        </fieldset>
-
-        <fieldset id="extrasSet">
-          <legend data-t="lExtras">Extras</legend>
-          <label class="check"><input type="checkbox" id="led"><span id="ledLbl" data-t="xLed">LED lighting around the frame</span></label>
-        </fieldset>
-      </form>
-
-      <div class="result" aria-live="polite">
-        <div class="drawing">
-          <div class="viewbar">
-            <div class="tabs" role="tablist">
-              <button type="button" role="tab" id="tab3d" aria-selected="true" data-t="v3d">3D model</button>
-              <button type="button" role="tab" id="tab2d" aria-selected="false" data-t="v2d">Drawing with measurements</button>
-            </div>
-            <button type="button" class="opbtn" id="openBtn">Open the roof</button>
-          </div>
-          <div id="view3d">
-            <canvas id="c3d" tabindex="0" aria-label="3D model of your system. Drag or use the arrow keys to turn it."></canvas>
-            <div id="dims3d"></div>
-            <span class="dimtag" id="dimTag"></span>
-            <p class="hint" data-t="dragHint">Drag to turn, scroll or pinch to zoom</p>
-            <div class="zoomctl">
-              <button type="button" id="zoomOut" aria-label="Zoom out">−</button>
-              <button type="button" class="reset" id="zoomReset" data-t="zoomReset">Reset</button>
-              <button type="button" id="zoomIn" aria-label="Zoom in">+</button>
-            </div>
-          </div>
-          <div id="drawing" class="hidden"></div>
+      <fieldset>
+        <legend><span data-t="lFinish">Aluminium colour</span>: <span class="sel" id="selFinish"></span></legend>
+        <div class="seg sw">
+            <label title="Black"><input type="radio" name="finish" value="black"><span style="--c:#2E3133" data-t="cBlack">Black</span></label>
+            <label title="White"><input type="radio" name="finish" value="white"><span style="--c:#E4E7E8" data-t="cWhite">White</span></label>
+            <label title="Beige"><input type="radio" name="finish" value="beige"><span style="--c:#CBBE9E" data-t="cBeige">Beige</span></label>
+            <label title="Grey"><input type="radio" name="finish" value="grey" checked><span style="--c:#8C989D" data-t="cGrey">Grey</span></label>
+            <label title="Dark grey"><input type="radio" name="finish" value="darkgrey"><span style="--c:#4B5257" data-t="cDarkGrey">Dark grey</span></label>
+            <label title="Brown"><input type="radio" name="finish" value="brown"><span style="--c:#5C4130" data-t="cBrown">Brown</span></label>
+            <label title="Wood effect"><input type="radio" name="finish" value="wood"><span style="--c:linear-gradient(135deg,#7A4E2E,#B07A4E 60%,#8A5A36)" data-t="cWood">Wood effect</span></label>
         </div>
-        <div class="price">
-          <div class="label" data-t="pLabel">Estimated price</div>
-          <div class="amount" id="amount">–</div>
-          <div class="perm2" id="perM2"></div>
-          <dl class="breakdown" id="breakdown"></dl>
-          <p class="note" data-t="pNote">This is an estimate for guidance only, including supply and installation in Greater Cairo. We confirm the final price after measuring on site.</p>
-          <div class="actions">
-            <a class="btn btn-primary" id="waSend" href="#" target="_blank" rel="noopener" data-t="pSend">Send this to Fonoon on WhatsApp</a>
-          </div>
+      </fieldset>
+
+      <fieldset id="bladeColSet">
+        <legend><span data-t="lBladeCol">Blade colour</span>: <span class="sel" id="selBlade"></span></legend>
+        <div class="seg sw">
+            <label title="Same as frame"><input type="radio" name="bladeCol" value="same" checked><span class="same" id="sameSw" style="--c:#8C989D" data-t="cSame">Same as frame</span></label>
+            <label title="Black"><input type="radio" name="bladeCol" value="black"><span style="--c:#2E3133" data-t="cBlack">Black</span></label>
+            <label title="White"><input type="radio" name="bladeCol" value="white"><span style="--c:#E4E7E8" data-t="cWhite">White</span></label>
+            <label title="Beige"><input type="radio" name="bladeCol" value="beige"><span style="--c:#CBBE9E" data-t="cBeige">Beige</span></label>
+            <label title="Grey"><input type="radio" name="bladeCol" value="grey"><span style="--c:#8C989D" data-t="cGrey">Grey</span></label>
+            <label title="Dark grey"><input type="radio" name="bladeCol" value="darkgrey"><span style="--c:#4B5257" data-t="cDarkGrey">Dark grey</span></label>
+            <label title="Brown"><input type="radio" name="bladeCol" value="brown"><span style="--c:#5C4130" data-t="cBrown">Brown</span></label>
+            <label title="Wood effect"><input type="radio" name="bladeCol" value="wood"><span style="--c:linear-gradient(135deg,#7A4E2E,#B07A4E 60%,#8A5A36)" data-t="cWood">Wood effect</span></label>
         </div>
-      </div>
+      </fieldset>
+
+      <fieldset id="fabricColSet">
+        <legend><span data-t="lFabricCol">Fabric colour</span>: <span class="sel" id="selFabric"></span></legend>
+        <div class="seg sw">
+            <label title="White"><input type="radio" name="fabricCol" value="white" checked><span style="--c:#F1EFEA" data-t="fWhite">White</span></label>
+            <label title="Beige"><input type="radio" name="fabricCol" value="beige"><span style="--c:#DDCDB0" data-t="fBeige">Beige</span></label>
+            <label title="Grey"><input type="radio" name="fabricCol" value="grey"><span style="--c:#A7ACAE" data-t="fGrey">Grey</span></label>
+            <label title="Dark grey"><input type="radio" name="fabricCol" value="darkgrey"><span style="--c:#5A6064" data-t="fDarkGrey">Dark grey</span></label>
+        </div>
+      </fieldset>
+
+      <details class="specs">
+        <summary data-t="specsLbl">What's included</summary>
+        <dl class="breakdown" id="breakdown"></dl>
+      </details>
+    </form>
+  </div>
+
+  <div class="pricebar">
+    <div>
+      <div class="label" data-t="pLabel">Estimated price</div>
+      <div class="amount" id="amount">–</div>
+      <div class="perm2" id="perM2"></div>
+    </div>
+    <p class="note" data-t="pNote">This is an estimate for guidance only, including supply and installation in Greater Cairo. We confirm the final price after measuring on site.</p>
+    <div class="actions">
+      <button type="button" class="btn btn-light" id="pdfBtn" data-t="pdfLbl">Save as PDF</button>
+      <a class="btn btn-primary" id="waSend" href="#" target="_blank" rel="noopener" data-t="pSend">Send on WhatsApp</a>
     </div>
   </div>
 </section>
@@ -445,6 +496,8 @@
 <a class="wa-float" href="https://wa.me/201117779464" target="_blank" rel="noopener" aria-label="WhatsApp">
   <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#fff" d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.3.6 4.5 1.8 6.4L3 29l7.2-2c1.8 1 3.8 1.5 5.8 1.5 7 0 12.7-5.6 12.7-12.6S23 3 16 3zm0 23.1c-1.9 0-3.8-.5-5.4-1.5l-.4-.2-4.3 1.1 1.2-4.1-.3-.4a10.4 10.4 0 0 1-1.6-5.5C5.2 9.8 10 5.1 16 5.1s10.8 4.7 10.8 10.5S22 26.1 16 26.1zm5.9-7.8c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5.9-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.5 1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5 1.9.8 2.6.9 3.6.7.6-.1 1.9-.8 2.1-1.5.3-.7.3-1.4.2-1.5l-.5-.3z"/></svg>
 </a>
+
+<div id="quote" aria-hidden="true"></div>
 
 <script>
 /* =========================================================
@@ -596,14 +649,14 @@ const T = {
   heroLead:"Retractable fabric pergolas, smart aluminium roofs, and folding, sliding and panorama glass systems, made in our factory in 6th of October and installed by our own team.",
   heroCta:"Estimate your pergola",heroCta2:"See the products",
   f1a:"Since 1969",f1b:"The Alshishani family business",f2a:"5 systems",f2b:"Roofs and glass walls",f3a:"By remote",f3b:"Motorised roofs open in seconds",
-  calcTitle:"Get an estimate in one minute",
+  calcTitle:"Build your system",
   calcIntro:"Choose a system, enter your measurements and pick your options. The drawing and the price update as you type. Final prices are confirmed after a free site visit.",
   lProduct:"System",lDims:"Measurements",lWidth:"Width",lDepth:"Depth (projection)",lHeight:"Height",m:"m",
   lGlass:"Glass",gTemp:"6 mm tempered",gDouble:"16 mm double glass",gLowe:"Low-E heat control",
   lFinish:"Aluminium colour",cStd:"White, grey or black",cWood:"Wood effect",
   lExtras:"Extras",xLed:"LED lighting around the frame",xSensor:"Rain and wind sensor (closes the roof automatically)",
   pLabel:"Estimated price",pNote:"This is an estimate for guidance only, including supply and installation in Greater Cairo. We confirm the final price after measuring on site.",
-  pSend:"Send this to Fonoon on WhatsApp",
+  pSend:"Send on WhatsApp",
   bArea:"Area",bBase:"System",bGlass:"Glass upgrade",bFinish:"Wood effect",bLed:"LED lighting",bSensor:"Rain and wind sensor",bMin:"(minimum 4 m² charged)",
   errRange:(min,max)=>`Enter a measurement between ${min} and ${max} m.`,
   prTitle:"Our systems",prIntro:"Every system is built to keep out dust, water, heat and noise, and is made to your exact measurements.",
@@ -619,7 +672,7 @@ const T = {
   waHello:"Hello Fonoon, I would like a quote for:",waContact:"Hello Fonoon, I would like to book a site visit.",
   langBtn:"العربية",
   bRails:"Rails",thick:"thick",thin:"thin",bProfiles:"Fabric support profiles",profilesVal:(n,s)=>`${n} per bay, about ${s} cm apart`,bSlope:"Roof slope (drop from back to front)",bFolded:"Folded fabric when open",
-  sideWall:"Wall",smFree:"Freestanding",smWallW:"Wall on the width side",smWallD:"Wall on the depth side",lBladeCol:"Blade colour",cSame:"Same as frame",bBlades:"Louvres",bladesVal:(n,p)=>`${n} (${p} per section)`,included:"Included",lPilW:"Along the width (front and back, each)",lPilD:"Along the depth (left and right, each)",pillarsVal:(n,s)=>`${n} (including ${s} along the sides)`,lPillars:"Number of pillars",bBays:"Louvre sections",openW:a=>`Opening width ${a} m`,openH:a=>`Opening height ${a} m`,openLbl:(a,b,A)=>`Opening ${a} × ${b} m = ${A} m²`,g10:"10 mm tempered",perM2:(v,c)=>`${v} ${c} per m²`,cBlack:"Black",cWhite:"White",cBeige:"Beige",cGrey:"Grey",cDarkGrey:"Dark grey",cBrown:"Brown",lFabricCol:"Fabric colour",fWhite:"White",fBeige:"Beige",fGrey:"Grey",fDarkGrey:"Dark grey",lHf:"Front pillar height",lStruct:"Structure",sAlu:"Aluminium",sSteel:"Steel",sidePost:"Back post",lMount:"Behind the pergola",mWall:"Fixed to a wall",mFree:"Freestanding, posts at the back",xLedFab:"LED lighting in the fabric support profiles",ledVal:n=>`LED lighting (${n} profiles per bay)`,sideGutter:"Front gutter",sideFolded:"Folded fabric",
+  sideWall:"Wall",dayLbl:"Day",nightLbl:"Night",lHfShort:"Pillar height",specsLbl:"What's included",pdfLbl:"Save as PDF",smFree:"Freestanding",smWallW:"Wall on the width side",smWallD:"Wall on the depth side",lBladeCol:"Blade colour",cSame:"Same as frame",bBlades:"Louvres",bladesVal:(n,p)=>`${n} (${p} per section)`,included:"Included",lPilW:"Along the width (front and back, each)",lPilD:"Along the depth (left and right, each)",pillarsVal:(n,s)=>`${n} (including ${s} along the sides)`,lPillars:"Number of pillars",bBays:"Louvre sections",openW:a=>`Opening width ${a} m`,openH:a=>`Opening height ${a} m`,openLbl:(a,b,A)=>`Opening ${a} × ${b} m = ${A} m²`,g10:"10 mm tempered",perM2:(v,c)=>`${v} ${c} per m²`,cBlack:"Black",cWhite:"White",cBeige:"Beige",cGrey:"Grey",cDarkGrey:"Dark grey",cBrown:"Brown",lFabricCol:"Fabric colour",fWhite:"White",fBeige:"Beige",fGrey:"Grey",fDarkGrey:"Dark grey",lHf:"Front pillar height",lStruct:"Structure",sAlu:"Aluminium",sSteel:"Steel",sidePost:"Back post",lMount:"Behind the pergola",mWall:"Fixed to a wall",mFree:"Freestanding, posts at the back",xLedFab:"LED lighting in the fabric support profiles",ledVal:n=>`LED lighting (${n} profiles per bay)`,sideGutter:"Front gutter",sideFolded:"Folded fabric",
   errFabric:(w,a,y)=>`For a ${w} m wide fabric pergola the largest size is ${a} m², so the projection can be up to ${y} m. Reduce the projection or split it into two pergolas.`,
   v3d:"3D model",v2d:"Drawing with measurements",dragHint:"Drag to turn, scroll or pinch to zoom",zoomReset:"Reset",openRoof:"Open the roof",closeRoof:"Close the roof",openWall:"Open",closeWall:"Close",
   products:{
@@ -636,14 +689,14 @@ const T = {
   heroLead:"برجولات قماش متحركة، وأسقف ألومنيوم ذكية، وأنظمة زجاج فولدينج وسحاب وبانوراما، وزجاج قابل للطي، وشبابيك ألومنيوم، نصنعها في مصنعنا بمدينة 6 أكتوبر ويركّبها فريقنا.",
   heroCta:"احسب سعر البرجولة",heroCta2:"شاهد المنتجات",
   f1a:"منذ 1969",f1b:"امتداد لشركة الششاني",f2a:"5 أنظمة",f2b:"أسقف وواجهات زجاجية",f3a:"بالريموت",f3b:"أسقف كهربائية تُفتح في ثوانٍ",
-  calcTitle:"احصل على سعر تقديري في دقيقة",
+  calcTitle:"صمّم نظامك",
   calcIntro:"اختر النظام، وأدخل المقاسات، وحدد الإضافات. الرسم والسعر يتغيران مع كل تعديل. يتم تأكيد السعر النهائي بعد معاينة مجانية للموقع.",
   lProduct:"النظام",lDims:"المقاسات",lWidth:"العرض",lDepth:"العمق (البروز)",lHeight:"الارتفاع",m:"م",
   lGlass:"الزجاج",gTemp:"سيكوريت 6 مم",gDouble:"زجاج مزدوج 16 مم",gLowe:"زجاج Low-E عازل للحرارة",
   lFinish:"لون الألومنيوم",cStd:"أبيض أو رمادي أو أسود",cWood:"لون خشبي",
   lExtras:"إضافات",xLed:"إضاءة LED حول الإطار",xSensor:"حساس مطر ورياح (يغلق السقف تلقائيًا)",
   pLabel:"السعر التقديري",pNote:"هذا سعر تقديري للاسترشاد فقط، ويشمل التوريد والتركيب في القاهرة الكبرى. نؤكد السعر النهائي بعد أخذ المقاسات في الموقع.",
-  pSend:"أرسل الطلب لفنون على واتساب",
+  pSend:"إرسال على واتساب",
   bArea:"المساحة",bBase:"النظام",bGlass:"ترقية الزجاج",bFinish:"لون خشبي",bLed:"إضاءة LED",bSensor:"حساس مطر ورياح",bMin:"(الحد الأدنى 4 م²)",
   errRange:(min,max)=>`أدخل مقاسًا بين ${min} و ${max} متر.`,
   prTitle:"أنظمتنا",prIntro:"كل أنظمتنا مصممة للعزل التام من الأتربة والمياه والحرارة والضوضاء، وتُصنع على مقاساتك بالضبط.",
@@ -659,7 +712,7 @@ const T = {
   waHello:"مرحبًا فنون، أريد عرض سعر لـ:",waContact:"مرحبًا فنون، أريد حجز معاينة للموقع.",
   langBtn:"English",
   bRails:"عدد المجاري",thick:"سميكة",thin:"رفيعة",bProfiles:"بروفيلات حمل القماش",profilesVal:(n,s)=>`${n} لكل فتحة، المسافة بينها حوالي ${s} سم`,bSlope:"ميل السقف (الفرق بين الخلف والأمام)",bFolded:"طول القماش المطوي عند الفتح",
-  sideWall:"الحائط",smFree:"قائمة بذاتها",smWallW:"حائط من جهة العرض",smWallD:"حائط من جهة العمق",lBladeCol:"لون الشرائح",cSame:"نفس لون الإطار",bBlades:"الشرائح",bladesVal:(n,p)=>`${n} (${p} لكل قسم)`,included:"مشمولة",lPilW:"على طول العرض (الأمام والخلف، لكل منهما)",lPilD:"على طول العمق (اليمين واليسار، لكل منهما)",pillarsVal:(n,s)=>`${n} (منها ${s} على الجانبين)`,lPillars:"عدد الأعمدة",bBays:"أقسام الشرائح",openW:a=>`عرض الفتحة ${a} م`,openH:a=>`ارتفاع الفتحة ${a} م`,openLbl:(a,b,A)=>`الفتحة ${a} × ${b} م = ${A} م²`,g10:"سيكوريت 10 مم",perM2:(v,c)=>`${v} ${c} للمتر المربع`,cBlack:"أسود",cWhite:"أبيض",cBeige:"بيج",cGrey:"رمادي",cDarkGrey:"رمادي غامق",cBrown:"بني",lFabricCol:"لون القماش",fWhite:"أبيض",fBeige:"بيج",fGrey:"رمادي",fDarkGrey:"رمادي غامق",lHf:"ارتفاع الأعمدة الأمامية",lStruct:"الهيكل",sAlu:"ألومنيوم",sSteel:"حديد",sidePost:"عمود خلفي",lMount:"خلف البرجولة",mWall:"مثبتة على حائط",mFree:"قائمة بذاتها، بأعمدة في الخلف",xLedFab:"إضاءة LED داخل بروفيلات حمل القماش",ledVal:n=>`إضاءة LED (${n} بروفيل لكل فتحة)`,sideGutter:"المزراب الأمامي",sideFolded:"القماش المطوي",
+  sideWall:"الحائط",dayLbl:"نهار",nightLbl:"ليل",lHfShort:"ارتفاع الأعمدة",specsLbl:"تفاصيل العرض",pdfLbl:"حفظ PDF",smFree:"قائمة بذاتها",smWallW:"حائط من جهة العرض",smWallD:"حائط من جهة العمق",lBladeCol:"لون الشرائح",cSame:"نفس لون الإطار",bBlades:"الشرائح",bladesVal:(n,p)=>`${n} (${p} لكل قسم)`,included:"مشمولة",lPilW:"على طول العرض (الأمام والخلف، لكل منهما)",lPilD:"على طول العمق (اليمين واليسار، لكل منهما)",pillarsVal:(n,s)=>`${n} (منها ${s} على الجانبين)`,lPillars:"عدد الأعمدة",bBays:"أقسام الشرائح",openW:a=>`عرض الفتحة ${a} م`,openH:a=>`ارتفاع الفتحة ${a} م`,openLbl:(a,b,A)=>`الفتحة ${a} × ${b} م = ${A} م²`,g10:"سيكوريت 10 مم",perM2:(v,c)=>`${v} ${c} للمتر المربع`,cBlack:"أسود",cWhite:"أبيض",cBeige:"بيج",cGrey:"رمادي",cDarkGrey:"رمادي غامق",cBrown:"بني",lFabricCol:"لون القماش",fWhite:"أبيض",fBeige:"بيج",fGrey:"رمادي",fDarkGrey:"رمادي غامق",lHf:"ارتفاع الأعمدة الأمامية",lStruct:"الهيكل",sAlu:"ألومنيوم",sSteel:"حديد",sidePost:"عمود خلفي",lMount:"خلف البرجولة",mWall:"مثبتة على حائط",mFree:"قائمة بذاتها، بأعمدة في الخلف",xLedFab:"إضاءة LED داخل بروفيلات حمل القماش",ledVal:n=>`إضاءة LED (${n} بروفيل لكل فتحة)`,sideGutter:"المزراب الأمامي",sideFolded:"القماش المطوي",
   errFabric:(w,a,y)=>`لبرجولة قماش بعرض ${w} م، أقصى مساحة ${a} م²، أي أن البروز حتى ${y} م. قلّل البروز أو قسّمها إلى برجولتين.`,
   v3d:"مجسم ثلاثي الأبعاد",v2d:"رسم بالمقاسات",dragHint:"اسحب للتدوير، واستخدم العجلة أو إصبعين للتكبير",zoomReset:"إعادة",openRoof:"افتح السقف",closeRoof:"أغلق السقف",openWall:"افتح",closeWall:"أغلق",
   products:{
@@ -674,7 +727,7 @@ const T = {
 
 /* ========================= ICONS ========================= */
 const ICONS = {
- fabric:`<svg viewBox="0 0 72 72" fill="none" stroke="#263035" stroke-width="2"><path d="M10 60V28M62 60V28M6 28h60"/><path d="M10 23l5-5 5 5 5-5 5 5 5-5 5 5" stroke="#17575C"/><path d="M48 21h12m-3-3l3 3-3 3" stroke="#17575C"/></svg>`,
+ fabric:`<svg viewBox="0 0 72 72" fill="none" stroke="#263035" stroke-width="2"><path d="M10 60V22M62 60V34M6 21.1L66 34.9"/><g transform="rotate(13 36 28)" stroke="#17575C"><path d="M10 23l5-5 5 5 5-5 5 5 5-5 5 5"/><path d="M48 21h12m-3-3l3 3-3 3"/></g></svg>`,
  smartroof:`<svg viewBox="0 0 72 72" fill="none" stroke="#263035" stroke-width="2"><path d="M10 60V28M62 60V28M6 28h60"/><path d="M14 22l6-6M24 22l6-6M34 22l6-6M44 22l6-6M54 22l6-6" stroke="#17575C" stroke-width="3"/><circle cx="58" cy="10" r="4" stroke="#E9B44C"/></svg>`,
  folding:`<svg viewBox="0 0 72 72" fill="none" stroke="#263035" stroke-width="2"><path d="M4 12h64M4 60h64"/><path d="M8 14v44M12 14v44M16 14v44M20 14v44" stroke="#17575C" stroke-width="2.5"/><rect x="26" y="16" width="40" height="40" fill="#BFDCE0" stroke="none" opacity=".5"/><path d="M58 36H32m4-4l-4 4 4 4" stroke="#17575C"/></svg>`,
  panorama:`<svg viewBox="0 0 72 72" fill="none" stroke="#263035" stroke-width="2"><rect x="10" y="8" width="44" height="56"/><rect x="13" y="11" width="38" height="16" fill="#BFDCE0" stroke-width="1.2"/><rect x="13" y="28" width="38" height="16" fill="#BFDCE0" stroke-width="1.2"/><rect x="13" y="45" width="38" height="16" fill="#BFDCE0" stroke-width="1.2"/><path d="M63 44V22m-4 4l4-4 4 4" stroke="#17575C"/></svg>`,
@@ -726,7 +779,6 @@ function onProductChange(keep){
   if (!keep && !isRoof && +d.value > p.maxH) d.value = Math.min(2.5, p.maxH);
   if (!keep && key === "fabric" && +d.value < FABRIC_MIN_D) d.value = 4;
   $("glassSet").classList.toggle("hidden", !p.glass);
-  $("extrasSet").classList.toggle("hidden", !isRoof);
   $("mountSet").classList.toggle("hidden", key !== "fabric");
   $("hfWrap").classList.toggle("hidden", !isRoof);
   $("structSet").classList.toggle("hidden", key !== "fabric");
@@ -734,7 +786,6 @@ function onProductChange(keep){
   $("pillarSet").classList.toggle("hidden", key !== "smartroof");
   $("bladeColSet").classList.toggle("hidden", key !== "smartroof");
   $("smountSet").classList.toggle("hidden", key !== "smartroof");
-  $("ledLbl").textContent = key === "fabric" ? t.xLedFab : t.xLed;
   if (!keep){ V3.target = 0; V3.open = 0; }
   setOpenLabel();
   update();
@@ -772,6 +823,10 @@ function update(){
   const fabricCol = document.querySelector("input[name=fabricCol]:checked").value;
   const bladeSel = document.querySelector("input[name=bladeCol]:checked").value;
   const bladeCol = bladeSel === "same" ? colour : bladeSel;
+  $("selFinish").textContent = t[ALU_KEYS[colour]];
+  $("selBlade").textContent = bladeSel === "same" ? t.cSame : t[ALU_KEYS[bladeCol]];
+  $("selFabric").textContent = t[FAB_KEYS[fabricCol]];
+  $("sameSw").style.setProperty("--c", ALU_COLOURS[colour]);
   const mount = document.querySelector("input[name=mount]:checked").value;
   // pillar choices: options that would leave more than 6 m between pillars are greyed out
   const pick = (name, min) => {
@@ -795,7 +850,7 @@ function update(){
              : p.fixed ? p.fixed : billed * p.rate;
   const glassAdd = p.glass ? base * (PRICING.glass[glassKey] - 1) : 0;
   const finishAdd = (tk || smart || p.fixed || key === "sliding") ? 0 : (base + glassAdd) * (PRICING.finish[finishKey] - 1);
-  const ledOn = isRoof && $("led").checked;
+  const ledOn = isRoof && V3.night;   // night view shows the lights
   // fabric pergola: lighting is always in the price; the tick box only switches the lights on in the 3D view
   const led = (tk || smart) ? 0 : (ledOn ? 2 * (w + d) * PRICING.ledPerMetre : 0);   // pergola and smart roof: lighting always in the price
   const sensor = 0;
@@ -872,7 +927,7 @@ function drawFabricSide(w, d, tk, fab){
   g += `<line x1="${X(0)}" y1="${Y(Hf-.175)}" x2="${X(d)-4}" y2="${Y(Hf-.175)}" stroke="${line}" stroke-width="5"/>`;   // side beam
   // support profiles along the slope
   const n = tk.profiles - 1;
-  const ledOn = $("led").checked;
+  const ledOn = V3.night;
   for (let k=0;k<=n;k++){
     const z = .3 + k*(V3.target ? tk.row[3]/100 : d-.3)/n, y = Yr - tk.rise*z/d, big = k===0 || k===n, lit = ledOn && !big && (k-1)%2===0;
     g += big ? `<rect x="${X(z)-5}" y="${Y(y)+4}" width="10" height="8" fill="${line}"/>` : `<rect x="${X(z)-3}" y="${Y(y)+4}" width="6" height="6" fill="#C3CCCF"/>`;
@@ -1100,13 +1155,13 @@ function placeLabels(list, toScreen){
 
 /* ========================= 3D MODEL ========================= */
 const reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-const V3 = {zoom:1, ptrs:new Map(), pinch:null, yaw:Math.PI-0.6, yaw0:Math.PI-0.6, t:0, pitch:0.42, open:0, target:0, auto:true, spec:null, visible:true, drag:null};
+const V3 = {night:false, zoom:1, ptrs:new Map(), pinch:null, yaw:Math.PI-0.6, yaw0:Math.PI-0.6, t:0, pitch:0.42, open:0, target:0, auto:true, spec:null, visible:true, drag:null};
 const c3d = $("c3d");
 /* WebGL with a depth buffer, so parts always hide each other correctly from every angle.
    Falls back to the simple canvas drawing if WebGL is not available. */
 const GL = (() => {
   let gl = null;
-  try { gl = c3d.getContext("webgl", {antialias:true, alpha:true, premultipliedAlpha:false}); } catch(e){}
+  try { gl = c3d.getContext("webgl", {antialias:true, alpha:true, premultipliedAlpha:false, preserveDrawingBuffer:true}); } catch(e){}
   if (!gl) return null;
   const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
   const prog = gl.createProgram();
@@ -1336,7 +1391,7 @@ function buildModel(sp, open){
 
 function render3D(){
   if (!V3.spec){   // invalid measurements: show an empty view rather than an old model
-    if (GL){ GL.gl.clearColor(35/255,44/255,49/255,1); GL.gl.clear(GL.gl.COLOR_BUFFER_BIT | GL.gl.DEPTH_BUFFER_BIT); }
+    if (GL){ const BG = V3.night ? [35,44,49] : [205,212,215]; GL.gl.clearColor(BG[0]/255,BG[1]/255,BG[2]/255,1); GL.gl.clear(GL.gl.COLOR_BUFFER_BIT | GL.gl.DEPTH_BUFFER_BIT); }
     else if (x3d) x3d.clearRect(0,0,c3d.width,c3d.height);
     return;
   }
@@ -1345,11 +1400,11 @@ function render3D(){
 
 function render3DGL(){
   const W = c3d.clientWidth; if (!W || !V3.spec) return;
-  const Hc = Math.round(W*.62), dpr = Math.min(2, window.devicePixelRatio||1);
-  if (c3d.width !== Math.round(W*dpr) || c3d.height !== Math.round(Hc*dpr)){ c3d.width = Math.round(W*dpr); c3d.height = Math.round(Hc*dpr); c3d.style.height = Hc+"px"; }
+  const Hc = c3d.clientHeight || Math.round(W*.62), dpr = Math.min(2, window.devicePixelRatio||1);
+  if (c3d.width !== Math.round(W*dpr) || c3d.height !== Math.round(Hc*dpr)){ c3d.width = Math.round(W*dpr); c3d.height = Math.round(Hc*dpr); }
   const {gl} = GL;
   gl.viewport(0, 0, c3d.width, c3d.height);
-  gl.clearColor(35/255,44/255,49/255,1); /* panel background, so added light blends correctly */ gl.clearDepth(1); gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL);
+  const BG = V3.night ? [35,44,49] : [205,212,215]; gl.clearColor(BG[0]/255,BG[1]/255,BG[2]/255,1); /* same as the stage background */ gl.clearDepth(1); gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   const M = buildModel(V3.spec, V3.open);
   const dist = M.r*3.2 + 2, F = Math.min(W, Hc)*.46*dist/M.r * V3.zoom;
@@ -1358,18 +1413,18 @@ function render3DGL(){
   gl.uniform2f(GL.zab, (f+n)/(f-n), -2*f*n/(f-n));
   const cam = p => { let v=[p[0]-M.center[0], p[1]-M.center[1], p[2]-M.center[2]]; v=rotY(v,V3.yaw); v=rotX(v,-V3.pitch); v[2]+=dist; return v; };
   const opaque = [], trans = [], lines = [], glow = [];
-  const dim = V3.spec.led ? .72 : 1;                       // evening look when the lights are on
+  const dim = V3.night ? .72 : 1;                          // evening look at night
   const vert = (arr, v, c) => arr.push(v[0],v[1],v[2],c[0],c[1],c[2],c[3]);
   const quad = (arr, ps, c) => { vert(arr,ps[0],c); vert(arr,ps[1],c); vert(arr,ps[2],c); vert(arr,ps[0],c); vert(arr,ps[2],c); vert(arr,ps[3],c); };
   const col = (hex, s, a) => { const c = rgb(hex); return [c[0]/255*s, c[1]/255*s, c[2]/255*s, a]; };
   // ground, grid and shadow (only when looking from above)
   if (V3.pitch > 0){
     const gx = Math.ceil(M.foot[0]/2)+1, gz = Math.ceil(M.foot[1]/2)+1;
-    quad(opaque, [[-gx,0,-gz],[gx,0,-gz],[gx,0,gz],[-gx,0,gz]].map(cam), col("#2A3439",dim,1));
-    const gc = col("#344046",dim,1);
+    quad(opaque, [[-gx,0,-gz],[gx,0,-gz],[gx,0,gz],[-gx,0,gz]].map(cam), col(V3.night ? "#2A3439" : "#BAC3C6",dim,1));
+    const gc = col(V3.night ? "#344046" : "#A9B3B7",dim,1);
     for (let x=-gx; x<=gx; x++){ vert(lines, cam([x,.002,-gz]), gc); vert(lines, cam([x,.002,gz]), gc); }
     for (let z=-gz; z<=gz; z++){ vert(lines, cam([-gx,.002,z]), gc); vert(lines, cam([gx,.002,z]), gc); }
-    if (M.shadow){ const fx=M.foot[0]/2, fz=M.foot[1]/2; quad(trans, [[-fx,.004,-fz],[fx,.004,-fz],[fx,.004,fz],[-fx,.004,fz]].map(cam), [10/255,14/255,16/255,.35*M.shadow]); }
+    if (M.shadow){ const fx=M.foot[0]/2, fz=M.foot[1]/2; quad(trans, [[-fx,.004,-fz],[fx,.004,-fz],[fx,.004,fz],[-fx,.004,fz]].map(cam), [10/255,14/255,16/255,(V3.night ? .35 : .18)*M.shadow]); }
   }
   for (const b of M.boxes){
     const hs = b.s.map(v=>v/2), pts = [];
@@ -1405,7 +1460,7 @@ function render3DGL(){
   // measurements, always on top
   const dl = dimLines(V3.spec, V3.open), dv = [];
   for (const L of dl){
-    const c = L.open ? [1,1,1,1] : [233/255,180/255,76/255,1];
+    const c = L.open ? (V3.night ? [1,1,1,1] : [35/255,44/255,49/255,1]) : (V3.night ? [233/255,180/255,76/255,1] : [150/255,105/255,20/255,1]);
     vert(dv, cam(L.a), c); vert(dv, cam(L.b), c);
     const vertical = Math.abs(L.b[1]-L.a[1]) > .01, tk = .08;
     for (const p of [L.a, L.b]){
@@ -1421,8 +1476,8 @@ function render3DGL(){
 
 function render3DCanvas(){
   const W = c3d.clientWidth; if (!W || !V3.spec) return;
-  const Hc = Math.round(W*.62), dpr = Math.min(2, window.devicePixelRatio||1);
-  if (c3d.width !== Math.round(W*dpr) || c3d.height !== Math.round(Hc*dpr)){ c3d.width = Math.round(W*dpr); c3d.height = Math.round(Hc*dpr); c3d.style.height = Hc+"px"; }
+  const Hc = c3d.clientHeight || Math.round(W*.62), dpr = Math.min(2, window.devicePixelRatio||1);
+  if (c3d.width !== Math.round(W*dpr) || c3d.height !== Math.round(Hc*dpr)){ c3d.width = Math.round(W*dpr); c3d.height = Math.round(Hc*dpr); }
   const ctx = x3d; ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,Hc);
   const M = buildModel(V3.spec, V3.open);
   const dist = M.r*3.2 + 2, F = Math.min(W, Hc)*.46*dist/M.r * V3.zoom;
@@ -1433,9 +1488,9 @@ function render3DCanvas(){
   // ground with 1 m grid
   const gx = Math.ceil(M.foot[0]/2)+1, gz = Math.ceil(M.foot[1]/2)+1;
   if (V3.pitch > 0){
-  poly([[-gx,0,-gz],[gx,0,-gz],[gx,0,gz],[-gx,0,gz]].map(P2), "#2A3439");
+  poly([[-gx,0,-gz],[gx,0,-gz],[gx,0,gz],[-gx,0,gz]].map(P2), V3.night ? "#2A3439" : "#BAC3C6");
   ctx.lineWidth = 1;
-  for (let x=-gx; x<=gx; x++){ const a=P2([x,0,-gz]), b=P2([x,0,gz]); ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.strokeStyle="#344046"; ctx.stroke(); }
+  for (let x=-gx; x<=gx; x++){ const a=P2([x,0,-gz]), b=P2([x,0,gz]); ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.strokeStyle=V3.night ? "#344046" : "#A9B3B7"; ctx.stroke(); }
   for (let z=-gz; z<=gz; z++){ const a=P2([-gx,0,z]), b=P2([gx,0,z]); ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.stroke(); }
   }
   if (M.shadow && V3.pitch > 0) poly([[-M.foot[0]/2,0,-M.foot[1]/2],[M.foot[0]/2,0,-M.foot[1]/2],[M.foot[0]/2,0,M.foot[1]/2],[-M.foot[0]/2,0,M.foot[1]/2]].map(P2), `rgba(10,14,16,${.35*M.shadow})`);
@@ -1514,6 +1569,46 @@ if ("IntersectionObserver" in window) new IntersectionObserver(es => { V3.visibl
   }
   requestAnimationFrame(tick);
 })();
+
+/* ========================= DAY / NIGHT ========================= */
+function setNight(on){
+  V3.night = on;
+  $("stage").classList.toggle("night", on);
+  $("dayBtn").setAttribute("aria-pressed", !on); $("nightBtn").setAttribute("aria-pressed", on);
+  update();
+}
+$("dayBtn").addEventListener("click", () => setNight(false));
+$("nightBtn").addEventListener("click", () => setNight(true));
+window.addEventListener("resize", () => { if (!$("drawing").classList.contains("hidden")) update(); });
+
+/* ========================= SAVE AS PDF ========================= */
+// builds a one-page quote and opens the print dialog, where the customer picks "Save as PDF"
+$("pdfBtn").addEventListener("click", () => {
+  const t = T[lang];
+  let img = "";
+  try {
+    if (!$("view3d").classList.contains("hidden")){ render3D(); img = `<img src="${c3d.toDataURL("image/png")}" alt="">`; }
+    else { const s = $("drawing").querySelector("svg"); if (s) img = `<div style="background:#232C31;border-radius:8px;padding:6px;margin:10px 0">${s.outerHTML}</div>`; }
+  } catch(e){}
+  const rows = [...$("breakdown").querySelectorAll("dt")].map(dt => `<tr><td>${dt.textContent}</td><td>${dt.nextElementSibling ? dt.nextElementSibling.textContent : ""}</td></tr>`).join("");
+  const date = new Date().toLocaleDateString(lang === "ar" ? "ar-EG" : "en-GB", { day:"numeric", month:"long", year:"numeric" });
+  const name = $("product").selectedOptions[0].textContent;
+  $("quote").setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+  $("quote").innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #17575C;padding-bottom:8px">
+      <strong style="font-size:20px">${t.brand} ${t.brandSub}</strong><span>${date}</span></div>
+    <h2 style="margin:14px 0 4px;font-size:20px">${name}</h2>
+    <div>${$("dimTag").textContent}</div>
+    ${img}
+    <div class="qp">${$("amount").textContent}</div><div>${$("perM2").textContent}</div>
+    <table>${rows}</table>
+    <p style="margin-top:14px;color:#444">${t.pNote}</p>
+    <p style="margin-top:14px">${t.ctPhoneL}: +20 111 777 9464 &nbsp; · &nbsp; info@fonoongroup.com &nbsp; · &nbsp; ${t.ctAddr}</p>`;
+  const oldTitle = document.title;
+  document.title = `Fonoon quote - ${name} - ${$("dimTag").textContent}`;
+  try { window.print(); } catch(e){}
+  setTimeout(() => { document.title = oldTitle; }, 1000);
+});
 
 /* ========================= INIT ========================= */
 $("heroArt").innerHTML = drawRoof(5, 4, "smartroof", {dark:false, hideDims:true, animate:true, sun:true});
