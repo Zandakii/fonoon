@@ -112,6 +112,10 @@
   #view3d{position:relative}
   #c3d{width:100%;display:block;touch-action:none;cursor:grab;border-radius:6px}
   #c3d:active{cursor:grabbing}
+  .zoomctl{position:absolute;bottom:10px;inset-inline-end:12px;display:flex;gap:6px}
+  .zoomctl button{width:34px;height:34px;border-radius:50%;border:1px solid #4A575D;background:rgba(35,44,49,.85);color:#fff;font:inherit;font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center}
+  .zoomctl button:hover{border-color:var(--sun)}
+  .zoomctl button.reset{width:auto;border-radius:17px;padding:0 12px;font-size:13px}
   .hint{position:absolute;bottom:10px;inset-inline-start:12px;font-size:13px;color:#8C989D;pointer-events:none}
   #dims3d{position:absolute;inset:0;pointer-events:none}
   .dlab{position:absolute;transform:translate(-50%,-50%);font-size:13px;color:var(--sun);background:rgba(35,44,49,.75);padding:1px 6px;border-radius:3px;white-space:nowrap;direction:ltr;unicode-bidi:isolate}
@@ -314,7 +318,12 @@
             <canvas id="c3d" tabindex="0" aria-label="3D model of your system. Drag or use the arrow keys to turn it."></canvas>
             <div id="dims3d"></div>
             <span class="dimtag" id="dimTag"></span>
-            <p class="hint" data-t="dragHint">Drag to turn the model</p>
+            <p class="hint" data-t="dragHint">Drag to turn, scroll or pinch to zoom</p>
+            <div class="zoomctl">
+              <button type="button" id="zoomOut" aria-label="Zoom out">−</button>
+              <button type="button" class="reset" id="zoomReset" data-t="zoomReset">Reset</button>
+              <button type="button" id="zoomIn" aria-label="Zoom in">+</button>
+            </div>
           </div>
           <div id="drawing" class="hidden"></div>
         </div>
@@ -539,7 +548,7 @@ const T = {
   bRails:"Rails",thick:"thick",thin:"thin",bProfiles:"Fabric support profiles",profilesVal:(n,s)=>`${n} per bay, about ${s} cm apart`,bSlope:"Roof slope (drop from back to front)",bFolded:"Folded fabric when open",
   sideWall:"Wall",openW:a=>`Opening width ${a} m`,openH:a=>`Opening height ${a} m`,openLbl:(a,b,A)=>`Opening ${a} × ${b} m = ${A} m²`,g10:"10 mm tempered",perM2:(v,c)=>`${v} ${c} per m²`,cBlack:"Black",cWhite:"White",cBeige:"Beige",cGrey:"Grey",cDarkGrey:"Dark grey",cBrown:"Brown",lFabricCol:"Fabric colour",fWhite:"White",fBeige:"Beige",fGrey:"Grey",fDarkGrey:"Dark grey",lHf:"Front pillar height",lStruct:"Structure",sAlu:"Aluminium",sSteel:"Steel",sidePost:"Back post",lMount:"Behind the pergola",mWall:"Fixed to a wall",mFree:"Freestanding, posts at the back",xLedFab:"LED lighting in the fabric support profiles",ledVal:n=>`LED lighting (${n} profiles per bay)`,sideGutter:"Front gutter",sideFolded:"Folded fabric",
   errFabric:(w,a,y)=>`For a ${w} m wide fabric pergola the largest size is ${a} m², so the projection can be up to ${y} m. Reduce the projection or split it into two pergolas.`,
-  v3d:"3D model",v2d:"Drawing with measurements",dragHint:"Drag to turn the model",openRoof:"Open the roof",closeRoof:"Close the roof",openWall:"Open",closeWall:"Close",
+  v3d:"3D model",v2d:"Drawing with measurements",dragHint:"Drag to turn, scroll or pinch to zoom",zoomReset:"Reset",openRoof:"Open the roof",closeRoof:"Close the roof",openWall:"Open",closeWall:"Close",
   products:{
    fabric:{name:"Retractable fabric pergola",desc:"A waterproof fabric roof that glides open and folds back along aluminium rails, by remote. For terraces, gardens and restaurant seating.",specs:["Waterproof fabric","Motorised","Remote control"]},
    smartroof:{name:"Smart aluminium roof",desc:"Rotating aluminium louvres you angle for shade, light or full cover against rain.",specs:["Adjustable louvres","Remote control","Built-in drainage"]},
@@ -579,7 +588,7 @@ const T = {
   bRails:"عدد المجاري",thick:"سميكة",thin:"رفيعة",bProfiles:"بروفيلات حمل القماش",profilesVal:(n,s)=>`${n} لكل فتحة، المسافة بينها حوالي ${s} سم`,bSlope:"ميل السقف (الفرق بين الخلف والأمام)",bFolded:"طول القماش المطوي عند الفتح",
   sideWall:"الحائط",openW:a=>`عرض الفتحة ${a} م`,openH:a=>`ارتفاع الفتحة ${a} م`,openLbl:(a,b,A)=>`الفتحة ${a} × ${b} م = ${A} م²`,g10:"سيكوريت 10 مم",perM2:(v,c)=>`${v} ${c} للمتر المربع`,cBlack:"أسود",cWhite:"أبيض",cBeige:"بيج",cGrey:"رمادي",cDarkGrey:"رمادي غامق",cBrown:"بني",lFabricCol:"لون القماش",fWhite:"أبيض",fBeige:"بيج",fGrey:"رمادي",fDarkGrey:"رمادي غامق",lHf:"ارتفاع الأعمدة الأمامية",lStruct:"الهيكل",sAlu:"ألومنيوم",sSteel:"حديد",sidePost:"عمود خلفي",lMount:"خلف البرجولة",mWall:"مثبتة على حائط",mFree:"قائمة بذاتها، بأعمدة في الخلف",xLedFab:"إضاءة LED داخل بروفيلات حمل القماش",ledVal:n=>`إضاءة LED (${n} بروفيل لكل فتحة)`,sideGutter:"المزراب الأمامي",sideFolded:"القماش المطوي",
   errFabric:(w,a,y)=>`لبرجولة قماش بعرض ${w} م، أقصى مساحة ${a} م²، أي أن البروز حتى ${y} م. قلّل البروز أو قسّمها إلى برجولتين.`,
-  v3d:"مجسم ثلاثي الأبعاد",v2d:"رسم بالمقاسات",dragHint:"اسحب لتدوير المجسم",openRoof:"افتح السقف",closeRoof:"أغلق السقف",openWall:"افتح",closeWall:"أغلق",
+  v3d:"مجسم ثلاثي الأبعاد",v2d:"رسم بالمقاسات",dragHint:"اسحب للتدوير، واستخدم العجلة أو إصبعين للتكبير",zoomReset:"إعادة",openRoof:"افتح السقف",closeRoof:"أغلق السقف",openWall:"افتح",closeWall:"أغلق",
   products:{
    fabric:{name:"برجولة قماش متحركة",desc:"سقف من القماش المقاوم للمياه ينزلق ويتطوى على مجاري ألومنيوم بالريموت، مناسب للتراسات والحدائق وجلسات المطاعم.",specs:["قماش مقاوم للمياه","كهربائي","تحكم بالريموت"]},
    smartroof:{name:"سقف ألومنيوم ذكي",desc:"شرائح ألومنيوم دوّارة تتحكم في زاويتها للظل أو الإضاءة أو الإغلاق الكامل ضد المطر.",specs:["شرائح قابلة للتحكم","تحكم بالريموت","تصريف مياه مدمج"]},
@@ -977,7 +986,7 @@ function placeLabels(list, toScreen){
 
 /* ========================= 3D MODEL ========================= */
 const reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-const V3 = {yaw:Math.PI-0.6, yaw0:Math.PI-0.6, t:0, pitch:0.42, open:0, target:0, auto:true, spec:null, visible:true, drag:null};
+const V3 = {zoom:1, ptrs:new Map(), pinch:null, yaw:Math.PI-0.6, yaw0:Math.PI-0.6, t:0, pitch:0.42, open:0, target:0, auto:true, spec:null, visible:true, drag:null};
 const c3d = $("c3d");
 /* WebGL with a depth buffer, so parts always hide each other correctly from every angle.
    Falls back to the simple canvas drawing if WebGL is not available. */
@@ -1208,7 +1217,7 @@ function render3DGL(){
   gl.clearColor(35/255,44/255,49/255,1); /* panel background, so added light blends correctly */ gl.clearDepth(1); gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   const M = buildModel(V3.spec, V3.open);
-  const dist = M.r*3.2 + 2, F = Math.min(W, Hc)*.46*dist/M.r;
+  const dist = M.r*3.2 + 2, F = Math.min(W, Hc)*.46*dist/M.r * V3.zoom;
   const n = Math.max(.5, dist - 2*M.r), f = dist + 3*M.r + 10;   // tight near plane = sharp depth, no speckling
   gl.uniform3f(GL.k, 2*F/W, 2*F/Hc, 28/Hc);
   gl.uniform2f(GL.zab, (f+n)/(f-n), -2*f*n/(f-n));
@@ -1281,7 +1290,7 @@ function render3DCanvas(){
   if (c3d.width !== Math.round(W*dpr) || c3d.height !== Math.round(Hc*dpr)){ c3d.width = Math.round(W*dpr); c3d.height = Math.round(Hc*dpr); c3d.style.height = Hc+"px"; }
   const ctx = x3d; ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,Hc);
   const M = buildModel(V3.spec, V3.open);
-  const dist = M.r*3.2 + 2, F = Math.min(W, Hc)*.46*dist/M.r;
+  const dist = M.r*3.2 + 2, F = Math.min(W, Hc)*.46*dist/M.r * V3.zoom;
   const cam = p => { let v=[p[0]-M.center[0], p[1]-M.center[1], p[2]-M.center[2]]; v=rotY(v,V3.yaw); v=rotX(v,-V3.pitch); v[2]+=dist; return v; };
   const proj = v => [W/2 + F*v[0]/v[2], Hc/2 + 14 - F*v[1]/v[2]];
   const P2 = p => proj(cam(p));
@@ -1329,10 +1338,35 @@ function showView(is3d){
 }
 $("tab3d").addEventListener("click", () => showView(true));
 $("tab2d").addEventListener("click", () => showView(false));
-c3d.addEventListener("pointerdown", e => { V3.drag = [e.clientX, e.clientY]; V3.auto = false; try{ c3d.setPointerCapture(e.pointerId); }catch(_){} });
-c3d.addEventListener("pointermove", e => { if (!V3.drag) return; const dx = e.clientX-V3.drag[0], dy = e.clientY-V3.drag[1]; V3.drag = [e.clientX, e.clientY]; V3.yaw += dx*.008; V3.pitch = Math.min(1.3, Math.max(-.45, V3.pitch + dy*.006)); });
-["pointerup","pointercancel","pointerleave"].forEach(ev => c3d.addEventListener(ev, () => V3.drag = null));
+// zoom: mouse wheel, two-finger pinch, + / − buttons, keyboard + / −
+const setZoom = z => { V3.zoom = Math.min(4, Math.max(.6, z)); V3.auto = false; };
+const pDist = () => { const p = [...V3.ptrs.values()]; return Math.hypot(p[0][0]-p[1][0], p[0][1]-p[1][1]); };
+c3d.addEventListener("pointerdown", e => {
+  V3.ptrs.set(e.pointerId, [e.clientX, e.clientY]); V3.auto = false;
+  try{ c3d.setPointerCapture(e.pointerId); }catch(_){}
+  if (V3.ptrs.size === 2){ V3.pinch = { d: pDist(), z: V3.zoom }; V3.drag = null; }
+  else V3.drag = [e.clientX, e.clientY];
+});
+c3d.addEventListener("pointermove", e => {
+  if (!V3.ptrs.has(e.pointerId)) return;
+  V3.ptrs.set(e.pointerId, [e.clientX, e.clientY]);
+  if (V3.ptrs.size >= 2 && V3.pinch){ setZoom(V3.pinch.z * pDist() / (V3.pinch.d || 1)); return; }
+  if (!V3.drag) return;
+  const dx = e.clientX-V3.drag[0], dy = e.clientY-V3.drag[1]; V3.drag = [e.clientX, e.clientY];
+  V3.yaw += dx*.008; V3.pitch = Math.min(1.3, Math.max(-.45, V3.pitch + dy*.006));
+});
+["pointerup","pointercancel","pointerleave"].forEach(ev => c3d.addEventListener(ev, e => {
+  V3.ptrs.delete(e.pointerId);
+  if (V3.ptrs.size < 2) V3.pinch = null;
+  if (V3.ptrs.size === 1){ const p = [...V3.ptrs.values()][0]; V3.drag = [p[0], p[1]]; } else V3.drag = null;
+}));
+c3d.addEventListener("wheel", e => { e.preventDefault(); setZoom(V3.zoom * Math.exp(-e.deltaY * .0015)); }, { passive: false });
+$("zoomIn").addEventListener("click", () => setZoom(V3.zoom * 1.25));
+$("zoomOut").addEventListener("click", () => setZoom(V3.zoom / 1.25));
+$("zoomReset").addEventListener("click", () => { V3.zoom = 1; V3.yaw = V3.yaw0; V3.pitch = .42; });
 c3d.addEventListener("keydown", e => {
+  if (e.key === "+" || e.key === "="){ e.preventDefault(); setZoom(V3.zoom * 1.25); return; }
+  if (e.key === "-"){ e.preventDefault(); setZoom(V3.zoom / 1.25); return; }
   const k = {ArrowLeft:[-.12,0], ArrowRight:[.12,0], ArrowUp:[0,-.08], ArrowDown:[0,.08]}[e.key];
   if (!k) return; e.preventDefault(); V3.auto = false; V3.yaw += k[0]; V3.pitch = Math.min(1.3, Math.max(-.45, V3.pitch + k[1]));
 });
