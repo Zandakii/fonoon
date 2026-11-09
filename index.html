@@ -1598,7 +1598,7 @@ $("pdfBtn").addEventListener("click", () => {
     if (!$("view3d").classList.contains("hidden")){
       // two snapshots from the current angle: closed and open
       const keep = V3.open, shots = [];
-      for (const o of [0, 1]){ V3.open = o; render3D(); shots.push(c3d.toDataURL("image/png")); }
+      for (const o of [0, 1]){ V3.open = o; render3D(); shots.push(c3d.toDataURL("image/jpeg", .92)); }
       V3.open = keep; render3D();
       const lbl = lang === "ar" ? ["مغلق", "مفتوح"] : ["Closed", "Open"];
       img = `<div class="qshots">${shots.map((u, i) => `<figure><img src="${u}" alt="${lbl[i]}"><figcaption>${lbl[i]}</figcaption></figure>`).join("")}</div>`;
@@ -1621,8 +1621,14 @@ $("pdfBtn").addEventListener("click", () => {
     <p style="margin-top:14px">${t.ctPhoneL}: +20 111 777 9464 &nbsp; · &nbsp; info@fonoongroup.com &nbsp; · &nbsp; ${t.ctAddr}</p>`;
   const oldTitle = document.title;
   document.title = `Fonoon quote - ${name} - ${$("dimTag").textContent}`;
-  try { window.print(); } catch(e){}
-  setTimeout(() => { document.title = oldTitle; }, 1000);
+  // wait until the pictures are loaded, otherwise the print preview shows empty boxes
+  const imgs = [...$("quote").querySelectorAll("img")];
+  Promise.all(imgs.map(i => i.decode ? i.decode().catch(() => {}) : Promise.resolve())).then(() => {
+    setTimeout(() => {
+      try { window.print(); } catch(e){}
+      setTimeout(() => { document.title = oldTitle; }, 1000);
+    }, 150);
+  });
 });
 
 /* ========================= INIT ========================= */
