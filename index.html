@@ -176,6 +176,10 @@
     body > *:not(#quote){display:none!important}
     #quote{display:block;color:#000;font-size:13px;padding:10mm}
     #quote img{max-width:100%;border:1px solid #ccc;margin:10px 0}
+    #quote .qshots{display:flex;gap:8px;margin:10px 0}
+    #quote .qshots figure{flex:1;margin:0}
+    #quote .qshots img{width:100%;margin:0 0 3px;border-radius:6px}
+    #quote .qshots figcaption{font-size:12px;color:#444;text-align:center}
     #quote table{width:100%;border-collapse:collapse;margin-top:8px}
     #quote td{padding:5px 0;border-bottom:1px solid #ddd}
     #quote td:last-child{text-align:end}
@@ -1587,7 +1591,14 @@ $("pdfBtn").addEventListener("click", () => {
   const t = T[lang];
   let img = "";
   try {
-    if (!$("view3d").classList.contains("hidden")){ render3D(); img = `<img src="${c3d.toDataURL("image/png")}" alt="">`; }
+    if (!$("view3d").classList.contains("hidden")){
+      // two snapshots from the current angle: closed and open
+      const keep = V3.open, shots = [];
+      for (const o of [0, 1]){ V3.open = o; render3D(); shots.push(c3d.toDataURL("image/png")); }
+      V3.open = keep; render3D();
+      const lbl = lang === "ar" ? ["مغلق", "مفتوح"] : ["Closed", "Open"];
+      img = `<div class="qshots">${shots.map((u, i) => `<figure><img src="${u}" alt="${lbl[i]}"><figcaption>${lbl[i]}</figcaption></figure>`).join("")}</div>`;
+    }
     else { const s = $("drawing").querySelector("svg"); if (s) img = `<div style="background:#232C31;border-radius:8px;padding:6px;margin:10px 0">${s.outerHTML}</div>`; }
   } catch(e){}
   const rows = [...$("breakdown").querySelectorAll("dt")].map(dt => `<tr><td>${dt.textContent}</td><td>${dt.nextElementSibling ? dt.nextElementSibling.textContent : ""}</td></tr>`).join("");
