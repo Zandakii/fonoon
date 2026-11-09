@@ -172,6 +172,28 @@
     .pricebar .actions{width:100%}
     .pricebar .btn{flex:1;justify-content:center;padding:10px}
   }
+
+  /* watermark on the preview + corner stamp */
+  .stage .wm{position:absolute;left:50%;top:54%;width:min(46%,420px);transform:translate(-50%,-50%);opacity:.12;pointer-events:none;z-index:2;user-select:none}
+  .stage.night .wm{opacity:.16;filter:brightness(2.4)}
+  .stage .wmstamp{position:absolute;bottom:52px;inset-inline-end:18px;font-size:12.5px;color:#5B686E;z-index:2;display:flex;align-items:center;gap:6px;pointer-events:none;direction:ltr}
+  .stage .wmstamp img{height:20px}
+  .stage.night .wmstamp{color:#8C989D}
+  .stage.night .wmstamp img{filter:brightness(2.4)}
+  /* the drawing always has a dark background */
+  .stage:has(#drawing:not(.hidden)) .wm{opacity:.14;filter:brightness(2.4)}
+  .stage:has(#drawing:not(.hidden)) .wmstamp{bottom:30px;inset-inline-end:34px;color:#8C989D}
+  .stage:has(#drawing:not(.hidden)) .wmstamp img{filter:brightness(2.4)}
+  /* name + phone before the PDF */
+  #leadDlg{border:0;border-radius:var(--radius-m);padding:26px 28px;width:min(420px,92vw);background:var(--card);color:var(--graphite);box-shadow:0 20px 50px rgba(0,0,0,.3)}
+  #leadDlg::backdrop{background:rgba(20,26,29,.55)}
+  #leadDlg img{height:38px;margin-bottom:10px}
+  #leadDlg h3{font-size:21px;margin-bottom:6px}
+  #leadDlg p{color:var(--steel);font-size:14.5px;margin-bottom:16px}
+  #leadDlg input{width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--alu);border-radius:var(--radius-s);background:#F8F9F9;margin-bottom:12px;color:var(--graphite)}
+  #leadDlg .row{display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+  #leadDlg .btn{padding:11px 18px}
+  #leadDlg .err{margin:-6px 0 10px}
   /* printable quote (Save as PDF) */
   #quote{display:none}
   @media print{
@@ -186,6 +208,9 @@
     #quote td{padding:5px 0;border-bottom:1px solid #ddd}
     #quote td:last-child{text-align:end}
     #quote .qp{font-size:26px;font-weight:700;margin:12px 0 2px}
+    /* watermark: faint Fonoon logos across every page, over the pictures too */
+    #quote .qwm{position:fixed;inset:0;z-index:50;pointer-events:none;display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:62mm;align-items:center;justify-items:center;opacity:.09;overflow:hidden}
+    #quote .qwm img{width:58mm;height:auto;border:0;margin:0;max-width:none;transform:rotate(-28deg)}
     @page{margin:12mm}
   }
 
@@ -314,6 +339,8 @@
 <section class="cfg" id="estimate">
   <div class="cfg-grid">
     <div class="stage" id="stage" aria-live="polite">
+      <img class="wm logo-src" alt="" aria-hidden="true">
+      <span class="wmstamp" aria-hidden="true"><img class="logo-src" alt="">fonoongroup.com</span>
       <div class="viewbar">
         <div class="pills" aria-label="Day or night">
           <button type="button" id="dayBtn" aria-pressed="true" data-t="dayLbl">Day</button>
@@ -479,6 +506,23 @@
 </footer>
 
 <div id="quote" aria-hidden="true"></div>
+
+<dialog id="leadDlg">
+  <form method="dialog" id="leadForm" novalidate>
+    <img class="logo-src" alt="Fonoon">
+    <h3 data-t="dlgTitle">Save your quote</h3>
+    <p data-t="dlgText">Your name and phone are printed on the quote, so our team can follow up on the same design.</p>
+    <label class="lbl" for="leadName" data-t="dlgName">Full name</label>
+    <input id="leadName" type="text" autocomplete="name" required>
+    <label class="lbl" for="leadPhone" data-t="dlgPhone">Mobile number</label>
+    <input id="leadPhone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required>
+    <p class="err" id="leadErr" role="alert"></p>
+    <div class="row">
+      <button type="button" class="btn btn-ghost" id="leadCancel" data-t="dlgCancel">Cancel</button>
+      <button type="submit" class="btn btn-primary" data-t="pdfLbl">Save as PDF</button>
+    </div>
+  </form>
+</dialog>
 
 <script>
 /* =========================================================
@@ -647,7 +691,7 @@ const T = {
   abP2:"Today we design, manufacture and install glass roofs and aluminium systems for homes, villas, restaurants and businesses from our factory in 6th of October.",
   t1:"Alshishani is founded in Jordan, building in wrought iron.",t2y:"Expansion",t2:"An aluminium department opens, making doors and windows.",t3y:"Today",t3:"Fonoon makes motorised glass roofs and folding systems in Egypt.",
   pr1:"Dust-proof",pr2:"Water-tight",pr3:"Heat-insulated",pr4:"Quiet",
-  ctTitle:"Visit us or get in touch",ctAddrL:"Factory",ctAddr:"Industrial Zone, 6th of October, Cairo, Egypt",ctPhoneL:"Mobile and WhatsApp",ctMailL:"Email",
+  ctTitle:"Visit us or get in touch",ctAddrL:"Factory",ctAddr:"Industrial Zone, 6th of October, Cairo, Egypt",ctPhoneL:"Mobile and WhatsApp",ctMailL:"Email",dlgTitle:"Save your quote",dlgText:"Your name and phone are printed on the quote, so our team can follow up on the same design.",dlgName:"Full name",dlgPhone:"Mobile number",dlgCancel:"Cancel",errName:"Enter your name.",errPhone:"Enter a mobile number with at least 8 digits.",preparedFor:"Prepared for",quoteNo:"Quote no.",
   ctBoxT:"Book a free site visit",ctBoxP:"Send us your location and a few photos of the space. We will measure, advise on the right system and give you a final price.",ctBoxBtn:"Message us on WhatsApp",
   ftName:"Fonoon Group for Engineering Industries",ftLoc:"6th of October, Cairo",
   waHello:"Hello Fonoon, I would like a quote for:",waContact:"Hello Fonoon, I would like to book a site visit.",
@@ -687,7 +731,7 @@ const T = {
   abP2:"اليوم نصمم ونصنع ونركّب الأسقف الزجاجية وأنظمة الألومنيوم للمنازل والفلل والمطاعم والشركات من مصنعنا في مدينة 6 أكتوبر.",
   t1:"تأسيس شركة الششاني في الأردن في مجال الحديد المشغول.",t2y:"التوسع",t2:"افتتاح قسم الألومنيوم لتصنيع الأبواب والشبابيك.",t3y:"اليوم",t3:"فنون تصنع الأسقف الزجاجية الكهربائية والأنظمة القابلة للطي في مصر.",
   pr1:"عازل للأتربة",pr2:"عازل للمياه",pr3:"عازل للحرارة",pr4:"عازل للضوضاء",
-  ctTitle:"زورنا أو تواصل معنا",ctAddrL:"المصنع",ctAddr:"المنطقة الصناعية، مدينة 6 أكتوبر، القاهرة، مصر",ctPhoneL:"موبايل وواتساب",ctMailL:"البريد الإلكتروني",
+  ctTitle:"زورنا أو تواصل معنا",ctAddrL:"المصنع",ctAddr:"المنطقة الصناعية، مدينة 6 أكتوبر، القاهرة، مصر",ctPhoneL:"موبايل وواتساب",ctMailL:"البريد الإلكتروني",dlgTitle:"احفظ عرض السعر",dlgText:"يُطبع اسمك ورقم موبايلك على عرض السعر، ليتابع فريقنا معك على نفس التصميم.",dlgName:"الاسم بالكامل",dlgPhone:"رقم الموبايل",dlgCancel:"إلغاء",errName:"أدخل اسمك.",errPhone:"أدخل رقم موبايل من 8 أرقام على الأقل.",preparedFor:"مُعد لـ",quoteNo:"رقم العرض",
   ctBoxT:"احجز معاينة مجانية",ctBoxP:"أرسل لنا موقعك وبعض الصور للمكان. سنأخذ المقاسات وننصحك بالنظام المناسب ونعطيك السعر النهائي.",ctBoxBtn:"راسلنا على واتساب",
   ftName:"مجموعة فنون للصناعات الهندسية",ftLoc:"مدينة 6 أكتوبر، القاهرة",
   waHello:"مرحبًا فنون، أريد عرض سعر لـ:",waContact:"مرحبًا فنون، أريد حجز معاينة للموقع.",
@@ -1506,8 +1550,11 @@ function applyLang(){
 }
 
 /* ========================= SAVE AS PDF ========================= */
-$("pdfBtn").addEventListener("click", () => {
+function makePdf(lead){
   const t = T[lang];
+  const now = new Date(), qn = (lead && lead.qn) || `FON-${String(now.getFullYear()).slice(2)}${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getTime() % 10000).padStart(4,"0")}`;
+  const esc = v => String(v).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const leadBox = lead ? `<div style="margin-top:12px;padding:8px 12px;border:1px solid #17575C;border-radius:6px;display:flex;justify-content:space-between;gap:12px;font-size:13px"><span>${t.preparedFor}: <b>${esc(lead.n)}</b> · <span dir="ltr">${esc(lead.p)}</span></span><span>${t.quoteNo} ${qn}</span></div>` : "";
   let img = "";
   try {
     const keep = V3.open, keepSel = V3.spec && V3.spec.sel, shots = [];
@@ -1525,6 +1572,7 @@ $("pdfBtn").addEventListener("click", () => {
   $("quote").innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #17575C;padding-bottom:8px">
       <span style="display:flex;align-items:center;gap:12px"><img src="${document.querySelector('.brand .logo').src}" alt="" style="height:44px;width:auto;border:0;margin:0"><strong style="font-size:20px">${t.brand} ${t.brandSub}</strong></span><span>${date}</span></div>
+    ${leadBox}
     <h2 style="margin:14px 0 4px;font-size:20px">${name}</h2>
     <div>${$("dimTag").textContent}</div>
     ${img}
@@ -1535,8 +1583,11 @@ $("pdfBtn").addEventListener("click", () => {
     <table class="qtable">${rows}</table>
     <p style="margin-top:14px;color:#444">${t.pNote}</p>
     <p style="margin-top:14px">${t.ctPhoneL}: +20 111 777 9464 &nbsp; · &nbsp; info@fonoongroup.com &nbsp; · &nbsp; ${t.ctAddr}</p>`;
+  // faint logo watermark over the whole quote, repeated on every page
+  const wmSrc = document.querySelector(".brand .logo").src;
+  $("quote").insertAdjacentHTML("beforeend", `<div class="qwm" aria-hidden="true">${`<img src="${wmSrc}" alt="">`.repeat(15)}</div>`);
   const oldTitle = document.title;
-  document.title = `Fonoon quote - ${name} - ${$("dimTag").textContent}`;
+  document.title = `Fonoon quote ${qn} - ${lead ? lead.n + " - " : ""}${name} - ${$("dimTag").textContent}`;
   // wait until the pictures are loaded, otherwise the print preview shows empty boxes
   const imgs = [...$("quote").querySelectorAll("img")];
   Promise.all(imgs.map(i => i.decode ? i.decode().catch(() => {}) : Promise.resolve())).then(() => {
@@ -1545,7 +1596,50 @@ $("pdfBtn").addEventListener("click", () => {
       setTimeout(() => { document.title = oldTitle; }, 1000);
     }, 150);
   });
+}
+
+
+/* ========================= NAME + PHONE BEFORE THE PDF ========================= */
+document.querySelectorAll(".logo-src").forEach(i => { i.src = document.querySelector(".brand .logo").src; });
+$("pdfBtn").addEventListener("click", () => {
+  try { const s = JSON.parse(localStorage.getItem("fonoonLead") || "{}"); if (s.n && !$("leadName").value) $("leadName").value = s.n; if (s.p && !$("leadPhone").value) $("leadPhone").value = s.p; } catch(e){}
+  $("leadErr").textContent = "";
+  if ($("leadDlg").showModal) $("leadDlg").showModal(); else makePdf(null);
+  $("leadName").focus();
 });
+$("leadCancel").addEventListener("click", () => $("leadDlg").close());
+$("leadForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const t = T[lang], n = $("leadName").value.trim(), p = $("leadPhone").value.trim();
+  // staff code: typing fonoonZ as the name makes a plain quote, with no lead recorded
+  if (n.toLowerCase() === STAFF_CODE.toLowerCase()){ $("leadName").value = ""; $("leadDlg").close(); makePdf(null); return; }
+  if (n.length < 2){ $("leadErr").textContent = t.errName; $("leadName").focus(); return; }
+  if (p.replace(/\D/g, "").length < 8){ $("leadErr").textContent = t.errPhone; $("leadPhone").focus(); return; }
+  try { localStorage.setItem("fonoonLead", JSON.stringify({n, p})); } catch(e){}
+  $("leadDlg").close();
+  const now = new Date(), qn = `FON-${String(now.getFullYear()).slice(2)}${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getTime() % 10000).padStart(4,"0")}`;
+  makePdf({n, p, qn});
+  sendLead({n, p, qn});
+});
+
+/* Leads are emailed to Fonoon through Web3Forms (free, 250 a month).
+   Paste the access key from web3forms.com between the quotes to switch it on. */
+const LEAD_KEY = "453caf8d-e590-473f-99d1-3704bb93696d";
+const STAFF_CODE = "fonoonZ";
+function sendLead(lead){
+  if (!LEAD_KEY) return;
+  const rows = [...$("breakdown").querySelectorAll("dt")].map(dt => `${dt.textContent}: ${dt.nextElementSibling ? dt.nextElementSibling.textContent : ""}`).join("\n");
+  const body = {
+    access_key: LEAD_KEY,
+    subject: `New quote ${lead.qn}: ${lead.n}`,
+    from_name: "Fonoon website",
+    Name: lead.n, Mobile: lead.p, "Quote no.": lead.qn,
+    Page: location.pathname.includes("pergola") ? "Pergola builder" : "Price estimate",
+    Size: $("dimTag").textContent, Price: $("amount").textContent,
+    Details: rows, Language: lang === "ar" ? "Arabic" : "English"
+  };
+  try { fetch("https://api.web3forms.com/submit", { method:"POST", headers:{ "Content-Type":"application/json", Accept:"application/json" }, body: JSON.stringify(body), keepalive:true }).catch(() => {}); } catch(e){}
+}
 
 /* ========================= INIT ========================= */
 $("year").textContent = new Date().getFullYear();
