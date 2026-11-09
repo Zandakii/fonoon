@@ -113,6 +113,7 @@
 
   .panel{background:var(--card);border-inline-start:1px solid var(--alu);overflow-y:auto;padding:20px 24px 24px}
   .panel h2{font-size:21px;margin-bottom:10px}
+  .blink{display:block;font-size:13.5px;color:var(--teal);font-weight:500;margin:-4px 0 12px;text-underline-offset:3px}
   fieldset{border:0;padding:0;margin:0 0 12px}
   legend,label.lbl{display:block;font-size:13px;color:var(--steel);margin-bottom:6px;padding:0}
   legend .sel{color:var(--graphite);font-weight:500}
@@ -246,6 +247,7 @@
     <nav class="links" aria-label="Main">
       <a href="#products" data-t="navProducts">Products</a>
       <a href="#estimate" data-t="navEstimate">Price estimate</a>
+      <a href="pergola.html" data-t="navBuilder">Pergola builder</a>
       <a href="#about" data-t="navAbout">About</a>
       <a href="#contact" data-t="navContact">Contact</a>
     </nav>
@@ -304,6 +306,7 @@
 
     <form class="panel" id="calcForm" novalidate>
       <h2 data-t="calcTitle">Build your system</h2>
+      <a class="blink" id="builderLink" href="pergola.html" data-t="builderLink">Want glass on the sides too? Try the pergola builder</a>
       <fieldset>
         <label class="lbl" for="product" data-t="lProduct">System</label>
         <select id="product"></select>
@@ -674,7 +677,7 @@ const T = {
   ctBoxT:"Book a free site visit",ctBoxP:"Send us your location and a few photos of the space. We will measure, advise on the right system and give you a final price.",ctBoxBtn:"Message us on WhatsApp",
   ftName:"Fonoon Group for Engineering Industries",ftLoc:"6th of October, Cairo",
   waHello:"Hello Fonoon, I would like a quote for:",waContact:"Hello Fonoon, I would like to book a site visit.",
-  langBtn:"العربية",
+  langBtn:"العربية",navBuilder:"Pergola builder",builderLink:"Want glass on the sides too? Try the pergola builder",
   bRails:"Rails",thick:"thick",thin:"thin",bProfiles:"Fabric support profiles",profilesVal:(n,s)=>`${n} per bay, about ${s} cm apart`,bSlope:"Roof slope (drop from back to front)",bFolded:"Folded fabric when open",
   sideWall:"Wall",dayLbl:"Day",nightLbl:"Night",lHfShort:"Pillar height",specsLbl:"What's included",pdfLbl:"Save as PDF",smFree:"Freestanding",smWallW:"Wall on the width side",smWallD:"Wall on the depth side",lBladeCol:"Blade colour",cSame:"Same as frame",bBlades:"Louvres",bladesVal:(n,p)=>`${n} (${p} per section)`,included:"Included",lPilW:"Along the width (front and back, each)",lPilD:"Along the depth (left and right, each)",pillarsVal:(n,s)=>`${n} (including ${s} along the sides)`,lPillars:"Number of pillars",bBays:"Louvre sections",openW:a=>`Opening width ${a} m`,openH:a=>`Opening height ${a} m`,openLbl:(a,b,A)=>`Opening ${a} × ${b} m = ${A} m²`,g10:"10 mm tempered",perM2:(v,c)=>`${v} ${c} per m²`,cBlack:"Black",cWhite:"White",cBeige:"Beige",cGrey:"Grey",cDarkGrey:"Dark grey",cBrown:"Brown",lFabricCol:"Fabric colour",fWhite:"White",fBeige:"Beige",fGrey:"Grey",fDarkGrey:"Dark grey",lHf:"Front pillar height",lStruct:"Structure",sAlu:"Aluminium",sSteel:"Steel",sidePost:"Back post",lMount:"Behind the pergola",mWall:"Fixed to a wall",mFree:"Freestanding, posts at the back",xLedFab:"LED lighting in the fabric support profiles",ledVal:n=>`LED lighting (${n} profiles per bay)`,sideGutter:"Front gutter",sideFolded:"Folded fabric",
   errFabric:(w,a,y)=>`For a ${w} m wide fabric pergola the largest size is ${a} m², so the projection can be up to ${y} m. Reduce the projection or split it into two pergolas.`,
@@ -714,7 +717,7 @@ const T = {
   ctBoxT:"احجز معاينة مجانية",ctBoxP:"أرسل لنا موقعك وبعض الصور للمكان. سنأخذ المقاسات وننصحك بالنظام المناسب ونعطيك السعر النهائي.",ctBoxBtn:"راسلنا على واتساب",
   ftName:"مجموعة فنون للصناعات الهندسية",ftLoc:"مدينة 6 أكتوبر، القاهرة",
   waHello:"مرحبًا فنون، أريد عرض سعر لـ:",waContact:"مرحبًا فنون، أريد حجز معاينة للموقع.",
-  langBtn:"English",
+  langBtn:"English",navBuilder:"صمّم برجولتك",builderLink:"تريد زجاج على الجوانب؟ جرّب مصمم البرجولة",
   bRails:"عدد المجاري",thick:"سميكة",thin:"رفيعة",bProfiles:"بروفيلات حمل القماش",profilesVal:(n,s)=>`${n} لكل فتحة، المسافة بينها حوالي ${s} سم`,bSlope:"ميل السقف (الفرق بين الخلف والأمام)",bFolded:"طول القماش المطوي عند الفتح",
   sideWall:"الحائط",dayLbl:"نهار",nightLbl:"ليل",lHfShort:"ارتفاع الأعمدة",specsLbl:"تفاصيل العرض",pdfLbl:"حفظ PDF",smFree:"قائمة بذاتها",smWallW:"حائط من جهة العرض",smWallD:"حائط من جهة العمق",lBladeCol:"لون الشرائح",cSame:"نفس لون الإطار",bBlades:"الشرائح",bladesVal:(n,p)=>`${n} (${p} لكل قسم)`,included:"مشمولة",lPilW:"على طول العرض (الأمام والخلف، لكل منهما)",lPilD:"على طول العمق (اليمين واليسار، لكل منهما)",pillarsVal:(n,s)=>`${n} (منها ${s} على الجانبين)`,lPillars:"عدد الأعمدة",bBays:"أقسام الشرائح",openW:a=>`عرض الفتحة ${a} م`,openH:a=>`ارتفاع الفتحة ${a} م`,openLbl:(a,b,A)=>`الفتحة ${a} × ${b} م = ${A} م²`,g10:"سيكوريت 10 مم",perM2:(v,c)=>`${v} ${c} للمتر المربع`,cBlack:"أسود",cWhite:"أبيض",cBeige:"بيج",cGrey:"رمادي",cDarkGrey:"رمادي غامق",cBrown:"بني",lFabricCol:"لون القماش",fWhite:"أبيض",fBeige:"بيج",fGrey:"رمادي",fDarkGrey:"رمادي غامق",lHf:"ارتفاع الأعمدة الأمامية",lStruct:"الهيكل",sAlu:"ألومنيوم",sSteel:"حديد",sidePost:"عمود خلفي",lMount:"خلف البرجولة",mWall:"مثبتة على حائط",mFree:"قائمة بذاتها، بأعمدة في الخلف",xLedFab:"إضاءة LED داخل بروفيلات حمل القماش",ledVal:n=>`إضاءة LED (${n} بروفيل لكل فتحة)`,sideGutter:"المزراب الأمامي",sideFolded:"القماش المطوي",
   errFabric:(w,a,y)=>`لبرجولة قماش بعرض ${w} م، أقصى مساحة ${a} م²، أي أن البروز حتى ${y} م. قلّل البروز أو قسّمها إلى برجولتين.`,
@@ -786,6 +789,7 @@ function onProductChange(keep){
   $("mountSet").classList.toggle("hidden", key !== "fabric");
   $("hfWrap").classList.toggle("hidden", !isRoof);
   $("structSet").classList.toggle("hidden", key !== "fabric");
+  $("builderLink").classList.toggle("hidden", !isRoof);
   $("fabricColSet").classList.toggle("hidden", key !== "fabric");
   $("pillarSet").classList.toggle("hidden", key !== "smartroof");
   $("bladeColSet").classList.toggle("hidden", key !== "smartroof");

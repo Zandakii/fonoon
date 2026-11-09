@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pergola builder | Fonoon Group</title>
+<meta name="description" content="Fonoon Group makes retractable fabric pergolas, smart aluminium roofs, folding, sliding and panorama glass systems in 6th of October, Cairo. Build your pergola, choose the glass for every opening and get an instant total.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --graphite:#263035;
+    --steel:#5B686E;
+    --alu:#C6CED1;
+    --mist:#D8DEE0;
+    --white:#E3E7E8;      /* page background: light grey */
+    --card:#EEF1F2;       /* raised surfaces */
+    --teal:#17575C;
+    --teal-dark:#0F4145;
+    --sun:#E9B44C;
+    --glass:#BFDCE0;
+    --radius-s:4px;
+    --radius-m:10px;
+    --wrap:1160px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{margin:0;font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;color:var(--graphite);background:var(--white);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:2px}
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+  h1,h2,h3{line-height:1.15;margin:0;font-weight:700;letter-spacing:-.01em}
+  h2{font-size:clamp(28px,3.4vw,40px);font-weight:500}
+  h3{font-size:20px;font-weight:500}
+  p{margin:0}
+  .muted{color:var(--steel)}
+
+  /* Header */
+  header.top{position:sticky;top:0;z-index:20;background:rgba(227,231,232,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--alu)}
+  .top .wrap{display:flex;align-items:center;gap:28px;height:68px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:19px}
+  .brand svg{flex:none}
+  .brand small{display:block;font-weight:400;font-size:12px;color:var(--steel);line-height:1}
+  nav.links{display:flex;gap:24px;margin-inline-start:auto}
+  nav.links a{text-decoration:none;font-size:15px;color:var(--steel)}
+  nav.links a:hover{color:var(--graphite)}
+  .lang{border:1px solid var(--alu);background:none;border-radius:var(--radius-s);padding:6px 12px;font:inherit;font-size:14px;cursor:pointer;color:var(--graphite)}
+  .lang:hover{border-color:var(--steel)}
+  @media (max-width:820px){nav.links{display:none}.lang{margin-inline-start:auto}}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:var(--radius-s);font:inherit;font-weight:500;font-size:16px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+  .btn-primary{background:var(--teal);color:#fff}
+  .btn-primary:hover{background:var(--teal-dark)}
+  .btn-ghost{border-color:var(--graphite);color:var(--graphite);background:none}
+  .btn-ghost:hover{background:var(--graphite);color:#fff}
+
+  /* Hero */
+  .hero{padding:72px 0 56px;overflow:hidden}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center}
+  .hero h1{font-size:clamp(38px,5.4vw,68px);font-weight:300;letter-spacing:-.025em}
+  .hero h1 b{font-weight:700;display:block}
+  .hero p.lead{font-size:19px;color:var(--steel);margin-top:22px;max-width:34em}
+  .hero .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+  .facts{display:flex;gap:28px;margin-top:44px;padding-top:24px;border-top:1px solid var(--alu);flex-wrap:wrap}
+  .facts div{font-size:14px;color:var(--steel)}
+  .facts strong{display:block;font-size:22px;color:var(--graphite);font-weight:500}
+  .hero-art svg{width:100%;height:auto;display:block}
+  @media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero{padding-top:40px}}
+
+  /* Louvre animation in hero */
+  .louvre{transform-box:fill-box;transform-origin:center;animation:openL 1.6s cubic-bezier(.6,0,.2,1) .5s both}
+  @keyframes openL{from{transform:scaleY(1)}to{transform:scaleY(.25)}}
+  .sunray{animation:fadeIn 1.2s ease 1.4s both}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  /* ===== Configurator: preview, options and price on one screen ===== */
+  #estimate{scroll-margin-top:68px}
+  .cfg{height:calc(100vh - 68px);min-height:640px;display:grid;grid-template-rows:1fr auto;border-top:1px solid var(--alu);border-bottom:1px solid var(--alu)}
+  .cfg-grid{display:grid;grid-template-columns:1fr 460px;min-height:0}
+  .stage{position:relative;min-height:0;display:flex;flex-direction:column;background:#CDD4D7;transition:background .4s}
+  .stage.night{background:#232C31}
+  .viewbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 18px 0;position:relative;z-index:3}
+  .pills{display:flex;gap:4px;background:rgba(255,255,255,.55);border-radius:22px;padding:4px}
+  .night .pills{background:rgba(0,0,0,.28)}
+  .pills button{font:inherit;font-size:14px;color:var(--steel);background:none;border:0;padding:7px 14px;border-radius:18px;cursor:pointer}
+  .night .pills button{color:#B9C4C8}
+  .pills button[aria-selected=true],.pills button[aria-pressed=true]{background:var(--graphite);color:#fff}
+  .night .pills button[aria-pressed=true]{background:var(--sun);color:var(--graphite)}
+  .opbtn{font:inherit;font-size:14px;background:var(--card);border:1px solid var(--alu);color:var(--graphite);border-radius:22px;padding:7px 16px;cursor:pointer}
+  .night .opbtn{background:transparent;border-color:#4A575D;color:#fff}
+  .opbtn:hover{border-color:var(--sun)}
+  #view3d,#drawing{position:relative;flex:1;min-height:0}
+  #c3d{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+  #c3d:active{cursor:grabbing}
+  #drawing{display:flex;align-items:center;justify-content:center;padding:10px 18px 18px}
+  #drawing svg{width:100%;height:100%;max-height:100%;background:#232C31;border-radius:var(--radius-m)}
+  #dims3d{position:absolute;inset:0;pointer-events:none}
+  .dlab{position:absolute;transform:translate(-50%,-50%);font-size:13px;color:#7A5408;background:rgba(238,241,242,.85);padding:1px 6px;border-radius:3px;white-space:nowrap;direction:ltr;unicode-bidi:isolate}
+  .night .dlab{color:var(--sun);background:rgba(35,44,49,.75)}
+  .dlab.open,.night .dlab.open{color:#232C31;background:var(--sun);font-weight:500}
+  .dimtag{position:absolute;top:8px;inset-inline-end:18px;font-size:14px;color:#5B4210;direction:ltr;unicode-bidi:isolate}
+  .night .dimtag{color:var(--sun)}
+  .hint{position:absolute;bottom:12px;inset-inline-start:18px;font-size:13px;color:#5B686E;pointer-events:none;margin:0}
+  .night .hint{color:#8C989D}
+  .zoomctl{position:absolute;bottom:10px;inset-inline-end:16px;display:flex;gap:6px}
+  .zoomctl button{width:34px;height:34px;border-radius:50%;border:1px solid var(--alu);background:rgba(238,241,242,.9);color:var(--graphite);font:inherit;font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center}
+  .zoomctl button:hover{border-color:var(--sun)}
+  .zoomctl button.reset{width:auto;border-radius:17px;padding:0 12px;font-size:13px}
+  .night .zoomctl button{border-color:#4A575D;background:rgba(35,44,49,.85);color:#fff}
+
+  .panel{background:var(--card);border-inline-start:1px solid var(--alu);overflow-y:auto;padding:20px 24px 24px}
+  .panel h2{font-size:21px;margin-bottom:10px}
+  .blink{display:block;font-size:13.5px;color:var(--teal);font-weight:500;margin:-4px 0 12px;text-underline-offset:3px}
+  fieldset{border:0;padding:0;margin:0 0 12px}
+  legend,label.lbl{display:block;font-size:13px;color:var(--steel);margin-bottom:6px;padding:0}
+  legend .sel{color:var(--graphite);font-weight:500}
+  select,input[type=number]{width:100%;font:inherit;font-size:15px;color:var(--graphite);background:#F8F9F9;border:1px solid var(--alu);border-radius:var(--radius-s);padding:9px 11px}
+  select:focus,input:focus{border-color:var(--teal);outline:none}
+  .dims{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .unit{position:relative}
+  .unit input{padding-inline-end:30px}
+  .unit span{position:absolute;inset-inline-end:10px;top:50%;transform:translateY(-50%);color:#8C989D;font-size:13px;pointer-events:none}
+  .seg{display:flex;flex-wrap:wrap;gap:6px}
+  .seg label{cursor:pointer}
+  .seg input{position:absolute;opacity:0;pointer-events:none}
+  .seg span{display:inline-block;padding:6px 11px;border:1px solid var(--alu);border-radius:var(--radius-s);font-size:13.5px;color:var(--graphite);background:#F8F9F9}
+  .seg input:checked+span{background:var(--graphite);border-color:var(--graphite);color:#fff;font-weight:500}
+  .seg input:focus-visible+span{outline:3px solid var(--sun);outline-offset:2px}
+  .seg input:disabled+span{opacity:.4;cursor:not-allowed}
+  /* colour swatches */
+  .sw{gap:8px}
+  .sw span{width:27px;height:27px;padding:0;border-radius:50%;font-size:0;background:var(--c);border:2px solid var(--card);box-shadow:0 0 0 1px var(--alu)}
+  .sw input:checked+span{background:var(--c);border-color:var(--card);box-shadow:0 0 0 2px var(--sun)}
+  .sw .same{background:conic-gradient(var(--c) 0 50%, #F8F9F9 0);}
+  .err{color:#A33A1F;font-size:13px;margin-top:6px}
+  .hidden{display:none!important}
+  #pillarSet{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:center}
+  #pillarSet legend{grid-column:1/-1}
+  #pillarSet .lbl{margin:0;font-size:12.5px}
+  #pillarSet .seg{margin:0!important}
+  .specs{margin-top:6px;border-top:1px solid var(--alu);padding-top:10px}
+  .specs summary{cursor:pointer;font-size:14px;color:var(--teal);font-weight:500}
+  .breakdown{margin:10px 0 0;display:grid;grid-template-columns:1fr auto;gap:5px 14px;font-size:14px}
+  .breakdown dt{color:var(--steel)}
+  .breakdown dd{margin:0;text-align:end;font-variant-numeric:tabular-nums}
+
+  .pricebar{display:flex;align-items:center;gap:28px;padding:14px 28px;background:var(--graphite);color:#fff;flex-wrap:wrap}
+  .pricebar .label{font-size:13px;color:#B9C4C8}
+  .pricebar .amount{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.1;direction:ltr;unicode-bidi:isolate}
+  html[dir=rtl] .pricebar .amount{direction:rtl}
+  .pricebar .perm2{font-size:14px;color:#B9C4C8;font-variant-numeric:tabular-nums}
+  .pricebar .note{font-size:12.5px;color:#B9C4C8;max-width:30em;margin:0}
+  .pricebar .actions{display:flex;gap:10px;margin-inline-start:auto}
+  .pricebar .btn{padding:12px 18px}
+  .btn-light{background:transparent;border:1px solid #6B787D;color:#fff}
+  .btn-light:hover{border-color:var(--sun)}
+  @media (max-width:980px){
+    .cfg{height:auto;min-height:0}
+    .cfg-grid{grid-template-columns:1fr}
+    .stage{height:62vh;min-height:380px}
+    .panel{border-inline-start:0;border-top:1px solid var(--alu);overflow:visible}
+    .pricebar{position:sticky;bottom:0;z-index:15;gap:8px 12px;padding:10px 14px}
+    .pricebar .perm2{font-size:12.5px}
+    .pricebar .note{display:none}
+    .hint{display:none}
+    .wa-float{display:none!important}
+    .pricebar .amount{font-size:22px}
+    .pricebar .actions{width:100%}
+    .pricebar .btn{flex:1;justify-content:center;padding:10px}
+  }
+  /* printable quote (Save as PDF) */
+  #quote{display:none}
+  @media print{
+    body > *:not(#quote){display:none!important}
+    #quote{display:block;color:#000;font-size:13px;padding:10mm}
+    #quote img{max-width:100%;border:1px solid #ccc;margin:10px 0}
+    #quote .qshots{display:flex;gap:8px;margin:10px 0}
+    #quote .qshots figure{flex:1;margin:0}
+    #quote .qshots img{width:100%;margin:0 0 3px;border-radius:6px}
+    #quote .qshots figcaption{font-size:12px;color:#444;text-align:center}
+    #quote table{width:100%;border-collapse:collapse;margin-top:8px}
+    #quote td{padding:5px 0;border-bottom:1px solid #ddd}
+    #quote td:last-child{text-align:end}
+    #quote .qp{font-size:26px;font-weight:700;margin:12px 0 2px}
+    @page{margin:12mm}
+  }
+
+  /* Products */
+  section.block{padding:88px 0}
+  .head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+  .head p{max-width:30em}
+  .products{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--alu)}
+  .product{display:grid;grid-template-columns:72px 1fr;gap:20px;padding:28px 0;border-bottom:1px solid var(--alu)}
+  .product:nth-child(odd){padding-inline-end:36px}
+  .product:nth-child(even){padding-inline-start:36px;border-inline-start:1px solid var(--alu)}
+  .product svg{width:72px;height:72px}
+  .product p{margin-top:6px;color:var(--steel);font-size:15px}
+  .product ul{margin:10px 0 0;padding:0;list-style:none;font-size:14px;display:flex;flex-wrap:wrap;gap:6px}
+  .product li{background:var(--mist);padding:3px 9px;border-radius:var(--radius-s)}
+  .product .try{display:inline-block;margin-top:12px;font-size:14px;color:var(--teal);font-weight:500;background:none;border:0;padding:0;font-family:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+  @media (max-width:820px){.products{grid-template-columns:1fr}.product:nth-child(n){padding-inline:0;border-inline-start:0}}
+
+  /* About */
+  .about{background:var(--mist)}
+  .about .wrap{display:grid;grid-template-columns:1fr 1.3fr;gap:56px}
+  .about .text p+p{margin-top:16px}
+  .timeline{list-style:none;margin:0;padding:0;border-inline-start:2px solid var(--alu)}
+  .timeline li{position:relative;padding:0 0 26px 0;padding-inline-start:26px}
+  .timeline li::before{content:"";position:absolute;inset-inline-start:-7px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--white);border:2px solid var(--teal)}
+  .timeline strong{display:block;font-size:15px;color:var(--teal)}
+  .promise{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px}
+  .promise div{background:var(--white);border-radius:var(--radius-s);padding:14px;font-size:15px;text-align:center}
+  @media (max-width:820px){.about .wrap{grid-template-columns:1fr}.promise{grid-template-columns:repeat(2,1fr)}}
+
+  /* Contact */
+  .contact .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  .contact dl{margin:0;display:grid;gap:18px}
+  .contact dt{font-size:14px;color:var(--steel)}
+  .contact dd{margin:2px 0 0;font-size:19px;font-weight:500}
+  .contact dd a{text-decoration:none}
+  .contact dd a:hover{text-decoration:underline}
+  .ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+  .contact .cta-box{background:var(--teal);color:#fff;border-radius:var(--radius-m);padding:32px}
+  .contact .cta-box p{color:#CFE3E4;margin:10px 0 22px}
+  .contact .cta-box .btn{background:#fff;color:var(--teal)}
+  .contact .cta-box .btn:hover{background:var(--sun);color:var(--graphite)}
+  @media (max-width:820px){.contact .wrap{grid-template-columns:1fr}}
+
+  footer{border-top:1px solid var(--alu);padding:28px 0;font-size:14px;color:var(--steel)}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  .wa-float{position:fixed;bottom:104px;inset-inline-end:20px;z-index:30;width:56px;height:56px;border-radius:50%;background:#25D366;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+  .wa-float svg{width:30px;height:30px}
+
+  /* ===== Pergola builder ===== */
+  .cfg-grid{grid-template-columns:1fr 500px}
+  .panel fieldset{margin-bottom:10px}
+  #pillarSet{grid-template-columns:auto 1fr}
+  .openings{border-top:1px solid var(--alu);padding-top:10px}
+  .ophint{font-size:12.5px;color:var(--steel);margin:0 0 8px}
+  #sideNote{margin:8px 0 0}
+  .opwrap{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:start}
+  #plan svg{width:100%;height:auto;display:block}
+  #plan .po{cursor:pointer}
+  #plan .po:hover circle{stroke:var(--sun);stroke-width:3}
+  #opList{display:grid;gap:6px}
+  .op{display:grid;grid-template-columns:26px 1fr 128px;gap:8px;align-items:center;padding:5px 6px;border-radius:var(--radius-s);border:1px solid transparent}
+  .op.on{border-color:var(--sun);background:#F8F9F9}
+  .op .tag{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;background:var(--mist);color:var(--graphite)}
+  .op .tag.has{background:var(--teal);color:#fff}
+  .op .info{font-size:13px;line-height:1.25;min-width:0}
+  .op .info small{display:block;color:var(--steel);font-size:12px;direction:ltr;unicode-bidi:isolate;text-align:start}
+  .op .info .pr{color:var(--teal);font-weight:500}
+  .op select{padding:6px 8px;font-size:13.5px}
+  .setall{display:grid;grid-template-columns:1fr 128px;gap:8px;align-items:center;margin-top:8px;padding:0 6px}
+  .setall .lbl{margin:0;font-size:12.5px}
+  .setall select{padding:6px 8px;font-size:13.5px}
+  .dlab.tag{font-size:14px;font-weight:700;width:26px;height:26px;padding:0;border-radius:50%;display:grid;place-items:center;background:var(--graphite);color:#fff;pointer-events:auto;cursor:pointer}
+  .dlab.tag.has{background:var(--teal)}
+  .dlab.tag.on{background:var(--sun);color:var(--graphite)}
+  .night .dlab.tag{background:#fff;color:var(--graphite)}
+  .night .dlab.tag.has{background:var(--glass)}
+  .night .dlab.tag.on{background:var(--sun)}
+  #quote .qtable td:nth-child(2){color:#444}
+  @media (max-width:1100px){.cfg-grid{grid-template-columns:1fr 440px}.opwrap{grid-template-columns:1fr}#plan{max-width:200px}}
+  .colrow{display:flex;flex-wrap:wrap;column-gap:22px}
+  .colrow .sw{gap:6px}
+  .colrow .sw span{width:24px;height:24px}
+  .openings legend{display:flex;justify-content:space-between;gap:10px;width:100%;align-items:baseline}
+  .openings legend .ophint{margin:0;font-size:12px}
+  .op{grid-template-columns:26px 1fr 118px}
+  .setall{grid-template-columns:1fr 118px}
+  .panel{padding-top:16px}
+  .panel h2{margin-bottom:6px}
+  .colrow{column-gap:16px}
+  .colrow .sw{gap:4px}
+  .colrow .sw span{width:22px;height:22px}
+  #pillarSet{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+  #pillarSet legend{width:100%}
+  #pillarSet .lbl{margin:0}
+  #pillarSet .seg span{padding:4px 10px}
+  @media print{#quote td{padding:3px 0}#quote .qshots img{max-height:70mm;object-fit:contain}}
+  @media (max-width:980px){.cfg-grid{grid-template-columns:1fr}.op{grid-template-columns:26px 1fr 112px}#plan{max-width:190px}}
+  .op.tri{padding-top:0;margin-top:-4px}
+  .op .tag.tri{background:none;color:var(--steel);font-size:16px;font-weight:400}
+  .op .tag.tri.has{background:none;color:var(--teal)}
+  .op.tri .info{font-size:12.5px;color:var(--steel)}
+  #triSet legend{display:flex;justify-content:space-between;gap:10px;width:100%;align-items:baseline}
+  #triSet .ophint{margin:0;font-size:12px;direction:ltr;unicode-bidi:isolate}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Fonoon Group">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect x="2" y="2" width="30" height="30" rx="3" fill="none" stroke="#263035" stroke-width="2.5"/><path d="M8 11h18M8 16h18M8 21h18" stroke="#17575C" stroke-width="2.5"/><path d="M8 26h18" stroke="#E9B44C" stroke-width="2.5"/></svg>
+      <span><span data-t="brand">Fonoon Group</span><small data-t="brandSub">Engineering Industries</small></span>
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="index.html#products" data-t="navProducts">Products</a>
+      <a href="index.html#estimate" data-t="navEstimate">Price estimate</a>
+      <a href="pergola.html" aria-current="page" data-t="navBuilder">Pergola builder</a>
+      <a href="index.html#contact" data-t="navContact">Contact</a>
+    </nav>
+    <button class="lang" id="langBtn" type="button" aria-label="Switch language">العربية</button>
+  </div>
+</header>
+
+<main id="top">
+<section class="cfg" id="estimate">
+  <div class="cfg-grid">
+    <div class="stage" id="stage" aria-live="polite">
+      <div class="viewbar">
+        <div class="pills" aria-label="Day or night">
+          <button type="button" id="dayBtn" aria-pressed="true" data-t="dayLbl">Day</button>
+          <button type="button" id="nightBtn" aria-pressed="false" data-t="nightLbl">Night</button>
+        </div>
+        <button type="button" class="opbtn" id="openBtn">Open roof and glass</button>
+      </div>
+      <div id="view3d">
+        <canvas id="c3d" tabindex="0" aria-label="3D model of your pergola. Drag or use the arrow keys to turn it."></canvas>
+        <div id="dims3d"></div>
+        <span class="dimtag" id="dimTag"></span>
+        <p class="hint" data-t="dragHint">Drag to turn, scroll or pinch to zoom</p>
+        <div class="zoomctl">
+          <button type="button" id="zoomOut" aria-label="Zoom out">−</button>
+          <button type="button" class="reset" id="zoomReset" data-t="zoomReset">Reset</button>
+          <button type="button" id="zoomIn" aria-label="Zoom in">+</button>
+        </div>
+      </div>
+    </div>
+
+    <form class="panel" id="calcForm" novalidate>
+      <h2 data-t="bTitle">Build your pergola</h2>
+      <fieldset>
+        <legend data-t="lRoof">Roof</legend>
+        <div class="seg">
+          <label><input type="radio" name="roof" value="fabric" checked><span data-t="rFabric">Retractable fabric pergola</span></label>
+          <label><input type="radio" name="roof" value="smartroof"><span data-t="rSmart">Smart aluminium roof</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="dims">
+          <div>
+            <label class="lbl" for="width" data-t="lWidth">Width</label>
+            <div class="unit"><input id="width" type="number" inputmode="decimal" min="1" max="15" step="0.1" value="5"><span data-t="m">m</span></div>
+          </div>
+          <div>
+            <label class="lbl" for="depth" data-t="lDepthShort">Depth</label>
+            <div class="unit"><input id="depth" type="number" inputmode="decimal" min="1" max="12" step="0.1" value="4"><span data-t="m">m</span></div>
+          </div>
+          <div>
+            <label class="lbl" for="hf" id="hfLbl" data-t="lHfShort">Pillar height</label>
+            <div class="unit"><input id="hf" type="number" inputmode="decimal" min="2" max="3.5" step="0.05" value="2.5"><span data-t="m">m</span></div>
+          </div>
+        </div>
+        <p class="err" id="dimErr" role="alert"></p>
+      </fieldset>
+
+      <fieldset>
+        <legend data-t="lMount">Behind the pergola</legend>
+        <div class="seg">
+          <label><input type="radio" name="mount" value="back" checked><span data-t="mBack">Wall at the back</span></label>
+          <label id="sideOpt"><input type="radio" name="mount" value="side"><span data-t="mSide">Wall on the right side</span></label>
+          <label><input type="radio" name="mount" value="free"><span data-t="smFree">Freestanding</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset id="triSet">
+        <legend><span data-t="lTri">Side triangles under the sloped roof</span> <span class="ophint" id="triInfo"></span></legend>
+        <div class="seg">
+          <label><input type="radio" name="tri" value="" checked><span data-t="triNone">None</span></label>
+          <label><input type="radio" name="tri" value="glass"><span data-t="triGlass">Glass</span></label>
+          <label><input type="radio" name="tri" value="fabric"><span data-t="triFabric">Fabric</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset id="pillarSet">
+        <legend data-t="lPillars">Number of pillars</legend>
+        <label class="lbl" data-t="lPilW2">Front and back</label>
+        <div class="seg">
+          <label><input type="radio" name="pillarsW" value="2" checked><span>2</span></label>
+          <label><input type="radio" name="pillarsW" value="3"><span>3</span></label>
+          <label><input type="radio" name="pillarsW" value="4"><span>4</span></label>
+          <label><input type="radio" name="pillarsW" value="5"><span>5</span></label>
+        </div>
+        <label class="lbl" data-t="lPilD2">Each side</label>
+        <div class="seg">
+          <label><input type="radio" name="pillarsD" value="2" checked><span>2</span></label>
+          <label><input type="radio" name="pillarsD" value="3"><span>3</span></label>
+          <label><input type="radio" name="pillarsD" value="4"><span>4</span></label>
+        </div>
+      </fieldset>
+
+      <div class="colrow">
+      <fieldset>
+        <legend><span data-t="lFinish">Aluminium colour</span>: <span class="sel" id="selFinish"></span></legend>
+        <div class="seg sw">
+            <label title="Black"><input type="radio" name="finish" value="black"><span style="--c:#2E3133" data-t="cBlack">Black</span></label>
+            <label title="White"><input type="radio" name="finish" value="white"><span style="--c:#E4E7E8" data-t="cWhite">White</span></label>
+            <label title="Beige"><input type="radio" name="finish" value="beige"><span style="--c:#CBBE9E" data-t="cBeige">Beige</span></label>
+            <label title="Grey"><input type="radio" name="finish" value="grey" checked><span style="--c:#8C989D" data-t="cGrey">Grey</span></label>
+            <label title="Dark grey"><input type="radio" name="finish" value="darkgrey"><span style="--c:#4B5257" data-t="cDarkGrey">Dark grey</span></label>
+            <label title="Brown"><input type="radio" name="finish" value="brown"><span style="--c:#5C4130" data-t="cBrown">Brown</span></label>
+            <label title="Wood effect"><input type="radio" name="finish" value="wood"><span style="--c:linear-gradient(135deg,#7A4E2E,#B07A4E 60%,#8A5A36)" data-t="cWood">Wood effect</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset id="fabricColSet">
+        <legend><span data-t="lFabricCol">Fabric colour</span>: <span class="sel" id="selFabric"></span></legend>
+        <div class="seg sw">
+            <label title="White"><input type="radio" name="fabricCol" value="white" checked><span style="--c:#F1EFEA" data-t="fWhite">White</span></label>
+            <label title="Beige"><input type="radio" name="fabricCol" value="beige"><span style="--c:#DDCDB0" data-t="fBeige">Beige</span></label>
+            <label title="Grey"><input type="radio" name="fabricCol" value="grey"><span style="--c:#A7ACAE" data-t="fGrey">Grey</span></label>
+            <label title="Dark grey"><input type="radio" name="fabricCol" value="darkgrey"><span style="--c:#5A6064" data-t="fDarkGrey">Dark grey</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset id="bladeColSet">
+        <legend><span data-t="lBladeCol">Blade colour</span>: <span class="sel" id="selBlade"></span></legend>
+        <div class="seg sw">
+            <label title="Same as frame"><input type="radio" name="bladeCol" value="same" checked><span class="same" id="sameSw" style="--c:#8C989D" data-t="cSame">Same as frame</span></label>
+            <label title="Black"><input type="radio" name="bladeCol" value="black"><span style="--c:#2E3133" data-t="cBlack">Black</span></label>
+            <label title="White"><input type="radio" name="bladeCol" value="white"><span style="--c:#E4E7E8" data-t="cWhite">White</span></label>
+            <label title="Beige"><input type="radio" name="bladeCol" value="beige"><span style="--c:#CBBE9E" data-t="cBeige">Beige</span></label>
+            <label title="Grey"><input type="radio" name="bladeCol" value="grey"><span style="--c:#8C989D" data-t="cGrey">Grey</span></label>
+            <label title="Dark grey"><input type="radio" name="bladeCol" value="darkgrey"><span style="--c:#4B5257" data-t="cDarkGrey">Dark grey</span></label>
+            <label title="Brown"><input type="radio" name="bladeCol" value="brown"><span style="--c:#5C4130" data-t="cBrown">Brown</span></label>
+            <label title="Wood effect"><input type="radio" name="bladeCol" value="wood"><span style="--c:linear-gradient(135deg,#7A4E2E,#B07A4E 60%,#8A5A36)" data-t="cWood">Wood effect</span></label>
+        </div>
+      </fieldset>
+      </div>
+
+      <fieldset class="openings">
+        <legend><span data-t="lOpenings">Openings</span> <span class="ophint" data-t="opHint">Click a letter on the plan or the model to find an opening.</span></legend>
+        <div class="opwrap">
+          <div id="plan" aria-hidden="true"></div>
+          <div id="opList"></div>
+        </div>
+        <div class="setall">
+          <label class="lbl" for="setAll" data-t="setAll">Same system for every opening</label>
+          <select id="setAll"></select>
+        </div>
+        <p class="ophint" id="sideNote" data-t="sideNote">The side glass sits under the side beam. The triangle between the beam and the sloped roof stays open.</p>
+      </fieldset>
+
+      <details class="specs">
+        <summary data-t="specsLbl">What's included</summary>
+        <dl class="breakdown" id="breakdown"></dl>
+      </details>
+    </form>
+  </div>
+
+  <div class="pricebar">
+    <div>
+      <div class="label" data-t="pTotal">Estimated total</div>
+      <div class="amount" id="amount">–</div>
+      <div class="perm2" id="perM2"></div>
+    </div>
+    <p class="note" data-t="pNote">This is an estimate for guidance only, including supply and installation in Greater Cairo. We confirm the final price after measuring on site.</p>
+    <div class="actions">
+      <button type="button" class="btn btn-light" id="pdfBtn" data-t="pdfLbl">Save as PDF</button>
+      <a class="btn btn-primary" id="waSend" href="#" target="_blank" rel="noopener" data-t="pSend">Send on WhatsApp</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="year"></span> <span data-t="ftName">Fonoon Group for Engineering Industries</span></span>
+    <span data-t="ftLoc">6th of October, Cairo</span>
+  </div>
+</footer>
+
+<div id="quote" aria-hidden="true"></div>
+
+<script>
+/* =========================================================
+   PRICE SETTINGS  (edit these to match your real prices)
+   All prices in Egyptian pounds (EGP).
+   rate = price per square metre, supply + installation.
+   ========================================================= */
+const PRICING = {
+  currency: "EGP",
+  products: {
+    fabric:      { kind: "roof", glass: false },
+    smartroof:   { kind: "roof", glass: false },
+    folding:     { rate: 4500, kind: "wall", glass: false, maxH: 2.8 },   // frameless, 10 mm tempered glass only
+    panorama:    { fixed: 100000, kind: "wall", glass: false, maxH: 3 }, // one fixed price, no price per m²
+    sliding:     { kind: "wall", glass: false, maxH: 3 }   // 10 mm tempered glass only; priced by slidingPrice()
+  },
+  glass:  { tempered: 1.00, double: 1.15, lowe: 1.25 },  // multiplier on glass systems
+  finish: { standard: 1.00, wood: 1.08 },                // multiplier
+  ledPerMetre: 900,      // LED strip, per metre of roof perimeter
+  minArea: 4             // smallest area we price (m²)
+};
+const WHATSAPP = "201117779464";
+
+/* FOLDING SYSTEM: frameless 10 mm glass panels with top and bottom profiles only.
+   Open: each panel turns 90° and the panels stack side by side at one end. */
+// sliding system selling price (EGP), from Fonoon's sliding sheet; W and H in metres
+const SLP = { k: 7855.2310128, w: 5073.708, h: 6194.73, wh: 3254.999999 };
+const slidingUnit = (W, H) => SLP.k + SLP.w*W + SLP.h*H + SLP.wh*W*H;
+function slidingPrice(W, H){ return W > SLIDING.splitOver ? 2 * slidingUnit(W/2, H) : slidingUnit(W, H); }   // 10 panels: two 5-panel halves
+function slidingPanels(w){ return w > SLIDING.splitOver ? 10 : 5; }
+const FOLDING = { glass: .010, track: .05, rail: .045, gap: .045, maxPanelW: .76, splitOver: 8, maxW: 10 };
+// panels are at most 76 cm wide; more than 8 panels split and open to both sides
+function foldingGeom(w){
+  const iw = w - .04, n = Math.max(2, Math.ceil(iw / FOLDING.maxPanelW)), split = n > FOLDING.splitOver;
+  const nL = split ? Math.ceil(n/2) : n, nR = split ? n - nL : 0, sw = k => k ? (k-1)*FOLDING.gap + .06 : 0;
+  return { iw, n, pw: iw/n, split, nL, nR, stackL: sw(nL), stackR: sw(nR), stackW: sw(nL) + sw(nR) };
+}
+
+/* Sliding system sizes (m) */
+const SLIDING = {
+  panels: 5, glass: 0.010,                                   
+  splitOver: 6, maxW: 10,                                    
+  top:    { code: 2003, w: .131, h: .048 },      
+  bottom: { code: 2004, w: .130, h: .0155 },      
+  side:   { code: 2007, w: .055, d: .131 },      
+  stile:  { code: 2002, w: .0169, d: .023 },      
+  panelTop:{ code: 2001, h: .0137, d: .0189 },    
+  panelBottom:{ code: null, h: .0882, d: .0204 },  
+  lock:   { code: 2006 }                          
+};
+
+/* Colours shown in the 3D model */
+const ALU_COLOURS = { black:"#2E3133", white:"#E4E7E8", beige:"#CBBE9E", grey:"#8C989D", darkgrey:"#4B5257", brown:"#5C4130", wood:"#8A5A36" };
+const FABRIC_COLOURS = { white:"#F1EFEA", beige:"#DDCDB0", grey:"#A7ACAE", darkgrey:"#5A6064" };
+const ALU_KEYS = { black:"cBlack", white:"cWhite", beige:"cBeige", grey:"cGrey", darkgrey:"cDarkGrey", brown:"cBrown", wood:"cWood" };
+const FAB_KEYS = { white:"fWhite", beige:"fBeige", grey:"fGrey", darkgrey:"fDarkGrey" };
+
+/* Fabric pergola sizes (from the system's size tables):
+   width range, max projection and max area for each number of rails.
+   A thick rail is used when the projection is over 5 m. */
+
+const FABRIC_MIN_D = 3;
+
+/* Fonoon catalogue, page 10 (side view table).
+   [projection L cm, H1 cm, H3 cm, H4 = folded stack length cm, PVC support profiles (+2 front/rear)] */
+const FABRIC_TABLE = [
+  [300,68,50,56,5],[350,74,51,56,5],[400,80,52,65,7],[450,86,53,65,7],[500,92,54,74,9],[550,99,55,74,9],
+  [600,105,56,83,11],[650,111,57,83,11],[700,117,58,92,13],[750,123,59,92,13],[800,130,60,100,15],[850,136,61,100,15],
+  [900,142,62,110,17],[950,148,63,110,17],[1000,155,64,120,19],[1050,161,65,120,19],[1100,167,66,130,21],[1150,173,67,130,21],[1200,179,68,140,23]
+];
+const SLOPE_PER_M = 0.23;   // roof falls 23 cm for every metre of projection
+const FRONT_HEIGHT = 2.5;   // height of the front gutter from the floor (m)
+function fabricRow(d){ const cm = d*100; return FABRIC_TABLE.find(r => r[0] >= cm - 1e-6) || FABRIC_TABLE[FABRIC_TABLE.length-1]; }
+
+const PILLAR_MAX_GAP = 6;     // smart roof: at most 6 m between pillars, along the width and the depth
+// pillars per side: front/back (along the width) and left/right (along the depth), corners counted in both
+// each count includes the corner pillars; the customer's choice is raised to the minimum if needed
+function smartPillars(w, d, cw, cd, mount){
+  const need = L => Math.max(2, Math.ceil((L - .13) / PILLAR_MAX_GAP - 1e-9) + 1);
+  const minW = need(w), minD = need(d), perW = Math.max(cw || 2, minW), perD = Math.max(cd || 2, minD);
+  // fixed to a wall: the pillars on that side are left out (the frame is fixed to the wall)
+  if (mount === "wallW") return { perW, perD, minW, minD, mount, total: perW + 2*(perD - 2), side: 2*(perD - 2) };
+  if (mount === "wallD") return { perW, perD, minW, minD, mount, total: 2*perW + perD - 4, side: perD - 2 };
+  return { perW, perD, minW, minD, mount: "free", total: 2*perW + 2*(perD - 2), side: 2*(perD - 2) };
+}
+/* Smart roof price factors (EGP), per colour type. */
+const SR = {
+  std:  { perim: 1943.5,  mid: 2461,   post: 1550, bladeM: 970,  blade: 310 },
+  wood: { perim: 2323.75, mid: 2922.5, post: 1875, bladeM: 1165, blade: 375 },
+  perSection: 15500, perPillar: 3000, perM2: 5000
+};
+// louvre layout shared by the price and the 3D model
+function smartLayout(w, d){
+  const bays = louvreBays(w), iw = w - .24, bw = (iw - (bays-1)*.12) / bays, span = d - .24;
+  const perBay = Math.max(3, Math.round(d*100 / 18.7));   // blades: projection in cm ÷ 18.7, rounded to the nearest
+  return { bays, bw, perBay, blades: perBay*bays, bladeM: perBay*bays*bw };
+}
+function smartPrice(w, d, hf, PL, wood, bladeWood){
+  const L = smartLayout(w, d), C = wood ? SR.wood : SR.std, CB = bladeWood ? SR.wood : SR.std;
+  return 2*(w+d)*C.perim + (L.bays-1)*d*C.mid + PL.total*hf*C.post + L.bladeM*CB.bladeM + L.blades*CB.blade + L.bays*SR.perSection + PL.total*SR.perPillar + w*d*SR.perM2;
+}
+const LOUVRE_MAX_SPAN = 4;   // smart roof: louvres up to 4 m long; wider roofs get a middle beam
+function louvreBays(w){ return Math.max(1, Math.ceil((w - .24) / LOUVRE_MAX_SPAN - 1e-9)); }
+function ledStripsPerBay(bayW){ return Math.max(1, Math.round(bayW / 1.0)); }   // one 20 cm strip per ~1 m of width
+
+/* Fabric pergola price factors (EGP, selling price). */
+const FP = {
+  base: 18394.02, perM2: 479.25, perRail: 2140.695, perRailM: 538.5825, perWidthM: 477.225,
+  perSmallPerRail: 68.175, fabricPerM2: 620.03799, perLed: 95.445,
+  steelPerM2: 954.45, steelTubePerM: 317.6955, woodFactor: 1.105263158,
+  a: { railThin: 1813.455, railThick: 2849.715, gutter: 1813.455, post: 2590.65, small: 444.1114286,
+       big: 829.008, widthProf: 777.195, coverEnd: 246.11175, sideBeam: 1243.512 }
+};
+
+// geometry of the fabric pergola (slope, profiles, folded length, LED layout)
+function fabricGeom(w, d, fab, mount, hf){
+  const H = hf || FRONT_HEIGHT;
+  const row = fabricRow(d), rise = SLOPE_PER_M * d, slope = Math.hypot(d, rise);
+  const bays = fab.rails - 1, bayW = w / bays, inner = row[4];
+  const ledProfiles = Math.ceil(inner / 2);                  // LED in every other small profile
+  return { hf: H, row, rise, slope, bays, bayW, ledProfiles, ledStrips: bays * ledProfiles * ledStripsPerBay(bayW), mount, profiles: inner + 2, spacing: slope/(inner+1) };
+}
+
+// selling price before rounding up
+function fabricPrice(w, d, fab, mount, structure, finish, hf){
+  const g = fabricGeom(w, d, fab, mount, hf), A = FP.a, r = fab.rails, small = g.row[4];
+  const steel = structure === "steel", free = mount === "free", H = g.hf;
+  let al = r*d*(fab.thick ? A.railThick : A.railThin) + w*A.gutter + g.bays*small*g.bayW*A.small + g.bays*2*g.bayW*A.big + w*A.widthProf + w*A.coverEnd;
+  if (!steel) al += r*H*A.post + 2*d*A.sideBeam + (free ? r*(H + g.rise)*A.post : 0);
+  if (free) al += w*A.gutter;
+  if (finish === "wood") al *= FP.woodFactor;
+  return FP.base + w*d*FP.perM2 + r*FP.perRail + r*d*FP.perRailM + w*FP.perWidthM + small*r*FP.perSmallPerRail
+       + w*g.slope*FP.fabricPerM2 + g.ledStrips*FP.perLed + al
+       + (steel ? w*d*FP.steelPerM2 + 2*d*FP.steelTubePerM : 0);
+}
+const THICK_RAIL_OVER = 6.5;   // thick rail when the projection is over 6.5 m
+/* Rails depend on the width only: up to 4.5 m → 2 rails, over 4.5 m up to 8 m → 3 rails. */
+const FABRIC_MAX_W = 8, FABRIC_MIN_W = 2, FABRIC_MAX_D = 12, TWO_RAIL_MAX_W = 4.5;
+function fabricConfig(w, d){
+  if (w < FABRIC_MIN_W || w > FABRIC_MAX_W || d < FABRIC_MIN_D || d > FABRIC_MAX_D) return null;
+  return { rails: w <= TWO_RAIL_MAX_W ? 2 : 3, thick: d > THICK_RAIL_OVER };
+}
+
+
+const T = {
+ en:{
+  brand:"Fonoon Group",brandSub:"Engineering Industries",navProducts:"Products",navEstimate:"Price estimate",navAbout:"About",navContact:"Contact",
+  heroA:"Open to the sky.",heroB:"Sealed against the weather.",
+  heroLead:"Retractable fabric pergolas, smart aluminium roofs, and folding, sliding and panorama glass systems, made in our factory in 6th of October and installed by our own team.",
+  heroCta:"Estimate your pergola",heroCta2:"See the products",
+  f1a:"Since 1969",f1b:"The Alshishani family business",f2a:"5 systems",f2b:"Roofs and glass walls",f3a:"By remote",f3b:"Motorised roofs open in seconds",
+  calcTitle:"Build your system",
+  calcIntro:"Choose a system, enter your measurements and pick your options. The drawing and the price update as you type. Final prices are confirmed after a free site visit.",
+  lProduct:"System",lDims:"Measurements",lWidth:"Width",lDepth:"Depth (projection)",lHeight:"Height",m:"m",
+  lGlass:"Glass",gTemp:"6 mm tempered",gDouble:"16 mm double glass",gLowe:"Low-E heat control",
+  lFinish:"Aluminium colour",cStd:"White, grey or black",cWood:"Wood effect",
+  lExtras:"Extras",xLed:"LED lighting around the frame",xSensor:"Rain and wind sensor (closes the roof automatically)",
+  pLabel:"Estimated price",pNote:"This is an estimate for guidance only, including supply and installation in Greater Cairo. We confirm the final price after measuring on site.",
+  pSend:"Send on WhatsApp",
+  bArea:"Area",bBase:"System",bGlass:"Glass upgrade",bFinish:"Wood effect",bLed:"LED lighting",bSensor:"Rain and wind sensor",bMin:"(minimum 4 m² charged)",
+  errRange:(min,max)=>`Enter a measurement between ${min} and ${max} m.`,
+  prTitle:"Our systems",prIntro:"Every system is built to keep out dust, water, heat and noise, and is made to your exact measurements.",
+  tryIt:"Estimate this system",
+  abTitle:"Three generations of metalwork",
+  abP1:"Fonoon Engineering Industries grew out of the Alshishani company, founded in Jordan in 1969. We started in wrought iron construction and later opened an aluminium department focused on research and development.",
+  abP2:"Today we design, manufacture and install glass roofs and aluminium systems for homes, villas, restaurants and businesses from our factory in 6th of October.",
+  t1:"Alshishani is founded in Jordan, building in wrought iron.",t2y:"Expansion",t2:"An aluminium department opens, making doors and windows.",t3y:"Today",t3:"Fonoon makes motorised glass roofs and folding systems in Egypt.",
+  pr1:"Dust-proof",pr2:"Water-tight",pr3:"Heat-insulated",pr4:"Quiet",
+  ctTitle:"Visit us or get in touch",ctAddrL:"Factory",ctAddr:"Industrial Zone, 6th of October, Cairo, Egypt",ctPhoneL:"Mobile and WhatsApp",ctMailL:"Email",
+  ctBoxT:"Book a free site visit",ctBoxP:"Send us your location and a few photos of the space. We will measure, advise on the right system and give you a final price.",ctBoxBtn:"Message us on WhatsApp",
+  ftName:"Fonoon Group for Engineering Industries",ftLoc:"6th of October, Cairo",
+  waHello:"Hello Fonoon, I would like a quote for:",waContact:"Hello Fonoon, I would like to book a site visit.",
+  langBtn:"العربية",navBuilder:"Pergola builder",builderLink:"Want glass on the sides too? Try the pergola builder",
+  bRails:"Rails",thick:"thick",thin:"thin",bProfiles:"Fabric support profiles",profilesVal:(n,s)=>`${n} per bay, about ${s} cm apart`,bSlope:"Roof slope (drop from back to front)",bFolded:"Folded fabric when open",
+  sideWall:"Wall",dayLbl:"Day",nightLbl:"Night",lHfShort:"Pillar height",specsLbl:"What's included",pdfLbl:"Save as PDF",smFree:"Freestanding",smWallW:"Wall on the width side",smWallD:"Wall on the depth side",lBladeCol:"Blade colour",cSame:"Same as frame",bBlades:"Louvres",bladesVal:(n,p)=>`${n} (${p} per section)`,included:"Included",lPilW:"Along the width (front and back, each)",lPilD:"Along the depth (left and right, each)",pillarsVal:(n,s)=>`${n} (including ${s} along the sides)`,lPillars:"Number of pillars",bBays:"Louvre sections",openW:a=>`Opening width ${a} m`,openH:a=>`Opening height ${a} m`,openLbl:(a,b,A)=>`Opening ${a} × ${b} m = ${A} m²`,g10:"10 mm tempered",perM2:(v,c)=>`${v} ${c} per m²`,cBlack:"Black",cWhite:"White",cBeige:"Beige",cGrey:"Grey",cDarkGrey:"Dark grey",cBrown:"Brown",lFabricCol:"Fabric colour",fWhite:"White",fBeige:"Beige",fGrey:"Grey",fDarkGrey:"Dark grey",lHf:"Front pillar height",lStruct:"Structure",sAlu:"Aluminium",sSteel:"Steel",sidePost:"Back post",lMount:"Behind the pergola",mWall:"Fixed to a wall",mFree:"Freestanding, posts at the back",xLedFab:"LED lighting in the fabric support profiles",ledVal:n=>`LED lighting (${n} profiles per bay)`,sideGutter:"Front gutter",sideFolded:"Folded fabric",
+  errFabric:(w,a,y)=>`For a ${w} m wide fabric pergola the largest size is ${a} m², so the projection can be up to ${y} m. Reduce the projection or split it into two pergolas.`,
+  v3d:"3D model",v2d:"Drawing with measurements",dragHint:"Drag to turn, scroll or pinch to zoom",zoomReset:"Reset",openRoof:"Open the roof",closeRoof:"Close the roof",openWall:"Open",closeWall:"Close",
+  products:{
+   fabric:{name:"Retractable fabric pergola",desc:"A waterproof fabric roof that glides open and folds back along aluminium rails, by remote. For terraces, gardens and restaurant seating.",specs:["Waterproof fabric","Motorised","Remote control"]},
+   smartroof:{name:"Smart aluminium roof",desc:"Rotating aluminium louvres you angle for shade, light or full cover against rain.",specs:["Adjustable louvres","Remote control","Built-in drainage"]},
+   folding:{name:"Folding system",desc:"Frameless 10 mm glass panels that turn and stack neatly at one side, opening almost the whole wall.",specs:["Frameless glass","10 mm tempered glass","Up to 10 m × 2.8 m"]},
+   panorama:{name:"Panorama system",desc:"Three glass panels that slide up and down, so you can open the top or most of the opening while keeping the view clear.",specs:["Slides vertically","3 glass panels","Up to 3 m high"]},
+   sliding:{name:"Sliding system",desc:"Glass panels on five aluminium tracks that slide and stack to the side. Up to 6 m wide: 5 panels to one side; up to 10 m: 10 panels opening from the middle, 5 each way.",specs:["5 or 10 panels","10 mm tempered glass","Up to 10 m wide"]},
+  }
+ },
+ ar:{
+  brand:"مجموعة فنون",brandSub:"للصناعات الهندسية",navProducts:"منتجاتنا",navEstimate:"احسب السعر",navAbout:"من نحن",navContact:"تواصل معنا",
+  heroA:"مفتوحة على السماء.",heroB:"ومحكمة ضد الطقس.",
+  heroLead:"برجولات قماش متحركة، وأسقف ألومنيوم ذكية، وأنظمة زجاج فولدينج وسحاب وبانوراما، وزجاج قابل للطي، وشبابيك ألومنيوم، نصنعها في مصنعنا بمدينة 6 أكتوبر ويركّبها فريقنا.",
+  heroCta:"احسب سعر البرجولة",heroCta2:"شاهد المنتجات",
+  f1a:"منذ 1969",f1b:"امتداد لشركة الششاني",f2a:"5 أنظمة",f2b:"أسقف وواجهات زجاجية",f3a:"بالريموت",f3b:"أسقف كهربائية تُفتح في ثوانٍ",
+  calcTitle:"صمّم نظامك",
+  calcIntro:"اختر النظام، وأدخل المقاسات، وحدد الإضافات. الرسم والسعر يتغيران مع كل تعديل. يتم تأكيد السعر النهائي بعد معاينة مجانية للموقع.",
+  lProduct:"النظام",lDims:"المقاسات",lWidth:"العرض",lDepth:"العمق (البروز)",lHeight:"الارتفاع",m:"م",
+  lGlass:"الزجاج",gTemp:"سيكوريت 6 مم",gDouble:"زجاج مزدوج 16 مم",gLowe:"زجاج Low-E عازل للحرارة",
+  lFinish:"لون الألومنيوم",cStd:"أبيض أو رمادي أو أسود",cWood:"لون خشبي",
+  lExtras:"إضافات",xLed:"إضاءة LED حول الإطار",xSensor:"حساس مطر ورياح (يغلق السقف تلقائيًا)",
+  pLabel:"السعر التقديري",pNote:"هذا سعر تقديري للاسترشاد فقط، ويشمل التوريد والتركيب في القاهرة الكبرى. نؤكد السعر النهائي بعد أخذ المقاسات في الموقع.",
+  pSend:"إرسال على واتساب",
+  bArea:"المساحة",bBase:"النظام",bGlass:"ترقية الزجاج",bFinish:"لون خشبي",bLed:"إضاءة LED",bSensor:"حساس مطر ورياح",bMin:"(الحد الأدنى 4 م²)",
+  errRange:(min,max)=>`أدخل مقاسًا بين ${min} و ${max} متر.`,
+  prTitle:"أنظمتنا",prIntro:"كل أنظمتنا مصممة للعزل التام من الأتربة والمياه والحرارة والضوضاء، وتُصنع على مقاساتك بالضبط.",
+  tryIt:"احسب سعر هذا النظام",
+  abTitle:"خبرة ثلاثة أجيال في المعادن",
+  abP1:"فنون للصناعات الهندسية امتداد لشركة الششاني التي تأسست في الأردن عام 1969. بدأنا في أعمال الحديد المشغول، ثم أنشأنا قسمًا للألومنيوم يركز على البحث والتطوير.",
+  abP2:"اليوم نصمم ونصنع ونركّب الأسقف الزجاجية وأنظمة الألومنيوم للمنازل والفلل والمطاعم والشركات من مصنعنا في مدينة 6 أكتوبر.",
+  t1:"تأسيس شركة الششاني في الأردن في مجال الحديد المشغول.",t2y:"التوسع",t2:"افتتاح قسم الألومنيوم لتصنيع الأبواب والشبابيك.",t3y:"اليوم",t3:"فنون تصنع الأسقف الزجاجية الكهربائية والأنظمة القابلة للطي في مصر.",
+  pr1:"عازل للأتربة",pr2:"عازل للمياه",pr3:"عازل للحرارة",pr4:"عازل للضوضاء",
+  ctTitle:"زورنا أو تواصل معنا",ctAddrL:"المصنع",ctAddr:"المنطقة الصناعية، مدينة 6 أكتوبر، القاهرة، مصر",ctPhoneL:"موبايل وواتساب",ctMailL:"البريد الإلكتروني",
+  ctBoxT:"احجز معاينة مجانية",ctBoxP:"أرسل لنا موقعك وبعض الصور للمكان. سنأخذ المقاسات وننصحك بالنظام المناسب ونعطيك السعر النهائي.",ctBoxBtn:"راسلنا على واتساب",
+  ftName:"مجموعة فنون للصناعات الهندسية",ftLoc:"مدينة 6 أكتوبر، القاهرة",
+  waHello:"مرحبًا فنون، أريد عرض سعر لـ:",waContact:"مرحبًا فنون، أريد حجز معاينة للموقع.",
+  langBtn:"English",navBuilder:"صمّم برجولتك",builderLink:"تريد زجاج على الجوانب؟ جرّب مصمم البرجولة",
+  bRails:"عدد المجاري",thick:"سميكة",thin:"رفيعة",bProfiles:"بروفيلات حمل القماش",profilesVal:(n,s)=>`${n} لكل فتحة، المسافة بينها حوالي ${s} سم`,bSlope:"ميل السقف (الفرق بين الخلف والأمام)",bFolded:"طول القماش المطوي عند الفتح",
+  sideWall:"الحائط",dayLbl:"نهار",nightLbl:"ليل",lHfShort:"ارتفاع الأعمدة",specsLbl:"تفاصيل العرض",pdfLbl:"حفظ PDF",smFree:"قائمة بذاتها",smWallW:"حائط من جهة العرض",smWallD:"حائط من جهة العمق",lBladeCol:"لون الشرائح",cSame:"نفس لون الإطار",bBlades:"الشرائح",bladesVal:(n,p)=>`${n} (${p} لكل قسم)`,included:"مشمولة",lPilW:"على طول العرض (الأمام والخلف، لكل منهما)",lPilD:"على طول العمق (اليمين واليسار، لكل منهما)",pillarsVal:(n,s)=>`${n} (منها ${s} على الجانبين)`,lPillars:"عدد الأعمدة",bBays:"أقسام الشرائح",openW:a=>`عرض الفتحة ${a} م`,openH:a=>`ارتفاع الفتحة ${a} م`,openLbl:(a,b,A)=>`الفتحة ${a} × ${b} م = ${A} م²`,g10:"سيكوريت 10 مم",perM2:(v,c)=>`${v} ${c} للمتر المربع`,cBlack:"أسود",cWhite:"أبيض",cBeige:"بيج",cGrey:"رمادي",cDarkGrey:"رمادي غامق",cBrown:"بني",lFabricCol:"لون القماش",fWhite:"أبيض",fBeige:"بيج",fGrey:"رمادي",fDarkGrey:"رمادي غامق",lHf:"ارتفاع الأعمدة الأمامية",lStruct:"الهيكل",sAlu:"ألومنيوم",sSteel:"حديد",sidePost:"عمود خلفي",lMount:"خلف البرجولة",mWall:"مثبتة على حائط",mFree:"قائمة بذاتها، بأعمدة في الخلف",xLedFab:"إضاءة LED داخل بروفيلات حمل القماش",ledVal:n=>`إضاءة LED (${n} بروفيل لكل فتحة)`,sideGutter:"المزراب الأمامي",sideFolded:"القماش المطوي",
+  errFabric:(w,a,y)=>`لبرجولة قماش بعرض ${w} م، أقصى مساحة ${a} م²، أي أن البروز حتى ${y} م. قلّل البروز أو قسّمها إلى برجولتين.`,
+  v3d:"مجسم ثلاثي الأبعاد",v2d:"رسم بالمقاسات",dragHint:"اسحب للتدوير، واستخدم العجلة أو إصبعين للتكبير",zoomReset:"إعادة",openRoof:"افتح السقف",closeRoof:"أغلق السقف",openWall:"افتح",closeWall:"أغلق",
+  products:{
+   fabric:{name:"برجولة قماش متحركة",desc:"سقف من القماش المقاوم للمياه ينزلق ويتطوى على مجاري ألومنيوم بالريموت، مناسب للتراسات والحدائق وجلسات المطاعم.",specs:["قماش مقاوم للمياه","كهربائي","تحكم بالريموت"]},
+   smartroof:{name:"سقف ألومنيوم ذكي",desc:"شرائح ألومنيوم دوّارة تتحكم في زاويتها للظل أو الإضاءة أو الإغلاق الكامل ضد المطر.",specs:["شرائح قابلة للتحكم","تحكم بالريموت","تصريف مياه مدمج"]},
+   folding:{name:"نظام فولدينج",desc:"ألواح زجاج سيكوريت 10 مم بدون إطار، تلف وتتجمع بجانب بعضها على جانب واحد لتفتح الحائط تقريبًا بالكامل.",specs:["زجاج بدون إطار","سيكوريت 10 مم","حتى 10 × 2.8 م"]},
+   panorama:{name:"نظام بانوراما",desc:"ثلاث ألواح زجاجية تنزلق لأعلى ولأسفل، لتفتح الجزء العلوي أو معظم الفتحة مع بقاء الرؤية واضحة.",specs:["حركة رأسية","3 ألواح زجاج","ارتفاع حتى 3 م"]},
+   sliding:{name:"نظام سحاب",desc:"ألواح زجاجية على خمس مجاري ألومنيوم تنزلق وتتجمع على الجانب. حتى 6 م: 5 ألواح على جانب واحد، وحتى 10 م: 10 ألواح تفتح من المنتصف، 5 لكل جانب.",specs:["5 أو 10 ألواح","زجاج سيكوريت 10 مم","عرض حتى 10 م"]},
+  }
+ }
+};
+
+
+/* ========================= STATE ========================= */
+let lang = "en";
+try { const s = localStorage.getItem("fonoonLang"); if (s === "ar" || s === "en") lang = s; } catch(e){}
+const $ = id => document.getElementById(id);
+const fmt = n => Math.round(n).toLocaleString("en-US");
+const num = n => (+n).toLocaleString("en-US", {maximumFractionDigits:2});
+
+
+function readNum(el){ const v = parseFloat(String(el.value).replace(",", ".")); return isNaN(v) ? null : v; }
+const f2 = v => (Math.round(v*100)/100).toString();
+/* ========================= 3D MODEL ========================= */
+const reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+const V3 = {night:false, zoom:1, ptrs:new Map(), pinch:null, yaw:Math.PI-0.6, yaw0:Math.PI-0.6, t:0, pitch:0.42, open:0, target:0, auto:true, spec:null, visible:true, drag:null};
+const c3d = $("c3d");
+/* WebGL with a depth buffer, so parts always hide each other correctly from every angle.
+   Falls back to the simple canvas drawing if WebGL is not available. */
+const GL = (() => {
+  let gl = null;
+  try { gl = c3d.getContext("webgl", {antialias:true, alpha:true, premultipliedAlpha:false, preserveDrawingBuffer:true}); } catch(e){}
+  if (!gl) return null;
+  const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
+  const prog = gl.createProgram();
+  gl.attachShader(prog, sh(gl.VERTEX_SHADER, "attribute vec3 p;attribute vec4 c;uniform vec3 k;uniform vec2 zab;varying vec4 vc;void main(){gl_Position=vec4(k.x*p.x,k.y*p.y-k.z*p.z,zab.x*p.z+zab.y,p.z);vc=c;}"));
+  gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, "precision mediump float;varying vec4 vc;void main(){gl_FragColor=vc;}"));
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return null;
+  gl.useProgram(prog);
+  return { gl, buf: gl.createBuffer(), p: gl.getAttribLocation(prog,"p"), c: gl.getAttribLocation(prog,"c"), k: gl.getUniformLocation(prog,"k"), zab: gl.getUniformLocation(prog,"zab") };
+})();
+const x3d = GL ? null : c3d.getContext("2d");
+const rotX = (v,a) => { const c=Math.cos(a), s=Math.sin(a); return [v[0], v[1]*c - v[2]*s, v[1]*s + v[2]*c]; };
+const rotY = (v,a) => { const c=Math.cos(a), s=Math.sin(a); return [v[0]*c + v[2]*s, v[1], -v[0]*s + v[2]*c]; };
+const dot = (a,b) => a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const nrm = v => { const l=Math.hypot(v[0],v[1],v[2])||1; return [v[0]/l,v[1]/l,v[2]/l]; };
+const rgb = h => [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+const QUADS = [[0,4,6,2],[1,3,7,5],[0,1,5,4],[2,6,7,3],[0,2,3,1],[4,5,7,6]];
+const LIGHT = nrm([.45,1,.35]);
+
+function panelCount(key, w){
+  if (key==="folding") return foldingGeom(w).n;
+  if (key==="panorama") return 3;      // vertical: 3 panels stacked in height
+  if (key==="sliding") return slidingPanels(w);
+  return Math.max(1, Math.ceil(w/1.2));
+}
+
+function buildModel(sp, open){
+  const B = [], add = (c,s,col,o={}) => B.push({c, s, col, rx:o.rx||0, ry:o.ry||0, a:o.a||1, emit:!!o.emit});
+  // LED light: soft pools on the floor and faint beams, drawn as added light
+  const G = [];
+  const pool = (xs, fx, zs, fz, k) => { for (let i=0;i<xs.length-1;i++) for (let j=0;j<zs.length-1;j++)
+    G.push({k, pts:[[xs[i],.012,zs[j]],[xs[i+1],.012,zs[j]],[xs[i+1],.012,zs[j+1]],[xs[i],.012,zs[j+1]]], I:[fx[i]*fz[j],fx[i+1]*fz[j],fx[i+1]*fz[j+1],fx[i]*fz[j+1]]}); };
+  const beam = (xa, xb, y, z, spread, k) => { for (const s of [-1,1])
+    G.push({k, pts:[[xa,y,z],[xb,y,z],[xb,.02,z+s*spread],[xa,.02,z+s*spread]], I:[1,1,0,0]}); };
+  const frame = ALU_COLOURS[sp.colour] || "#8C989D";
+  const fabCol = FABRIC_COLOURS[sp.fabricCol] || "#F1EFEA";
+  const P = PRICING.products[sp.key];
+  if (sp.key === "fabric"){
+    const w=sp.w, d=sp.d, r=sp.rails||2, tk=sp.tk || fabricGeom(w, d, {rails:r, thick:sp.thick}, sp.mount, sp.hf);
+    const Hf = tk.hf, rise = tk.rise, a = Math.atan2(rise, d), S = tk.slope;
+    const rw = sp.thick ? .091 : .07, rh = .15, t = .12;
+    const Yr = Hf + rise;                         // top of rails at the wall
+    const postCol = frame;                        // steel parts are painted the chosen colour too
+    const eu = [0, -Math.sin(a), Math.cos(a)];    // down the slope, toward the front
+    const ev = [0,  Math.cos(a), Math.sin(a)];    // up, square to the slope
+    const at = (x,u,v) => [x, Yr + u*eu[1] + v*ev[1], -d/2 + u*eu[2] + v*ev[2]];
+    const xr = Array.from({length:r}, (_,i) => -w/2 + rw/2 + i*(w-rw)/(r-1));
+    if (sp.mount === "free"){
+      // back beam + posts, like the front
+      add([0,Yr-.0625,-d/2+.079],[w,.125,.158],frame);
+      for (const x of xr) add([x,(Yr-.125)/2,-d/2+.079],[.1,Yr-.125,.1],postCol);
+    } else {
+      add([0,(Yr+.6)/2,-d/2-.13],[w+.8,Yr+.6,.24],"#A79F93");   // wall
+    }
+    // rails, sloped
+    for (const x of xr){ add(at(x,S/2,-rh/2),[rw,rh,S],frame,{rx:a}); }
+    // front gutter 158x125 and posts
+    add([0,Hf-.0625,d/2-.079],[w,.125,.158],frame);
+    for (const x of xr) add([x,(Hf-.125)/2,d/2-.079],[.1,Hf-.125,.1],postCol);
+    // side beams: from the top of the outer pillars back to the wall (or back pillars), one each side
+    const sbL = d - .079, sbY = Hf - .125 - .05;
+    for (const x of [xr[0], xr[r-1]]) add([x, sbY, -d/2 + sbL/2],[.1,.1,sbL],postCol);
+    // rear motor tube / cover
+    add(at(0,.18,.06),[w-.1,.16,.2],frame,{rx:a});
+    // fabric + support profiles in each bay
+    const n = tk.profiles - 1;                    // gaps between profiles
+    const pClosed = S/n, pOpen = (tk.row[3]/100)/n, pp = pClosed + (pOpen - pClosed)*open;
+    const beta = Math.acos(Math.min(1, pp/pClosed)), sag = (pClosed/2)*Math.sin(beta);
+    for (let b=0; b<r-1; b++){
+      const xa = xr[b]+rw/2, xb = xr[b+1]-rw/2, bw = xb-xa, bx = (xa+xb)/2;
+      const fw = xr[b+1]-xr[b];                   // fabric runs under the rails, centre to centre
+      const vF = -rh - .008;                      // fabric flush with the underside of the rails
+      for (let k=0; k<=n; k++){
+        const big = k===0 || k===n, u = .3 + k*pp*(S-.3)/S;
+        const ph = big ? .058 : .06, vP = -rh - .02 - ph/2;   // profiles hang under the fabric
+        add(at(bx,u,vP),[bw, ph, big?.084:.042], frame,{rx:a});
+        if (sp.led && !big && (k-1)%2===0){
+          // short 20 cm LED strips, about 1 m apart across the width
+          const ns = ledStripsPerBay(bw), sp = bw / ns;
+          for (let s=0; s<ns; s++){
+            const lp = at(xa + sp*(s+.5), u, vP-ph/2-.004);
+            add(lp,[.2,.008,.026],"#FFE39A",{rx:a,emit:true});
+            pool([lp[0]-.8, lp[0]-.1, lp[0]+.1, lp[0]+.8],[0,1,1,0],[lp[2]-.9, lp[2], lp[2]+.9],[0,1,0], .26);
+            beam(lp[0]-.1, lp[0]+.1, lp[1]-.01, lp[2], .55, .05);
+          }
+        }
+        if (k<n){
+          const seg = pClosed*(S-.3)/S;
+          if (beta < .02){
+            if (k === 0){ const L = n*pp*(S-.3)/S; add(at(bx,.3 + L/2,vF),[fw,.012,L],fabCol,{rx:a}); }   // one flat sheet when closed
+          } else {
+            const u1 = u + pp*(S-.3)/S/4, u2 = u + 3*pp*(S-.3)/S/4;
+            add(at(bx,u1,vF-sag/2),[fw,.012,seg/2],fabCol,{rx:a+beta});
+            add(at(bx,u2,vF-sag/2),[fw,.012,seg/2],fabCol,{rx:a-beta});
+          }
+        }
+      }
+    }
+    return {boxes:B, glow:G, foot:[w,d], shadow:1-open*.7, center:[0,(Yr+.3)/2,0], r:.5*Math.hypot(w,d,Yr+.6)};
+  }
+  if (P.kind === "roof"){
+    const w=sp.w, d=sp.d, H=sp.hf||2.6, t=.13;          // 13 cm posts
+    const smart = sp.key === "smartroof", per = smart ? (sp.perW||2) : (w > 6 ? 3 : 2), perD = smart ? (sp.perD||2) : 2;
+    const xs = Array.from({length:per}, (_,i) => -w/2+t/2 + i*(w-t)/(per-1));   // pillars spread evenly, front and back
+    const sm = smart ? (sp.smount || "free") : "free";
+    const backZ = -d/2+t/2, leftX = -w/2+t/2;
+    for (const x of xs) for (const z of [backZ, d/2-t/2]){
+      if (sm === "wallW" && z === backZ) continue;          // wall behind: no back pillars
+      if (sm === "wallD" && x === leftX) continue;          // wall on the left: no left pillars
+      add([x,H/2,z],[t,H,t],frame);
+    }
+    for (let j=1;j<perD-1;j++){ const z = -d/2+t/2 + j*(d-t)/(perD-1); for (const x of [leftX, w/2-t/2]){ if (sm === "wallD" && x === leftX) continue; add([x,H/2,z],[t,H,t],frame); } }
+    if (sm === "wallW") add([0,(H+.8)/2,-d/2-.13],[w+.8,H+.8,.24],"#A79F93");
+    if (sm === "wallD") add([-w/2-.13,(H+.8)/2,0],[.24,H+.8,d+.8],"#A79F93");   // side pillars (depth over 6 m)
+    add([0,H+.1,-d/2+.06],[w,.2,.12],frame); add([0,H+.1,d/2-.06],[w,.2,.12],frame);
+    add([-w/2+.06,H+.1,0],[.12,.2,d-.24],frame); add([w/2-.06,H+.1,0],[.12,.2,d-.24],frame);
+    const iw = w-.24, z0 = -d/2+.12, span = d-.24;
+    const bays = smart ? louvreBays(w) : 1, bw = (iw - (bays-1)*.12)/bays;
+    const mids = Array.from({length:bays-1}, (_,k) => -iw/2 + (k+1)*bw + k*.12 + .06);   // middle beams between louvre sections
+    for (const mx of mids) add([mx,H+.1,0],[.12,.2,d-.24],frame);
+    if (smart){
+      // 5 louvres per ~1 m of projection, each section up to 4 m long; they open up to 90°
+      const n = smartLayout(w, d).perBay, step = span/n;
+      for (let b=0;b<bays;b++){
+        const bx = -iw/2 + bw/2 + b*(bw+.12);
+        for (let i=0;i<n;i++) add([bx,H+.14,z0+step*(i+.5)],[bw-.01,.025,step*.95], ALU_COLOURS[sp.bladeCol] || frame, {rx: open*Math.PI/2});
+      }
+    } else {
+      const m = Math.max(4, Math.round(span/.3)), seg = span/m;
+      const L = span*(1-.82*open), p = L/m, ang = Math.acos(Math.min(1,p/seg)), rise = seg*Math.sin(ang);
+      for (let i=0;i<m;i++) add([0,H+.24+rise/2,z0+p*(i+.5)],[iw,.02,seg],"#ECE6DA",{rx: i%2===0 ? -ang : ang});
+      add([0,H+.24,z0+L],[iw,.07,.08],frame);
+    }
+    if (sp.led){
+      const c = "#FFE39A";
+      add([0,H-.01,-d/2+.06],[w-.3,.02,.04],c,{emit:true}); add([0,H-.01,d/2-.06],[w-.3,.02,.04],c,{emit:true});
+      add([-w/2+.06,H-.01,0],[.04,.02,d-.3],c,{emit:true}); add([w/2-.06,H-.01,0],[.04,.02,d-.3],c,{emit:true});
+      pool([-w/2-.5,-w/2+.4,w/2-.4,w/2+.5],[0,1,1,0],[-d/2-.5,-d/2+.4,d/2-.4,d/2+.5],[0,1,1,0], .22);
+      // middle beams: LED on both sides
+      for (const mx of mids){
+        for (const s of [-1,1]) add([mx + s*.065,H+.02,0],[.012,.03,d-.3],c,{emit:true});
+        pool([mx-1.4,mx-.3,mx+.3,mx+1.4],[0,1,1,0],[-d/2,-d/2+.6,d/2-.6,d/2],[0,1,1,0], .2);
+      }
+    }
+    return {boxes:B, glow:G, foot:[w,d], shadow:1-open*.7, center:[0,(H+.3)/2,0], r:.5*Math.hypot(w,d,H+.3)};
+  }
+  const w=sp.w, h=sp.d, f=.07, key=sp.key, n=panelCount(key,w);
+  add([0,h-f/2,0],[w,f,.14],frame); add([0,f/2,0],[w,f,.14],frame);
+  add([-w/2+f/2,h/2,0],[f,h,.14],frame); add([w/2-f/2,h/2,0],[f,h,.14],frame);
+  const iw=w-2*f, ih=h-2*f, pw=iw/n, xl=-iw/2, pr = .05;
+  if (key === "folding"){
+    const F = FOLDING, G = foldingGeom(w), n = G.n, pw = G.pw, xl = -G.iw/2;
+    B.length = 0;
+    add([0,h-F.track/2,0],[w,F.track,.07],frame);          // top track
+    add([0,F.track/4,0],[w,F.track/2,.07],frame);           // bottom track
+    add([-w/2+.01,h/2,0],[.02,h,.07],frame); add([w/2-.01,h/2,0],[.02,h,.07],frame);   // slim side frames
+    const th = open*Math.PI/2, ph = h - F.track*1.5 - .01, yc = F.track/2 + .005 + ph/2;
+    for (let i=0;i<n;i++){
+      let c, ry;
+      if (i < G.nL){            // left group: pivots on its left edge and stacks at the left end
+        const P = xl + i*pw + (xl + .03 + i*F.gap - (xl + i*pw))*open;
+        c = [P + Math.cos(th)*pw/2, yc, Math.sin(th)*pw/2]; ry = -th;
+      } else {                  // right group (wide systems): mirror image, stacks at the right end
+        const j = n - 1 - i, xr = -xl;
+        const P = xr - j*pw + (xr - .03 - j*F.gap - (xr - j*pw))*open;
+        c = [P - Math.cos(th)*pw/2, yc, Math.sin(th)*pw/2]; ry = th;
+      }
+      const part = (loc, s, col, o2={}) => { const r = rotY(loc, ry); add([c[0]+r[0], c[1]+r[1], c[2]+r[2]], s, col, {ry, ...o2}); };
+      part([0,0,0],[pw-.006, ph - 2*F.rail, F.glass],"#BFDCE0",{a:.32});        // frameless 10 mm glass
+      part([0,ph/2-F.rail/2,0],[pw-.006,F.rail,.035],frame);                     // top profile
+      part([0,-ph/2+F.rail/2,0],[pw-.006,F.rail,.035],frame);                    // bottom profile
+    }
+    return {boxes:B, foot:[w,1.6], shadow:0, center:[0,h/2,0], r:.5*Math.hypot(w,1.6,h)};
+  }
+  if (key === "sliding"){
+    const S = SLIDING, n = slidingPanels(w), half = n === 10;
+    // outer frame from the catalogue profiles
+    B.length = 0;
+    add([0,h-S.top.h/2,0],[w,S.top.h,S.top.w],frame);
+    add([0,S.bottom.h/2,0],[w,S.bottom.h,S.bottom.w],frame);
+    add([-w/2+S.side.w/2,h/2,0],[S.side.w,h,S.side.d],frame); add([w/2-S.side.w/2,h/2,0],[S.side.w,h,S.side.d],frame);
+    // 5 panels on 5 tracks; over 6 m wide, 10 panels: 5 stack to the left, 5 to the right
+    const iw = w - 2*S.side.w, pw = iw/n, ph = h - S.top.h - S.bottom.h - .01, y0 = S.bottom.h + .005, xl = -iw/2;
+    const trk = S.top.w / 5;
+    for (let i=0;i<n;i++){
+      const tIdx = half ? (i < 5 ? 4 - i : i - 5) : i;            // track 0..4
+      const z = (tIdx - 2)*trk;
+      const target = half ? (i < 5 ? xl + pw/2 : -xl - pw/2) : xl + pw*(n-.5);
+      const cx = xl + pw*(i+.5), x = cx + open*(target-cx)*.98;
+      const yc = y0 + ph/2;
+      add([x,yc,z],[pw - 2*S.stile.w, ph - S.panelTop.h - S.panelBottom.h, S.glass],"#BFDCE0",{a:.32});     // 10 mm glass
+      add([x-pw/2+S.stile.w/2,yc,z],[S.stile.w,ph,S.stile.d],frame); add([x+pw/2-S.stile.w/2,yc,z],[S.stile.w,ph,S.stile.d],frame);
+      add([x,y0+ph-S.panelTop.h/2,z],[pw,S.panelTop.h,S.panelTop.d],frame);
+      add([x,y0+S.panelBottom.h/2,z],[pw,S.panelBottom.h,S.panelBottom.d],frame);
+    }
+    return {boxes:B, foot:[w,1.6], shadow:0, center:[0,h/2,0], r:.5*Math.hypot(w,1.6,h)};
+  }
+  if (key === "panorama"){
+    // vertical sliding: 3 panels stacked in height; opening drops the upper two down in front of the bottom one
+    const ph = ih/3;
+    for (let i=0;i<3;i++){
+      const yC = f + ph*(i+.5), yLow = f + ph*.5, y = yC + open*(yLow - yC)*.94, z = (i-1)*.05;
+      add([0,y,z],[iw-2*pr, ph-2*pr, .02],"#BFDCE0",{a:.32});
+      add([-(iw/2-pr/2),y,z],[pr,ph,.05],frame); add([iw/2-pr/2,y,z],[pr,ph,.05],frame);
+      add([0,y+ph/2-pr/2,z],[iw-2*pr,pr,.05],frame); add([0,y-ph/2+pr/2,z],[iw-2*pr,pr,.05],frame);
+    }
+    return {boxes:B, foot:[w,1.6], shadow:0, center:[0,h/2,0], r:.5*Math.hypot(w,1.6,h)};
+  }
+  for (let i=0;i<n;i++){
+    let cx = xl + pw*(i+.5), cz = 0, th = 0;
+    if (key === "folding"){
+      const theta = open*1.35;
+      cx = xl + pw*Math.cos(theta)*(i+.5); cz = pw*Math.sin(theta)/2; th = i%2===0 ? -theta : theta;
+    } else {
+      cz = (i-(n-1)/2)*.05;
+      const target = xl + pw*(n-.5);
+      cx = cx + open*(target-cx)*.92;
+    }
+    const base = [cx, f+ih/2, cz];
+    const part = (loc, s, col, o={}) => { const r = rotY(loc, th); add([base[0]+r[0], base[1]+r[1], base[2]+r[2]], s, col, {ry:th, ...o}); };
+    part([0,0,0],[pw-2*pr, ih-2*pr, .02],"#BFDCE0",{a:.32});
+    part([-(pw/2-pr/2),0,0],[pr,ih,.05],frame); part([pw/2-pr/2,0,0],[pr,ih,.05],frame);
+    part([0,ih/2-pr/2,0],[pw-2*pr,pr,.05],frame); part([0,-(ih/2-pr/2),0],[pw-2*pr,pr,.05],frame);
+  }
+  return {boxes:B, foot:[w,1.6], shadow:0, center:[0,h/2,0], r:.5*Math.hypot(w,1.6,h)};
+}
+
+function render3D(){
+  if (!V3.spec){   // invalid measurements: show an empty view rather than an old model
+    if (GL){ const BG = V3.night ? [35,44,49] : [205,212,215]; GL.gl.clearColor(BG[0]/255,BG[1]/255,BG[2]/255,1); GL.gl.clear(GL.gl.COLOR_BUFFER_BIT | GL.gl.DEPTH_BUFFER_BIT); }
+    else if (x3d) x3d.clearRect(0,0,c3d.width,c3d.height);
+    return;
+  }
+  if (GL) render3DGL(); else render3DCanvas();
+}
+
+function render3DGL(){
+  const W = c3d.clientWidth; if (!W || !V3.spec) return;
+  const Hc = c3d.clientHeight || Math.round(W*.62), dpr = Math.min(2, window.devicePixelRatio||1);
+  if (c3d.width !== Math.round(W*dpr) || c3d.height !== Math.round(Hc*dpr)){ c3d.width = Math.round(W*dpr); c3d.height = Math.round(Hc*dpr); }
+  const {gl} = GL;
+  gl.viewport(0, 0, c3d.width, c3d.height);
+  const BG = V3.night ? [35,44,49] : [205,212,215]; gl.clearColor(BG[0]/255,BG[1]/255,BG[2]/255,1); /* same as the stage background */ gl.clearDepth(1); gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  const M = buildScene(V3.spec, V3.open);
+  const dist = M.r*3.2 + 2, F = Math.min(W, Hc)*.46*dist/M.r * V3.zoom;
+  const n = Math.max(.5, dist - 2*M.r), f = dist + 3*M.r + 10;   // tight near plane = sharp depth, no speckling
+  gl.uniform3f(GL.k, 2*F/W, 2*F/Hc, 28/Hc);
+  gl.uniform2f(GL.zab, (f+n)/(f-n), -2*f*n/(f-n));
+  const cam = p => { let v=[p[0]-M.center[0], p[1]-M.center[1], p[2]-M.center[2]]; v=rotY(v,V3.yaw); v=rotX(v,-V3.pitch); v[2]+=dist; return v; };
+  const opaque = [], trans = [], lines = [], glow = [];
+  const dim = V3.night ? .72 : 1;                          // evening look at night
+  const vert = (arr, v, c) => arr.push(v[0],v[1],v[2],c[0],c[1],c[2],c[3]);
+  const quad = (arr, ps, c) => { vert(arr,ps[0],c); vert(arr,ps[1],c); vert(arr,ps[2],c); vert(arr,ps[0],c); vert(arr,ps[2],c); vert(arr,ps[3],c); };
+  const col = (hex, s, a) => { const c = rgb(hex); return [c[0]/255*s, c[1]/255*s, c[2]/255*s, a]; };
+  // ground, grid and shadow (only when looking from above)
+  if (V3.pitch > 0){
+    const gx = Math.ceil(M.foot[0]/2)+1, gz = Math.ceil(M.foot[1]/2)+1;
+    quad(opaque, [[-gx,0,-gz],[gx,0,-gz],[gx,0,gz],[-gx,0,gz]].map(cam), col(V3.night ? "#2A3439" : "#BAC3C6",dim,1));
+    const gc = col(V3.night ? "#344046" : "#A9B3B7",dim,1);
+    for (let x=-gx; x<=gx; x++){ vert(lines, cam([x,.002,-gz]), gc); vert(lines, cam([x,.002,gz]), gc); }
+    for (let z=-gz; z<=gz; z++){ vert(lines, cam([-gx,.002,z]), gc); vert(lines, cam([gx,.002,z]), gc); }
+    if (M.shadow){ const fx=M.foot[0]/2, fz=M.foot[1]/2; quad(trans, [[-fx,.004,-fz],[fx,.004,-fz],[fx,.004,fz],[-fx,.004,fz]].map(cam), [10/255,14/255,16/255,(V3.night ? .35 : .18)*M.shadow]); }
+  }
+  for (const b of M.boxes){
+    const hs = b.s.map(v=>v/2), pts = [];
+    for (let k=0;k<8;k++){ let v=[(k&1?1:-1)*hs[0],(k&2?1:-1)*hs[1],(k&4?1:-1)*hs[2]]; v=rotX(v,b.rx); v=rotY(v,b.ry); pts.push([v[0]+b.c[0],v[1]+b.c[1],v[2]+b.c[2]]); }
+    const cp = pts.map(cam);
+    for (const q of QUADS){
+      const fc = [0,1,2].map(i => (pts[q[0]][i]+pts[q[1]][i]+pts[q[2]][i]+pts[q[3]][i])/4);
+      const nn = nrm([fc[0]-b.c[0], fc[1]-b.c[1], fc[2]-b.c[2]]);
+      const s = b.emit ? 1 : (.45 + .55*Math.max(0, dot(nn, LIGHT))) * dim;
+      quad(b.a < 1 ? trans : opaque, q.map(i => cp[i]), col(b.col, s, b.a));
+    }
+  }
+  for (const g of (M.glow || [])){
+    const ps = g.pts.map(cam), c = I => [1*I*g.k, .82*I*g.k, .45*I*g.k, 1];
+    for (const i of [0,1,2,0,2,3]) vert(glow, ps[i], c(g.I[i]));
+  }
+  const draw = (arr, mode) => {
+    if (!arr.length) return;
+    gl.bindBuffer(gl.ARRAY_BUFFER, GL.buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.DYNAMIC_DRAW);
+    gl.enableVertexAttribArray(GL.p); gl.vertexAttribPointer(GL.p, 3, gl.FLOAT, false, 28, 0);
+    gl.enableVertexAttribArray(GL.c); gl.vertexAttribPointer(GL.c, 4, gl.FLOAT, false, 28, 12);
+    gl.drawArrays(mode, 0, arr.length/7);
+  };
+  gl.disable(gl.BLEND); gl.depthMask(true);
+  draw(opaque, gl.TRIANGLES);
+  draw(lines, gl.LINES);
+  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
+  draw(trans, gl.TRIANGLES);
+  gl.blendFunc(gl.ONE, gl.ONE);                 // light adds up
+  draw(glow, gl.TRIANGLES);
+  gl.depthMask(true);
+  // measurements, always on top
+  const dl = dimLines(V3.spec, V3.open), dv = [];
+  for (const L of dl){
+    if (L.tag) continue;
+    const c = L.open ? (V3.night ? [1,1,1,1] : [35/255,44/255,49/255,1]) : (V3.night ? [233/255,180/255,76/255,1] : [150/255,105/255,20/255,1]);
+    vert(dv, cam(L.a), c); vert(dv, cam(L.b), c);
+    const vertical = Math.abs(L.b[1]-L.a[1]) > .01, tk = .08;
+    for (const p of [L.a, L.b]){
+      const t1 = vertical ? [p[0]-tk,p[1],p[2]] : [p[0],p[1]-tk,p[2]], t2 = vertical ? [p[0]+tk,p[1],p[2]] : [p[0],p[1]+tk,p[2]];
+      vert(dv, cam(t1), c); vert(dv, cam(t2), c);
+    }
+  }
+  gl.disable(gl.BLEND); gl.disable(gl.DEPTH_TEST);
+  draw(dv, gl.LINES);
+  gl.enable(gl.DEPTH_TEST);
+  placeLabels(dl, p => { const v = cam(p); return v[2] > .1 ? [W/2 + F*v[0]/v[2], Hc/2 + 14 - F*v[1]/v[2]] : null; });
+}
+
+function render3DCanvas(){
+  const W = c3d.clientWidth; if (!W || !V3.spec) return;
+  const Hc = c3d.clientHeight || Math.round(W*.62), dpr = Math.min(2, window.devicePixelRatio||1);
+  if (c3d.width !== Math.round(W*dpr) || c3d.height !== Math.round(Hc*dpr)){ c3d.width = Math.round(W*dpr); c3d.height = Math.round(Hc*dpr); }
+  const ctx = x3d; ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,Hc);
+  const M = buildScene(V3.spec, V3.open);
+  const dist = M.r*3.2 + 2, F = Math.min(W, Hc)*.46*dist/M.r * V3.zoom;
+  const cam = p => { let v=[p[0]-M.center[0], p[1]-M.center[1], p[2]-M.center[2]]; v=rotY(v,V3.yaw); v=rotX(v,-V3.pitch); v[2]+=dist; return v; };
+  const proj = v => [W/2 + F*v[0]/v[2], Hc/2 + 14 - F*v[1]/v[2]];
+  const P2 = p => proj(cam(p));
+  const poly = (pts, fill, stroke) => { ctx.beginPath(); pts.forEach((q,i)=> i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); ctx.closePath(); if (fill){ctx.fillStyle=fill; ctx.fill();} if (stroke){ctx.strokeStyle=stroke; ctx.stroke();} };
+  // ground with 1 m grid
+  const gx = Math.ceil(M.foot[0]/2)+1, gz = Math.ceil(M.foot[1]/2)+1;
+  if (V3.pitch > 0){
+  poly([[-gx,0,-gz],[gx,0,-gz],[gx,0,gz],[-gx,0,gz]].map(P2), V3.night ? "#2A3439" : "#BAC3C6");
+  ctx.lineWidth = 1;
+  for (let x=-gx; x<=gx; x++){ const a=P2([x,0,-gz]), b=P2([x,0,gz]); ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.strokeStyle=V3.night ? "#344046" : "#A9B3B7"; ctx.stroke(); }
+  for (let z=-gz; z<=gz; z++){ const a=P2([-gx,0,z]), b=P2([gx,0,z]); ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.stroke(); }
+  }
+  if (M.shadow && V3.pitch > 0) poly([[-M.foot[0]/2,0,-M.foot[1]/2],[M.foot[0]/2,0,-M.foot[1]/2],[M.foot[0]/2,0,M.foot[1]/2],[-M.foot[0]/2,0,M.foot[1]/2]].map(P2), `rgba(10,14,16,${.35*M.shadow})`);
+  // faces
+  const faces = [];
+  for (const b of M.boxes){
+    const hs = b.s.map(v=>v/2), pts = [];
+    for (let k=0;k<8;k++){ let v=[(k&1?1:-1)*hs[0],(k&2?1:-1)*hs[1],(k&4?1:-1)*hs[2]]; v=rotX(v,b.rx); v=rotY(v,b.ry); pts.push([v[0]+b.c[0],v[1]+b.c[1],v[2]+b.c[2]]); }
+    const cp = pts.map(cam); if (cp.some(v=>v[2] < .2)) continue;
+    const col = rgb(b.col);
+    for (const q of QUADS){
+      const fc = [0,1,2].map(i => (pts[q[0]][i]+pts[q[1]][i]+pts[q[2]][i]+pts[q[3]][i])/4);
+      const n = nrm([fc[0]-b.c[0], fc[1]-b.c[1], fc[2]-b.c[2]]);
+      const cc = [0,1,2].map(i => (cp[q[0]][i]+cp[q[1]][i]+cp[q[2]][i]+cp[q[3]][i])/4);
+      const nc = rotX(rotY(n,V3.yaw),-V3.pitch);
+      if (dot(nc, cc) >= 0) continue;
+      const s = b.emit ? 1 : .45 + .55*Math.max(0, dot(n, LIGHT));
+      faces.push({z:cc[2], pts:q.map(i=>proj(cp[i])), fill:`rgba(${col[0]*s|0},${col[1]*s|0},${col[2]*s|0},${b.a})`, solid:b.a===1, emit:b.emit});
+    }
+  }
+  faces.sort((a,b)=> (a.emit - b.emit) || (b.z - a.z));   // LED light drawn last so its glow shows through the fabric
+  ctx.lineJoin = "round"; ctx.lineWidth = .6;
+  for (const f of faces) poly(f.pts, f.fill, f.solid ? f.fill : null);
+}
+
+
+const setZoom = z => { V3.zoom = Math.min(4, Math.max(.6, z)); V3.auto = false; };
+const pDist = () => { const p = [...V3.ptrs.values()]; return Math.hypot(p[0][0]-p[1][0], p[0][1]-p[1][1]); };
+c3d.addEventListener("pointerdown", e => {
+  V3.ptrs.set(e.pointerId, [e.clientX, e.clientY]); V3.auto = false;
+  try{ c3d.setPointerCapture(e.pointerId); }catch(_){}
+  if (V3.ptrs.size === 2){ V3.pinch = { d: pDist(), z: V3.zoom }; V3.drag = null; }
+  else V3.drag = [e.clientX, e.clientY];
+});
+c3d.addEventListener("pointermove", e => {
+  if (!V3.ptrs.has(e.pointerId)) return;
+  V3.ptrs.set(e.pointerId, [e.clientX, e.clientY]);
+  if (V3.ptrs.size >= 2 && V3.pinch){ setZoom(V3.pinch.z * pDist() / (V3.pinch.d || 1)); return; }
+  if (!V3.drag) return;
+  const dx = e.clientX-V3.drag[0], dy = e.clientY-V3.drag[1]; V3.drag = [e.clientX, e.clientY];
+  V3.yaw += dx*.008; V3.pitch = Math.min(1.3, Math.max(-.45, V3.pitch + dy*.006));
+});
+["pointerup","pointercancel","pointerleave"].forEach(ev => c3d.addEventListener(ev, e => {
+  V3.ptrs.delete(e.pointerId);
+  if (V3.ptrs.size < 2) V3.pinch = null;
+  if (V3.ptrs.size === 1){ const p = [...V3.ptrs.values()][0]; V3.drag = [p[0], p[1]]; } else V3.drag = null;
+}));
+c3d.addEventListener("wheel", e => { e.preventDefault(); setZoom(V3.zoom * Math.exp(-e.deltaY * .0015)); }, { passive: false });
+$("zoomIn").addEventListener("click", () => setZoom(V3.zoom * 1.25));
+$("zoomOut").addEventListener("click", () => setZoom(V3.zoom / 1.25));
+$("zoomReset").addEventListener("click", () => { V3.zoom = 1; V3.yaw = V3.yaw0; V3.pitch = .42; });
+c3d.addEventListener("keydown", e => {
+  if (e.key === "+" || e.key === "="){ e.preventDefault(); setZoom(V3.zoom * 1.25); return; }
+  if (e.key === "-"){ e.preventDefault(); setZoom(V3.zoom / 1.25); return; }
+  const k = {ArrowLeft:[-.12,0], ArrowRight:[.12,0], ArrowUp:[0,-.08], ArrowDown:[0,.08]}[e.key];
+  if (!k) return; e.preventDefault(); V3.auto = false; V3.yaw += k[0]; V3.pitch = Math.min(1.3, Math.max(-.45, V3.pitch + k[1]));
+});
+if ("IntersectionObserver" in window) new IntersectionObserver(es => { V3.visible = es[0].isIntersecting; }).observe(c3d);
+(function tick(){
+  if (V3.visible && !document.hidden && !$("view3d").classList.contains("hidden")){
+    if (V3.auto && !reduceMotion){ V3.t += .006; V3.yaw = V3.yaw0 + .6*Math.sin(V3.t); }
+    V3.open += (V3.target - V3.open) * .07; if (Math.abs(V3.target - V3.open) < .002) V3.open = V3.target;
+    render3D();
+  }
+  requestAnimationFrame(tick);
+})();
+
+
+
+/* ========================= PERGOLA BUILDER ========================= */
+Object.assign(T.en, {
+  navBuilder:"Pergola builder", bTitle:"Build your pergola", lRoof:"Roof", rFabric:"Retractable fabric pergola", rSmart:"Smart aluminium roof",
+  lDepthShort:"Depth", mBack:"Wall at the back", mSide:"Wall on the right side", lPilW2:"Front and back", lPilD2:"Each side",
+  lOpenings:"Openings", opHint:"Click a letter on the plan or the model to find an opening.",
+  setAll:"Same system for every opening", sideNote:"Side glass sits under the side beam. The triangles above it are closed with the option under \"Behind the pergola\".", triOf:l=>`Side triangle (${l})`, lTri:"Side triangles under the sloped roof", triNone:"None", triGlass:"Glass", triFabric:"Fabric", bTri:"Side triangle",
+  sideF:"Front", sideR:"Right side", sideB:"Back", sideL:"Left side", sysNone:"None", sysPick:"Choose…",
+  tooTall:h=>`max ${h} m high`, tooWide:w=>`max ${w} m wide`, tooNarrow:w=>`min ${w} m wide`,
+  pTotal:"Estimated total", sumLine:(r,g,c)=>`Roof ${r} + sides ${g} ${c}`, roofOnly:"Roof only, no glass chosen yet",
+  openAll:"Open roof and glass", closeAll:"Close roof and glass", bRoof:"Roof", bGlassTotal:"Glass systems", bOpening:"Opening",
+  waHello2:"Hello Fonoon, I would like a quote for this pergola:", qOpenings:"Openings", wallTxt:"Wall",
+  plusPillars:n=>`+${n} pillar${n>1?"s":""}`, closedLbl:"Closed", short:{folding:"Folding",sliding:"Sliding",panorama:"Panorama"}, openLbl2:"Open", lHfFab:"Front height", builderLink:"Want glass on the sides too? Try the pergola builder"
+});
+Object.assign(T.ar, {
+  navBuilder:"صمّم برجولتك", bTitle:"صمّم برجولتك", lRoof:"السقف", rFabric:"برجولة قماش متحركة", rSmart:"سقف ألومنيوم ذكي",
+  lDepthShort:"العمق", mBack:"حائط في الخلف", mSide:"حائط على الجانب الأيمن", lPilW2:"الأمام والخلف", lPilD2:"كل جانب",
+  lOpenings:"الفتحات", opHint:"اضغط على الحرف في المسقط أو المجسم لتحديد الفتحة.",
+  setAll:"نفس النظام لكل الفتحات", sideNote:"زجاج الجوانب يُركّب تحت الكمرة الجانبية، والمثلثات فوقها تُغلق من الاختيار أسفل \"خلف البرجولة\".", triOf:l=>`المثلث الجانبي (${l})`, lTri:"المثلثات الجانبية تحت السقف المائل", triNone:"بدون", triGlass:"زجاج", triFabric:"قماش", bTri:"مثلث جانبي",
+  sideF:"الأمام", sideR:"الجانب الأيمن", sideB:"الخلف", sideL:"الجانب الأيسر", sysNone:"بدون", sysPick:"اختر…",
+  tooTall:h=>`أقصى ارتفاع ${h} م`, tooWide:w=>`أقصى عرض ${w} م`, tooNarrow:w=>`أقل عرض ${w} م`,
+  pTotal:"الإجمالي التقديري", sumLine:(r,g,c)=>`السقف ${r} + الجوانب ${g} ${c}`, roofOnly:"السقف فقط، لم يتم اختيار زجاج بعد",
+  openAll:"افتح السقف والزجاج", closeAll:"أغلق السقف والزجاج", bRoof:"السقف", bGlassTotal:"أنظمة الزجاج", bOpening:"فتحة",
+  waHello2:"مرحبًا فنون، أريد عرض سعر لهذه البرجولة:", qOpenings:"الفتحات", wallTxt:"حائط",
+  plusPillars:n=>`+${n} ${n>1?"أعمدة":"عمود"}`, closedLbl:"مغلق", short:{folding:"فولدينج",sliding:"سحاب",panorama:"بانوراما"}, openLbl2:"مفتوح", lHfFab:"الارتفاع الأمامي", builderLink:"تريد زجاج على الجوانب؟ جرّب مصمم البرجولة"
+});
+
+const GLASS = ["folding", "sliding", "panorama"];
+const roundUp = v => Math.ceil(Math.round(v) / 1000) * 1000;
+const choice = {};
+/* Side triangle (fabric pergola): closed per m² of the full rectangle, depth × slope */
+const TRI_RATE = { glass: 2500, fabric: 1200 };        // opening id -> glass system ("" = leave open)
+let selOp = null, curOps = [];
+const radio = n => document.querySelector(`input[name=${n}]:checked`).value;
+
+// why a glass system can't go in an opening ("" = it fits)
+/* Widest single panel set per system; a wider opening gets extra pillars and is split
+   into equal parts, each with its own system (priced as that many systems + the pillars). */
+const SPLIT_MAX_W = { panorama: 3.6 };
+function splitParts(key, w, pt){
+  const m = SPLIT_MAX_W[key]; if (!m || w <= m) return { n:1, pw:w };
+  const n = Math.ceil((w + pt) / (m + pt) - 1e-9);
+  return { n, pw:(w - (n-1)*pt) / n };
+}
+function glassCheck(key, w, h){
+  const t = T[lang];
+  if (key === "folding"){ if (h > PRICING.products.folding.maxH + 1e-9) return t.tooTall(PRICING.products.folding.maxH); if (w > FOLDING.maxW) return t.tooWide(FOLDING.maxW); }
+  if (key === "sliding"){ if (h > PRICING.products.sliding.maxH + 1e-9) return t.tooTall(PRICING.products.sliding.maxH); if (w > SLIDING.maxW) return t.tooWide(SLIDING.maxW); }
+  if (key === "panorama"){ if (h > PRICING.products.panorama.maxH + 1e-9) return t.tooTall(PRICING.products.panorama.maxH); }
+  if (w < .8) return t.tooNarrow(.8);
+  return "";
+}
+// price of one glass system, rounded up to the next 1,000 like the main calculator; sliding is a range
+function glassPrice(key, w, h){
+  if (key === "folding"){ const p = roundUp(PRICING.products.folding.rate * w * h); return {lo:p, hi:p}; }
+  if (key === "sliding"){ const s = slidingPrice(w, h); return {lo:roundUp(s/1.2), hi:roundUp(s)}; }
+  const p = PRICING.products.panorama.fixed; return {lo:p, hi:p};
+}
+
+/* Openings: the spaces between pillars (or a pillar and the wall) on every open side.
+   Order: front (left to right as you face it), right side (front to back), back, left side.
+   Each opening: centre on the floor, width, clear height, and the turn that faces it outward. */
+function openingsFor(sp){
+  const out = [], w = sp.w, d = sp.d;
+  const bays = (edges, side, h, plane, phi, along) => {
+    for (let i = 0; i < edges.length - 1; i++){
+      const a = edges[i].p + edges[i].h, b = edges[i+1].p - edges[i+1].h, mid = (a + b) / 2;
+      // "along" = which axis the side runs on; positions count from the viewer's left
+      const c = along === "x" ? [mid, 0, plane] : [plane, 0, mid];
+      out.push({ id: side + i, side, w: Math.abs(a - b), h, c, phi });
+    }
+  };
+  const rev = e => e.slice().reverse().map(q => ({p:q.p, h:-q.h}));   // walk the other way
+  if (sp.key === "fabric"){
+    const tk = sp.tk, r = sp.rails, rw = sp.thick ? .091 : .07, Hf = tk.hf;
+    const xr = Array.from({length:r}, (_,i) => -w/2 + rw/2 + i*(w-rw)/(r-1));
+    const px = xr.map(x => ({p:x, h:.05}));
+    const back = sp.mount === "free" ? {p:-d/2 + .079, h:.05} : {p:-d/2, h:0}, front = {p:d/2 - .079, h:.05};
+    bays(rev(px), "F", Hf - .125, d/2 - .079, 0, "x");
+    bays(rev([back, front]), "R", Hf - .225, xr[0], -Math.PI/2, "z");
+    if (sp.mount === "free") bays(px, "B", Hf + tk.rise - .125, -d/2 + .079, Math.PI, "x");
+    bays([back, front], "L", Hf - .225, xr[r-1], Math.PI/2, "z");
+  } else {
+    const t = .13, H = sp.hf, sm = sp.smount, per = sp.perW, perD = sp.perD;
+    const xs = Array.from({length:per}, (_,i) => ({p:-w/2 + t/2 + i*(w-t)/(per-1), h:t/2}));
+    const zs = Array.from({length:perD}, (_,i) => ({p:-d/2 + t/2 + i*(d-t)/(perD-1), h:t/2}));
+    if (sm === "wallD") xs[0] = {p:-w/2, h:0};       // wall on the right (as you face the front): no pillars there
+    if (sm === "wallW") zs[0] = {p:-d/2, h:0};       // wall at the back
+    bays(rev(xs), "F", H, d/2 - t/2, 0, "x");
+    if (sm !== "wallD") bays(rev(zs), "R", H, -w/2 + t/2, -Math.PI/2, "z");
+    if (sm !== "wallW") bays(xs, "B", H, -d/2 + t/2, Math.PI, "x");
+    bays(zs, "L", H, w/2 - t/2, Math.PI/2, "z");
+  }
+  out.forEach((o, i) => { o.letter = String.fromCharCode(65 + i); });
+  return out;
+}
+
+// the roof model plus a glass system in every opening that has one
+function buildScene(sp, open){
+  const M = buildModel(sp, open);
+  for (const o of sp.ops || []){
+    const put = (b) => { const c = rotY(b.c, o.phi); M.boxes.push({...b, c:[c[0] + o.c[0], c[1], c[2] + o.c[2]], ry:(b.ry||0) + o.phi}); };
+    if (o.sys){
+      const n = o.parts || 1, pw = o.pw || o.w, pt = o.pt || 0, frame = ALU_COLOURS[sp.colour] || "#8C989D";
+      const parts = buildModel({key:o.sys, w:pw, d:o.h, colour:sp.colour}, open).boxes;
+      for (let k = 0; k < n; k++){
+        const lx = -o.w/2 + pw/2 + k*(pw + pt);
+        for (const b of parts) put({...b, c:[b.c[0] + lx, b.c[1], b.c[2]]});
+        if (k < n-1) put({c:[-o.w/2 + (k+1)*pw + k*pt + pt/2, o.h/2, 0], s:[pt, o.h, pt], col:frame, rx:0, ry:0, a:1, emit:false});   // added pillar
+      }
+    }
+    if (sp.sel === o.id){   // outline the opening that is being edited
+      const th = .04, W = o.w, h = o.h;
+      [[[0,h-th/2,0],[W,th,th]], [[0,th/2,0],[W,th,th]], [[-W/2+th/2,h/2,0],[th,h,th]], [[W/2-th/2,h/2,0],[th,h,th]]]
+        .forEach(([c, s]) => put({c, s, col:"#E9B44C", rx:0, ry:0, a:1, emit:true}));
+    }
+  }
+  // side triangles: thin vertical strips that follow the sloped roof down to the side beam
+  if (sp.tris && sp.tris.length){
+    const tk = sp.tk, d = sp.d, Hf = tk.hf, rise = tk.rise, Yr = Hf + rise, beamTop = Hf - .125, n = 24;
+    const z0 = sp.mount === "free" ? -d/2 + .13 : -d/2, z1 = d/2 - .13, dz = (z1 - z0) / n;
+    const fab = FABRIC_COLOURS[sp.fabricCol] || "#F1EFEA";
+    for (const q of sp.tris) if (q.c){
+      for (let i = 0; i < n; i++){
+        const z = z0 + dz*(i + .5), top = Yr - .15 - (z + d/2) * rise / d, h = top - beamTop;
+        if (h <= .01) continue;
+        M.boxes.push({c:[q.x, beamTop + h/2, z], s:[.012, h, dz + .002], col: q.c === "glass" ? "#BFDCE0" : fab, rx:0, ry:0, a: q.c === "glass" ? .32 : 1, emit:false});
+      }
+    }
+  }
+  return M;
+}
+
+// measurement lines for the roof + a letter on every opening
+function dimLines(sp, o){
+  if (!sp) return [];
+  const w = sp.w, d = sp.d, hf = sp.hf, e = .45, out = [];
+  out.push({a:[-w/2,.003,d/2+e], b:[w/2,.003,d/2+e], text:`${w} m`});
+  out.push({a:[w/2+e,.003,-d/2], b:[w/2+e,.003,d/2], text:`${d} m`});
+  out.push({a:[w/2+e,0,d/2+e], b:[w/2+e,hf,d/2+e], text:`${hf} m`});
+  for (const op of sp.ops || []){
+    const m = [op.c[0], op.h*.55, op.c[2]];
+    out.push({a:m, b:m, text:op.letter, tag:true, id:op.id, has:!!op.sys, on:sp.sel === op.id});
+  }
+  return out;
+}
+function placeLabels(list, toScreen){
+  $("dims3d").innerHTML = list.map(L => {
+    const m = [(L.a[0]+L.b[0])/2, (L.a[1]+L.b[1])/2, (L.a[2]+L.b[2])/2], s = toScreen(m);
+    if (!s) return "";
+    if (L.tag) return `<span class="dlab tag${L.has?" has":""}${L.on?" on":""}" data-id="${L.id}" style="left:${s[0]}px;top:${s[1]}px">${L.text}</span>`;
+    return `<span class="dlab" style="left:${s[0]}px;top:${s[1]}px">${L.text}</span>`;
+  }).join("");
+}
+$("dims3d").addEventListener("click", e => { const g = e.target.closest(".tag"); if (g) selectOp(g.dataset.id, true); });
+
+// a click anywhere that isn't an opening (and isn't a drag on the model) clears the highlight
+let downAt = null;
+document.addEventListener("pointerdown", e => { downAt = [e.clientX, e.clientY]; });
+document.addEventListener("click", e => {
+  if (!selOp) return;
+  if (downAt && Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 5) return;   // was turning the model
+  if (e.target.closest(".op[data-id], .dlab.tag, .po, #setAll")) return;
+  selectOp(null);
+});
+function selectOp(id, focus){
+  selOp = id;
+  if (V3.spec) V3.spec.sel = id;
+  document.querySelectorAll(".op").forEach(r => r.classList.toggle("on", r.dataset.id === id));
+  if (focus){ const s = document.querySelector(`.op select[data-id="${id}"]`); if (s){ s.focus({preventScroll:true}); s.closest(".op").scrollIntoView({block:"nearest"}); } }
+  drawPlan();
+}
+
+// top view: front at the bottom, wall hatched, openings lettered
+function drawPlan(){
+  const sp = V3.spec; if (!sp){ $("plan").innerHTML = ""; return; }
+  const W = 150, pad = 22, s = Math.min((W - 2*pad) / sp.w, 150 / sp.d), pw = sp.w*s, pd = sp.d*s, H = pd + 2*pad;
+  const X = x => pad + (sp.w/2 - x)*s, Y = z => pad + (z + sp.d/2)*s;   // as seen from above, standing at the front
+  let g = `<rect x="${pad}" y="${pad}" width="${pw}" height="${pd}" fill="#F8F9F9" stroke="#8C989D" stroke-width="1"/>`;
+  const wallSide = sp.key === "fabric" ? (sp.mount === "free" ? "" : "B") : (sp.smount === "wallW" ? "B" : sp.smount === "wallD" ? "R" : "");
+  if (wallSide === "B") g += `<rect x="${pad-6}" y="${pad-9}" width="${pw+12}" height="7" fill="#A79F93"/>`;
+  if (wallSide === "R") g += `<rect x="${pad+pw+2}" y="${pad-6}" width="7" height="${pd+12}" fill="#A79F93"/>`;
+  for (const o of sp.ops){
+    const horiz = o.side === "F" || o.side === "B", half = o.w/2;
+    const x1 = horiz ? X(o.c[0] - half) : X(o.c[0]), x2 = horiz ? X(o.c[0] + half) : X(o.c[0]);
+    const y1 = horiz ? Y(o.c[2]) : Y(o.c[2] - half), y2 = horiz ? Y(o.c[2]) : Y(o.c[2] + half);
+    const col = o.sys ? "#17575C" : "#C6CED1", on = selOp === o.id;
+    const out = {F:[0,12], B:[0,-12], R:[12,0], L:[-12,0]}[o.side];
+    const cx = (x1+x2)/2 + out[0], cy = (y1+y2)/2 + out[1];
+    for (let k = 0; k < (o.parts || 1) - 1; k++){   // pillars added to split a wide opening
+      const off = -o.w/2 + (k+1)*o.pw + k*o.pt + o.pt/2;
+      const px = horiz ? X(o.c[0] + off) : X(o.c[0]), py = horiz ? Y(o.c[2]) : Y(o.c[2] + off);
+      g += `<rect x="${px-3}" y="${py-3}" width="6" height="6" fill="#263035"/>`;
+    }
+    g += `<g class="po" data-id="${o.id}"><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${on ? "#E9B44C" : col}" stroke-width="${on ? 5 : 4}"/>
+      <circle cx="${cx}" cy="${cy}" r="9" fill="${on ? "#E9B44C" : o.sys ? "#17575C" : "#fff"}" stroke="${o.sys || on ? "none" : "#8C989D"}"/>
+      <text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="11" font-weight="700" fill="${on || !o.sys ? "#263035" : "#fff"}" font-family="IBM Plex Sans Arabic, sans-serif">${o.letter}</text></g>`;
+  }
+  g += `<text x="${pad + pw/2}" y="${H + 10}" text-anchor="middle" font-size="10" fill="#5B686E" font-family="IBM Plex Sans Arabic, sans-serif">${T[lang].sideF}</text>`;
+  $("plan").innerHTML = `<svg viewBox="0 0 ${W} ${H + 14}">${g}</svg>`;
+}
+$("plan").addEventListener("click", e => { const g = e.target.closest(".po"); if (g) selectOp(g.dataset.id, true); });
+
+function sideName(s){ const t = T[lang]; return {F:t.sideF, R:t.sideR, B:t.sideB, L:t.sideL}[s]; }
+function sysOptions(o, cur){
+  const t = T[lang];
+  return `<option value="">${t.sysNone}</option>` + GLASS.map(k => {
+    const why = o ? glassCheck(k, o.w, o.h) : "";
+    return `<option value="${k}"${why ? " disabled" : ""}${cur === k ? " selected" : ""}>${t.short[k]}${why ? ` (${why})` : ""}</option>`;
+  }).join("");
+}
+
+function update(){
+  const t = T[lang], key = radio("roof"), fabric = key === "fabric";
+  const w = readNum($("width")), d = readNum($("depth")), hf = readNum($("hf"));
+  $("sideOpt").classList.toggle("hidden", fabric);
+  if (fabric && radio("mount") === "side") document.querySelector("input[name=mount][value=back]").checked = true;
+  $("pillarSet").classList.toggle("hidden", fabric);
+  $("fabricColSet").classList.toggle("hidden", !fabric);
+  $("bladeColSet").classList.toggle("hidden", fabric);
+  $("hfLbl").textContent = fabric ? t.lHfFab : t.lHfShort;
+  let err = "";
+  const [wMin, wMax, dMin, dMax] = fabric ? [FABRIC_MIN_W, FABRIC_MAX_W, FABRIC_MIN_D, FABRIC_MAX_D] : [1.5, 15, 1.5, 10];
+  if (w === null || w < wMin || w > wMax) err = t.errRange(num(wMin), num(wMax));
+  else if (d === null || d < dMin || d > dMax) err = t.errRange(num(dMin), num(dMax));
+  else if (hf === null || hf < 2 || hf > 3.5) err = t.errRange(num(2), num(3.5));
+  $("dimErr").textContent = err;
+  if (err){ V3.spec = null; curOps = []; $("dims3d").innerHTML = ""; $("dimTag").textContent = ""; $("amount").textContent = "–"; $("perM2").textContent = ""; $("breakdown").innerHTML = ""; $("opList").innerHTML = ""; $("plan").innerHTML = ""; $("waSend").setAttribute("aria-disabled","true"); $("waSend").style.opacity = .5; return; }
+  $("waSend").removeAttribute("aria-disabled"); $("waSend").style.opacity = 1;
+
+  const colour = radio("finish"), finishKey = colour === "wood" ? "wood" : "standard";
+  const fabricCol = radio("fabricCol"), bladeSel = radio("bladeCol"), bladeCol = bladeSel === "same" ? colour : bladeSel;
+  $("selFinish").textContent = t[ALU_KEYS[colour]];
+  $("selFabric").textContent = t[FAB_KEYS[fabricCol]];
+  $("selBlade").textContent = bladeSel === "same" ? t.cSame : t[ALU_KEYS[bladeCol]];
+  $("sameSw").style.setProperty("--c", ALU_COLOURS[colour]);
+  const mountSel = radio("mount");
+  const cur = lang === "ar" ? "جنيه" : "EGP";
+
+  // ---- roof ----
+  let spec, roofPrice, roofRows = [];
+  const mountTxt = {back:t.mBack, side:t.mSide, free:t.smFree}[mountSel];
+  if (fabric){
+    const fab = fabricConfig(w, d), mount = mountSel === "free" ? "free" : "wall", tk = fabricGeom(w, d, fab, mount, hf);
+    roofPrice = roundUp(fabricPrice(w, d, fab, mount, "aluminium", finishKey, hf));
+    spec = {key, w, d, hf, colour, fabricCol, bladeCol, rails:fab.rails, thick:fab.thick, tk, mount, structure:"aluminium"};
+    roofRows = [[t.lHfFab, `${num(hf)} ${t.m}`], [t.lMount, mountTxt], [t.lFinish, t[ALU_KEYS[colour]]], [t.lFabricCol, t[FAB_KEYS[fabricCol]]],
+      [t.bRails, `${fab.rails} (${fab.thick ? t.thick : t.thin})`], [t.bSlope, `${Math.round(tk.rise*100)} ${lang==="ar"?"سم":"cm"}`], [t.xLedFab, t.included]];
+  } else {
+    const smount = {back:"wallW", side:"wallD", free:"free"}[mountSel];
+    const pick = (name, min) => {
+      const rs = [...document.querySelectorAll(`input[name=${name}]`)];
+      rs.forEach(r => { r.disabled = +r.value < min; r.parentElement.style.opacity = r.disabled ? .4 : 1; });
+      let c = rs.find(r => r.checked);
+      if (c.disabled){ c = rs.find(r => !r.disabled) || rs[rs.length-1]; c.checked = true; }
+      return +c.value;
+    };
+    const mins = smartPillars(w, d, 2, 2);
+    const PL = smartPillars(w, d, pick("pillarsW", mins.minW), pick("pillarsD", mins.minD), smount);
+    roofPrice = roundUp(smartPrice(w, d, hf, PL, finishKey === "wood", bladeCol === "wood"));
+    spec = {key, w, d, hf, colour, bladeCol, pillars:PL.total, perW:PL.perW, perD:PL.perD, smount:PL.mount};
+    const L = smartLayout(w, d);
+    roofRows = [[t.lHfShort, `${num(hf)} ${t.m}`], [t.lMount, mountTxt], [t.lPillars, `${PL.total}`], [t.bBays, `${L.bays}`], [t.bBlades, t.bladesVal(L.blades, L.perBay)],
+      [t.lFinish, t[ALU_KEYS[colour]]], [t.lBladeCol, t[ALU_KEYS[bladeCol]]], [t.xLed, t.included]];
+  }
+  spec.led = V3.night;
+  $("sideNote").classList.toggle("hidden", !fabric);
+  $("triSet").classList.toggle("hidden", !fabric);
+
+  // ---- openings ----
+  const ops = openingsFor(spec);
+  // an extra pillar, when an opening has to be split (same price factors as the roof's own pillars)
+  const pillarW = fabric ? .1 : .13;
+  const pillarCost = fabric ? hf * FP.a.post * (finishKey === "wood" ? FP.woodFactor : 1)
+                            : hf * (finishKey === "wood" ? SR.wood : SR.std).post + SR.perPillar;
+  let gLo = 0, gHi = 0;
+  for (const o of ops){
+    let s = choice[o.id] || "";
+    if (s && glassCheck(s, o.w, o.h)) s = "";            // no longer fits after a size change
+    o.sys = s;
+    o.parts = 1; o.pw = o.w; o.extraPillars = 0; o.pillarCost = 0;
+    if (s){
+      const sp2 = splitParts(s, o.w, pillarW);
+      o.parts = sp2.n; o.pw = sp2.pw; o.extraPillars = sp2.n - 1; o.pt = pillarW;
+      const p = glassPrice(s, o.pw, o.h);
+      o.pillarCost = o.extraPillars ? roundUp(o.extraPillars * pillarCost) : 0;
+      o.lo = p.lo * o.parts + o.pillarCost; o.hi = p.hi * o.parts + o.pillarCost;
+      gLo += o.lo; gHi += o.hi;
+    }
+  }
+  // side triangles above the side openings (fabric pergola only)
+  const tris = [];
+  if (fabric){
+    const area = d * spec.tk.rise;
+    for (const o of ops) if (o.side === "R" || o.side === "L"){
+      const c = radio("tri"), p = c ? roundUp(TRI_RATE[c] * area) : 0;
+      tris.push({side:o.side, x:o.c[0], letter:o.letter, area, c, p});
+      gLo += p; gHi += p;
+    }
+  }
+  spec.tris = tris;
+  if (fabric){
+    const q = tris[0], c = radio("tri"), area = d * spec.tk.rise;
+    $("triInfo").textContent = `${tris.length} × ${f2(d)} × ${f2(spec.tk.rise)} m = ${f2(tris.length*area)} m²` + (c ? ` · ${fmt(tris.reduce((a, q) => a + q.p, 0))} ${cur}` : "");
+  }
+  spec.ops = ops; curOps = ops;
+  if (selOp && !ops.some(o => o.id === selOp)) selOp = null;
+  spec.sel = selOp;
+
+  const focused = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.id : null;
+  const range = (lo, hi) => lo === hi ? fmt(hi) : `${fmt(lo)} – ${fmt(hi)}`;
+  $("opList").innerHTML = ops.map(o => `
+    <div class="op${selOp === o.id ? " on" : ""}" data-id="${o.id}">
+      <span class="tag${o.sys ? " has" : ""}">${o.letter}</span>
+      <div class="info">${sideName(o.side)}${o.sys ? ` · <span class="pr">${range(o.lo, o.hi)}</span>` : ""}<small>${o.parts > 1 ? `${o.parts} × ${f2(o.pw)} × ${f2(o.h)} m · ${t.plusPillars(o.extraPillars)}` : `${f2(o.w)} × ${f2(o.h)} m`}</small></div>
+      <select data-id="${o.id}" aria-label="${t.bOpening} ${o.letter}">${sysOptions(o, o.sys)}</select>
+    </div>`).join("");
+  if (focused){ const s = document.querySelector(`.op select[data-id="${focused}"]`); if (s) s.focus({preventScroll:true}); }
+  $("setAll").innerHTML = `<option value="" disabled selected>${t.sysPick}</option>` + sysOptions(null, null).replace(/ selected/g, "");
+
+  // ---- totals ----
+  const lo = roofPrice + gLo, hi = roofPrice + gHi;
+  $("amount").textContent = `${range(lo, hi)} ${cur}`;
+  $("perM2").textContent = gHi ? t.sumLine(fmt(roofPrice), range(gLo, gHi), cur) : t.roofOnly;
+
+  const rows = [[t.bRoof, `${t.products[key].name}`], [t.bArea, `${num((w*d).toFixed(2))} ${lang==="ar"?"م²":"m²"}`], ...roofRows, [t.bRoof, `${fmt(roofPrice)} ${cur}`]];
+  for (const o of ops) if (o.sys) rows.push([`${o.letter} · ${sideName(o.side)} · ${o.parts > 1 ? `${o.parts} × ` : ""}${t.products[o.sys].name} ${f2(o.pw)} × ${f2(o.h)} m${o.extraPillars ? ` + ${t.plusPillars(o.extraPillars)}` : ""}`, `${range(o.lo, o.hi)} ${cur}`]);
+  for (const q of tris) if (q.c) rows.push([`${t.triOf(q.letter)} · ${t[q.c === "glass" ? "triGlass" : "triFabric"]} ${f2(q.area)} m²`, `${fmt(q.p)} ${cur}`]);
+  if (gHi) rows.push([t.bGlassTotal, `${range(gLo, gHi)} ${cur}`]);
+  $("breakdown").innerHTML = rows.map(r => `<dt>${r[0]}</dt><dd>${r[1]}</dd>`).join("");
+
+  // WhatsApp message
+  const lines = [t.waHello2, `• ${t.products[key].name}: ${w} × ${d} m, ${t.lHfShort} ${hf} m`, `• ${mountTxt}`, `• ${t.lFinish}: ${t[ALU_KEYS[colour]]}`];
+  if (fabric) lines.push(`• ${t.lFabricCol}: ${t[FAB_KEYS[fabricCol]]}`); else lines.push(`• ${t.lBladeCol}: ${t[ALU_KEYS[bladeCol]]}`, `• ${t.lPillars}: ${spec.pillars}`);
+  lines.push(`• ${t.bRoof}: ${fmt(roofPrice)} ${cur}`);
+  for (const o of ops) lines.push(`• ${o.letter} (${sideName(o.side)}, ${f2(o.w)} × ${f2(o.h)} m): ${o.sys ? `${o.parts > 1 ? `${o.parts} × ` : ""}${t.products[o.sys].name}${o.extraPillars ? ` + ${t.plusPillars(o.extraPillars)}` : ""}, ${range(o.lo, o.hi)} ${cur}` : t.sysNone}`);
+  for (const q of tris) if (q.c) lines.push(`• ${t.triOf(q.letter)}: ${t[q.c === "glass" ? "triGlass" : "triFabric"]}, ${f2(q.area)} m², ${fmt(q.p)} ${cur}`);
+  lines.push(`${t.pTotal}: ${range(lo, hi)} ${cur}`);
+  $("waSend").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(lines.join("\n"));
+
+  V3.spec = spec;
+  $("dimTag").textContent = `${w} m × ${d} m × ${hf} m`;
+  drawPlan();
+}
+
+$("opList").addEventListener("change", e => {
+  const s = e.target.closest("select[data-id]"); if (!s) return;
+  e.stopPropagation(); choice[s.dataset.id] = s.value; selOp = s.dataset.id; update();
+});
+$("opList").addEventListener("focusin", e => { const r = e.target.closest(".op[data-id]"); if (r && selOp !== r.dataset.id) selectOp(r.dataset.id); });
+$("opList").addEventListener("click", e => { const r = e.target.closest(".op[data-id]"); if (r && e.target.tagName !== "SELECT") selectOp(r.dataset.id, true); });
+$("setAll").addEventListener("change", e => {
+  e.stopPropagation();
+  for (const o of curOps) choice[o.id] = glassCheck(e.target.value, o.w, o.h) ? (choice[o.id] || "") : e.target.value;
+  update();
+});
+
+function setOpenLabel(){ const t = T[lang]; $("openBtn").textContent = V3.target ? t.closeAll : t.openAll; }
+$("openBtn").addEventListener("click", () => { V3.target = V3.target ? 0 : 1; if (reduceMotion) V3.open = V3.target; setOpenLabel(); });
+
+function setNight(on){
+  V3.night = on;
+  $("stage").classList.toggle("night", on);
+  $("dayBtn").setAttribute("aria-pressed", !on); $("nightBtn").setAttribute("aria-pressed", on);
+  update();
+}
+$("dayBtn").addEventListener("click", () => setNight(false));
+$("nightBtn").addEventListener("click", () => setNight(true));
+
+function applyLang(){
+  const t = T[lang];
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-t]").forEach(el => { const v = t[el.dataset.t]; if (typeof v === "string") el.textContent = v; });
+  $("langBtn").textContent = t.langBtn;
+  document.title = lang === "ar" ? "صمّم برجولتك | مجموعة فنون" : "Pergola builder | Fonoon Group";
+  try { localStorage.setItem("fonoonLang", lang); } catch(e){}
+  setOpenLabel();
+  update();
+}
+
+/* ========================= SAVE AS PDF ========================= */
+$("pdfBtn").addEventListener("click", () => {
+  const t = T[lang];
+  let img = "";
+  try {
+    const keep = V3.open, keepSel = V3.spec && V3.spec.sel, shots = [];
+    if (V3.spec) V3.spec.sel = null;                       // no yellow outline in the pictures
+    for (const o of [0, 1]){ V3.open = o; render3D(); shots.push(c3d.toDataURL("image/png")); }
+    V3.open = keep; if (V3.spec) V3.spec.sel = keepSel; render3D();
+    const lbl = [t.closedLbl, t.openLbl2];
+    img = `<div class="qshots">${shots.map((u, i) => `<figure><img src="${u}" alt="${lbl[i]}"><figcaption>${lbl[i]}</figcaption></figure>`).join("")}</div>`;
+  } catch(e){}
+  const plan = $("plan").innerHTML;
+  const rows = [...$("breakdown").querySelectorAll("dt")].map(dt => `<tr><td>${dt.textContent}</td><td>${dt.nextElementSibling ? dt.nextElementSibling.textContent : ""}</td></tr>`).join("");
+  const date = new Date().toLocaleDateString(lang === "ar" ? "ar-EG" : "en-GB", { day:"numeric", month:"long", year:"numeric" });
+  const name = t.products[radio("roof")].name;
+  $("quote").setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+  $("quote").innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #17575C;padding-bottom:8px">
+      <strong style="font-size:20px">${t.brand} ${t.brandSub}</strong><span>${date}</span></div>
+    <h2 style="margin:14px 0 4px;font-size:20px">${name}</h2>
+    <div>${$("dimTag").textContent}</div>
+    ${img}
+    <div style="display:flex;gap:18px;align-items:flex-start">
+      <div style="width:120px;flex:none">${plan}</div>
+      <div style="flex:1"><div class="qp">${$("amount").textContent}</div><div>${$("perM2").textContent}</div></div>
+    </div>
+    <table class="qtable">${rows}</table>
+    <p style="margin-top:14px;color:#444">${t.pNote}</p>
+    <p style="margin-top:14px">${t.ctPhoneL}: +20 111 777 9464 &nbsp; · &nbsp; info@fonoongroup.com &nbsp; · &nbsp; ${t.ctAddr}</p>`;
+  const oldTitle = document.title;
+  document.title = `Fonoon quote - ${name} - ${$("dimTag").textContent}`;
+  try { window.print(); } catch(e){}
+  setTimeout(() => { document.title = oldTitle; }, 1000);
+});
+
+/* ========================= INIT ========================= */
+$("year").textContent = new Date().getFullYear();
+$("langBtn").addEventListener("click", () => { lang = lang === "en" ? "ar" : "en"; applyLang(); });
+$("calcForm").addEventListener("input", e => { if (!e.target.closest("#opList") && e.target.id !== "setAll") update(); });
+$("calcForm").addEventListener("change", e => { if (e.target.name === "roof"){ const f = e.target.value === "fabric"; if (f && +$("depth").value < FABRIC_MIN_D) $("depth").value = 4; if (f && +$("width").value > FABRIC_MAX_W) $("width").value = FABRIC_MAX_W; update(); } });
+$("calcForm").addEventListener("submit", e => e.preventDefault());
+$("waSend").addEventListener("click", e => { if ($("waSend").getAttribute("aria-disabled")) e.preventDefault(); });
+applyLang();
+
+</script>
+</body>
+</html>
