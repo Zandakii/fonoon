@@ -132,8 +132,16 @@
   .seg input:focus-visible+span{outline:3px solid var(--sun);outline-offset:2px}
   .seg input:disabled+span{opacity:.4;cursor:not-allowed}
   /* colour swatches */
-  .sw{gap:8px}
-  .sw span{width:27px;height:27px;padding:0;border-radius:50%;font-size:0;background:var(--c);border:2px solid var(--card);box-shadow:0 0 0 1px var(--alu)}
+  .sw{gap:6px}
+  .chk{display:flex;align-items:center;gap:10px;font-size:14.5px;cursor:pointer}
+  .chk input{width:18px;height:18px;accent-color:var(--teal);margin:0}
+  .umbrow{display:flex;gap:28px;flex-wrap:wrap;margin-bottom:12px}
+  .qty{display:inline-flex;align-items:center;border:1px solid var(--alu);border-radius:var(--radius-s);background:#F8F9F9}
+  .qty button{width:38px;height:38px;border:0;background:none;font:inherit;font-size:20px;color:var(--graphite);cursor:pointer}
+  .qty button:hover{background:var(--mist)}
+  .qty input{width:64px;height:38px;border:0;border-inline:1px solid var(--alu);text-align:center;font:inherit;font-size:16px;background:none;color:var(--graphite);-moz-appearance:textfield}
+  .qty input::-webkit-inner-spin-button,.qty input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+  .sw span{width:25px;height:25px;padding:0;border-radius:50%;font-size:0;background:var(--c);border:2px solid var(--card);box-shadow:0 0 0 1px var(--alu)}
   .sw input:checked+span{background:var(--c);border-color:var(--card);box-shadow:0 0 0 2px var(--sun)}
   .sw .same{background:conic-gradient(var(--c) 0 50%, #F8F9F9 0);}
   .err{color:#A33A1F;font-size:13px;margin-top:6px}
@@ -434,6 +442,12 @@
             <label title="Grey"><input type="radio" name="finish" value="grey" checked><span style="--c:#8C989D" data-t="cGrey">Grey</span></label>
             <label title="Dark grey"><input type="radio" name="finish" value="darkgrey"><span style="--c:#4B5257" data-t="cDarkGrey">Dark grey</span></label>
             <label title="Brown"><input type="radio" name="finish" value="brown"><span style="--c:#5C4130" data-t="cBrown">Brown</span></label>
+            <label title="Anthracite"><input type="radio" name="finish" value="anthracite"><span style="--c:#383E42" data-t="cAnthracite">Anthracite</span></label>
+            <label title="Silver"><input type="radio" name="finish" value="silver"><span style="--c:#B9BEC0" data-t="cSilver">Silver</span></label>
+            <label title="Champagne"><input type="radio" name="finish" value="champagne"><span style="--c:#C8B38A" data-t="cChampagne">Champagne</span></label>
+            <label title="Bronze"><input type="radio" name="finish" value="bronze"><span style="--c:#6E5638" data-t="cBronze">Bronze</span></label>
+            <label title="Cream"><input type="radio" name="finish" value="cream"><span style="--c:#E9E0CB" data-t="cCream">Cream</span></label>
+            <label title="Dark green"><input type="radio" name="finish" value="green"><span style="--c:#2F4A3A" data-t="cGreen">Dark green</span></label>
             <label title="Wood effect"><input type="radio" name="finish" value="wood"><span style="--c:linear-gradient(135deg,#7A4E2E,#B07A4E 60%,#8A5A36)" data-t="cWood">Wood effect</span></label>
         </div>
       </fieldset>
@@ -458,6 +472,12 @@
             <label title="Grey"><input type="radio" name="bladeCol" value="grey"><span style="--c:#8C989D" data-t="cGrey">Grey</span></label>
             <label title="Dark grey"><input type="radio" name="bladeCol" value="darkgrey"><span style="--c:#4B5257" data-t="cDarkGrey">Dark grey</span></label>
             <label title="Brown"><input type="radio" name="bladeCol" value="brown"><span style="--c:#5C4130" data-t="cBrown">Brown</span></label>
+            <label title="Anthracite"><input type="radio" name="bladeCol" value="anthracite"><span style="--c:#383E42" data-t="cAnthracite">Anthracite</span></label>
+            <label title="Silver"><input type="radio" name="bladeCol" value="silver"><span style="--c:#B9BEC0" data-t="cSilver">Silver</span></label>
+            <label title="Champagne"><input type="radio" name="bladeCol" value="champagne"><span style="--c:#C8B38A" data-t="cChampagne">Champagne</span></label>
+            <label title="Bronze"><input type="radio" name="bladeCol" value="bronze"><span style="--c:#6E5638" data-t="cBronze">Bronze</span></label>
+            <label title="Cream"><input type="radio" name="bladeCol" value="cream"><span style="--c:#E9E0CB" data-t="cCream">Cream</span></label>
+            <label title="Dark green"><input type="radio" name="bladeCol" value="green"><span style="--c:#2F4A3A" data-t="cGreen">Dark green</span></label>
             <label title="Wood effect"><input type="radio" name="bladeCol" value="wood"><span style="--c:linear-gradient(135deg,#7A4E2E,#B07A4E 60%,#8A5A36)" data-t="cWood">Wood effect</span></label>
         </div>
       </fieldset>
@@ -537,7 +557,8 @@ const PRICING = {
     smartroof:   { kind: "roof", glass: false },
     folding:     { rate: 4500, kind: "wall", glass: false, maxH: 2.8 },   // frameless, 10 mm tempered glass only
     panorama:    { fixed: 100000, kind: "wall", glass: false, maxH: 3 }, // one fixed price, no price per m²
-    sliding:     { kind: "wall", glass: false, maxH: 3 }   // 10 mm tempered glass only; priced by slidingPrice()
+    sliding:     { kind: "wall", glass: false, maxH: 3 },  // 10 mm tempered glass only; priced by slidingPrice()
+    umbrella:    { kind: "umbrella", glass: false }         // priced from UMBRELLA_PRICES
   },
   glass:  { tempered: 1.00, double: 1.15, lowe: 1.25 },  // multiplier on glass systems
   finish: { standard: 1.00, wood: 1.08 },                // multiplier
@@ -545,6 +566,30 @@ const PRICING = {
   minArea: 4             // smallest area we price (m²)
 };
 const WHATSAPP = "201117779464";
+
+/* UMBRELLAS: price per umbrella (EGP) including a 50 × 50 cm base, by frame, size, shape and fabric
+   (canvas = دك, hdpe = كلارو, waterproof = أكريليك ووتر بروف). A single number = same price for every fabric.
+   null = not priced yet ("price on request"). */
+const UMBRELLA_PRICES = {
+  wood: {
+    "3":   { round: { canvas: 6000, hdpe: 8000, waterproof: 8000 }, square: { canvas: 7000, hdpe: 8800, waterproof: 8800 } },
+    "3.5": { round: { canvas: 6500, hdpe: 8800, waterproof: 8800 }, square: { canvas: 7500, hdpe: 9500, waterproof: 9500 } },
+    "4":   { round: { canvas: 7500, hdpe: 9500, waterproof: 9500 }, square: { canvas: 8000, hdpe: 10500, waterproof: 10500 } }
+  },
+  aluminium: {
+    "3":   { round: { hdpe: 9000,  waterproof: 9000  }, square: { hdpe: 10000, waterproof: 10000 } },
+    "3.5": { round: { hdpe: 9800,  waterproof: 9800  }, square: { hdpe: 11500, waterproof: 11500 } },
+    "4":   { round: { hdpe: 11000, waterproof: 11000 }, square: { hdpe: 13000, waterproof: 13000 } }
+  }
+};
+// canvas is not offered on aluminium umbrellas
+const UMB_PRINT_PRICE = 500;   // logo print, per umbrella (EGP)
+const UMB_BASE_PRICES = { "50": 1800, "60": 2200 };   // stony or marble base (EGP); umbrella prices already include a 50 × 50 base
+const UMB_HEIGHTS = { "3": 2.8, "3.5": 3.1, "4": 3.6 }, UMB_BASE = .5;   // overall height by size, square base (m)
+const UMB_FABRICS = { canvas:"uCanvas", hdpe:"uHdpe", waterproof:"uWaterproof" };
+const UMB_CANOPY = { sand:"#D9C8A2", white:"#EFEDE6", grey:"#9EA4A6", black:"#2B2E30", cream:"#EAE0C8", taupe:"#8F8170", terracotta:"#B5603F", burgundy:"#6E2A33", olive:"#6B6E45", bottle:"#2F4F3E", navy:"#24344F", charcoal:"#45494C" };
+const UMB_KEYS = { sand:"uSand", white:"fWhite", grey:"fGrey", black:"cBlack", cream:"uCream", taupe:"uTaupe", terracotta:"uTerracotta", burgundy:"uBurgundy", olive:"uOlive", bottle:"uBottle", navy:"uNavy", charcoal:"uCharcoal" };
+const UMB_WOOD = "#9A6A3E";
 
 /* FOLDING SYSTEM: frameless 10 mm glass panels with top and bottom profiles only.
    Open: each panel turns 90° and the panels stack side by side at one end. */
@@ -575,9 +620,9 @@ const SLIDING = {
 };
 
 /* Colours shown in the 3D model */
-const ALU_COLOURS = { black:"#2E3133", white:"#E4E7E8", beige:"#CBBE9E", grey:"#8C989D", darkgrey:"#4B5257", brown:"#5C4130", wood:"#8A5A36" };
+const ALU_COLOURS = { black:"#2E3133", white:"#E4E7E8", beige:"#CBBE9E", grey:"#8C989D", darkgrey:"#4B5257", brown:"#5C4130", wood:"#8A5A36", anthracite:"#383E42", silver:"#B9BEC0", champagne:"#C8B38A", bronze:"#6E5638", cream:"#E9E0CB", green:"#2F4A3A" };
 const FABRIC_COLOURS = { white:"#F1EFEA", beige:"#DDCDB0", grey:"#A7ACAE", darkgrey:"#5A6064" };
-const ALU_KEYS = { black:"cBlack", white:"cWhite", beige:"cBeige", grey:"cGrey", darkgrey:"cDarkGrey", brown:"cBrown", wood:"cWood" };
+const ALU_KEYS = { black:"cBlack", white:"cWhite", beige:"cBeige", grey:"cGrey", darkgrey:"cDarkGrey", brown:"cBrown", wood:"cWood", anthracite:"cAnthracite", silver:"cSilver", champagne:"cChampagne", bronze:"cBronze", cream:"cCream", green:"cGreen" };
 const FAB_KEYS = { white:"fWhite", beige:"fBeige", grey:"fGrey", darkgrey:"fDarkGrey" };
 
 /* Fabric pergola sizes (from the system's size tables):
@@ -673,7 +718,7 @@ const T = {
   heroA:"Open to the sky.",heroB:"Sealed against the weather.",
   heroLead:"Retractable fabric pergolas, smart aluminium roofs, and folding, sliding and panorama glass systems, made in our factory in 6th of October and installed by our own team.",
   heroCta:"Estimate your pergola",heroCta2:"See the products",
-  f1a:"Since 1969",f1b:"The Alshishani family business",f2a:"5 systems",f2b:"Roofs and glass walls",f3a:"By remote",f3b:"Motorised roofs open in seconds",
+  f1a:"Since 1969",f1b:"The Alshishani family business",f2a:"6 systems",f2b:"Roofs, glass walls and umbrellas",f3a:"By remote",f3b:"Motorised roofs open in seconds",
   calcTitle:"Build your system",
   calcIntro:"Choose a system, enter your measurements and pick your options. The drawing and the price update as you type. Final prices are confirmed after a free site visit.",
   lProduct:"System",lDims:"Measurements",lWidth:"Width",lDepth:"Depth (projection)",lHeight:"Height",m:"m",
@@ -691,7 +736,7 @@ const T = {
   abP2:"Today we design, manufacture and install glass roofs and aluminium systems for homes, villas, restaurants and businesses from our factory in 6th of October.",
   t1:"Alshishani is founded in Jordan, building in wrought iron.",t2y:"Expansion",t2:"An aluminium department opens, making doors and windows.",t3y:"Today",t3:"Fonoon makes motorised glass roofs and folding systems in Egypt.",
   pr1:"Dust-proof",pr2:"Water-tight",pr3:"Heat-insulated",pr4:"Quiet",
-  ctTitle:"Visit us or get in touch",ctAddrL:"Factory",ctAddr:"Industrial Zone, 6th of October, Cairo, Egypt",ctPhoneL:"Mobile and WhatsApp",ctMailL:"Email",dlgTitle:"Save your quote",dlgText:"Your name and phone are printed on the quote, so our team can follow up on the same design.",dlgName:"Full name",dlgPhone:"Mobile number",dlgCancel:"Cancel",errName:"Enter your name.",errPhone:"Enter a mobile number with at least 8 digits.",preparedFor:"Prepared for",quoteNo:"Quote no.",
+  ctTitle:"Visit us or get in touch",ctAddrL:"Factory",ctAddr:"Industrial Zone, 6th of October, Cairo, Egypt",ctPhoneL:"Mobile and WhatsApp",ctMailL:"Email",lUmbType:"Frame",lQty:"Quantity",lPrint:"Logo print on 4 sections (+500 EGP per umbrella)",bPrint:"Logo print",discOff:p=>`${p}% off`,discRow:p=>`Quantity discount ${p}%`,bUmbOnly:"Umbrella with 50 × 50 cm base",bBaseP:"Larger base, 60 × 60 cm",bUnit:"Price per umbrella",bTotal:"Total",cAnthracite:"Anthracite",cSilver:"Silver",cChampagne:"Champagne",cBronze:"Bronze",cCream:"Cream",cGreen:"Dark green",uCream:"Cream",uTaupe:"Taupe",uTerracotta:"Terracotta",uBurgundy:"Burgundy",uOlive:"Olive green",uBottle:"Bottle green",uNavy:"Navy blue",uCharcoal:"Charcoal",lUmbBase:"Base",uStony:"Stony",uMarble:"Marble",baseVal:(k,c)=>`${k}, ${c} × ${c} cm`,lUmbFabric:"Fabric",uCanvas:"Canvas",uHdpe:"HDPE",uWaterproof:"Acrylic waterproof",uCanvasD:"Canvas outdoor fabric, UV resistant",uHdpeD:"HDPE shade fabric, breathable and UV resistant",uWaterproofD:"Acrylic waterproof outdoor fabric, UV resistant",uWood:"Wood",uAlu:"Aluminium",lUmbSize:"Size",lUmbShape:"Shape",uRound:"Round",uSquare:"Square",lUmbCol:"Fabric colour",uSand:"Sand",openUmb:"Open the umbrella",closeUmb:"Close the umbrella",priceAsk:"Price on request",priceAskNote:"Send us your choice on WhatsApp for the price.",bUmbHeight:"Overall height",bUmbBase:"Base",umbBaseVal:"Heavy square base, 50 × 50 cm",bUmbCanopy:"Canopy",umbCanopyVal:"Weather-resistant outdoor fabric, UV resistant, water repellent",bUmbRibs:"Ribs",umbFront:"Front view",umbTop:"Top view",bQty:"Price",perUmb:"per umbrella",dlgTitle:"Save your quote",dlgText:"Your name and phone are printed on the quote, so our team can follow up on the same design.",dlgName:"Full name",dlgPhone:"Mobile number",dlgCancel:"Cancel",errName:"Enter your name.",errPhone:"Enter a mobile number with at least 8 digits.",preparedFor:"Prepared for",quoteNo:"Quote no.",
   ctBoxT:"Book a free site visit",ctBoxP:"Send us your location and a few photos of the space. We will measure, advise on the right system and give you a final price.",ctBoxBtn:"Message us on WhatsApp",
   ftName:"Fonoon Group for Engineering Industries",ftLoc:"6th of October, Cairo",
   waHello:"Hello Fonoon, I would like a quote for:",waContact:"Hello Fonoon, I would like to book a site visit.",
@@ -706,6 +751,7 @@ const T = {
    folding:{name:"Folding system",desc:"Frameless 10 mm glass panels that turn and stack neatly at one side, opening almost the whole wall.",specs:["Frameless glass","10 mm tempered glass","Up to 10 m × 2.8 m"]},
    panorama:{name:"Panorama system",desc:"Three glass panels that slide up and down, so you can open the top or most of the opening while keeping the view clear.",specs:["Slides vertically","3 glass panels","Up to 3 m high"]},
    sliding:{name:"Sliding system",desc:"Glass panels on five aluminium tracks that slide and stack to the side. Up to 6 m wide: 5 panels to one side; up to 10 m: 10 panels opening from the middle, 5 each way.",specs:["5 or 10 panels","10 mm tempered glass","Up to 10 m wide"]},
+   umbrella:{name:"Umbrella",desc:"Café and hospitality umbrellas with a hardwood or aluminium frame, a weather-resistant canopy and a heavy square base.",specs:["Wood or aluminium","Round or square","3 to 4 m wide"]},
   }
  },
  ar:{
@@ -713,7 +759,7 @@ const T = {
   heroA:"مفتوحة على السماء.",heroB:"ومحكمة ضد الطقس.",
   heroLead:"برجولات قماش متحركة، وأسقف ألومنيوم ذكية، وأنظمة زجاج فولدينج وسحاب وبانوراما، وزجاج قابل للطي، وشبابيك ألومنيوم، نصنعها في مصنعنا بمدينة 6 أكتوبر ويركّبها فريقنا.",
   heroCta:"احسب سعر البرجولة",heroCta2:"شاهد المنتجات",
-  f1a:"منذ 1969",f1b:"امتداد لشركة الششاني",f2a:"5 أنظمة",f2b:"أسقف وواجهات زجاجية",f3a:"بالريموت",f3b:"أسقف كهربائية تُفتح في ثوانٍ",
+  f1a:"منذ 1969",f1b:"امتداد لشركة الششاني",f2a:"6 أنظمة",f2b:"أسقف وواجهات زجاجية وشمسيات",f3a:"بالريموت",f3b:"أسقف كهربائية تُفتح في ثوانٍ",
   calcTitle:"صمّم نظامك",
   calcIntro:"اختر النظام، وأدخل المقاسات، وحدد الإضافات. الرسم والسعر يتغيران مع كل تعديل. يتم تأكيد السعر النهائي بعد معاينة مجانية للموقع.",
   lProduct:"النظام",lDims:"المقاسات",lWidth:"العرض",lDepth:"العمق (البروز)",lHeight:"الارتفاع",m:"م",
@@ -731,7 +777,7 @@ const T = {
   abP2:"اليوم نصمم ونصنع ونركّب الأسقف الزجاجية وأنظمة الألومنيوم للمنازل والفلل والمطاعم والشركات من مصنعنا في مدينة 6 أكتوبر.",
   t1:"تأسيس شركة الششاني في الأردن في مجال الحديد المشغول.",t2y:"التوسع",t2:"افتتاح قسم الألومنيوم لتصنيع الأبواب والشبابيك.",t3y:"اليوم",t3:"فنون تصنع الأسقف الزجاجية الكهربائية والأنظمة القابلة للطي في مصر.",
   pr1:"عازل للأتربة",pr2:"عازل للمياه",pr3:"عازل للحرارة",pr4:"عازل للضوضاء",
-  ctTitle:"زورنا أو تواصل معنا",ctAddrL:"المصنع",ctAddr:"المنطقة الصناعية، مدينة 6 أكتوبر، القاهرة، مصر",ctPhoneL:"موبايل وواتساب",ctMailL:"البريد الإلكتروني",dlgTitle:"احفظ عرض السعر",dlgText:"يُطبع اسمك ورقم موبايلك على عرض السعر، ليتابع فريقنا معك على نفس التصميم.",dlgName:"الاسم بالكامل",dlgPhone:"رقم الموبايل",dlgCancel:"إلغاء",errName:"أدخل اسمك.",errPhone:"أدخل رقم موبايل من 8 أرقام على الأقل.",preparedFor:"مُعد لـ",quoteNo:"رقم العرض",
+  ctTitle:"زورنا أو تواصل معنا",ctAddrL:"المصنع",ctAddr:"المنطقة الصناعية، مدينة 6 أكتوبر، القاهرة، مصر",ctPhoneL:"موبايل وواتساب",ctMailL:"البريد الإلكتروني",lUmbType:"الهيكل",lQty:"العدد",lPrint:"طباعة لوجو على 4 أجزاء (+500 جنيه للشمسية)",bPrint:"طباعة اللوجو",discOff:p=>`خصم ${p}%`,discRow:p=>`خصم الكمية ${p}%`,bUmbOnly:"الشمسية بقاعدة 50 × 50 سم",bBaseP:"قاعدة أكبر 60 × 60 سم",bUnit:"سعر الشمسية",bTotal:"الإجمالي",cAnthracite:"أنثراسايت",cSilver:"فضي",cChampagne:"شامبين",cBronze:"برونزي",cCream:"كريمي",cGreen:"أخضر غامق",uCream:"كريمي",uTaupe:"بيج غامق",uTerracotta:"طوبي",uBurgundy:"نبيتي",uOlive:"زيتي",uBottle:"أخضر زجاجي",uNavy:"كحلي",uCharcoal:"فحمي",lUmbBase:"القاعدة",uStony:"زلط",uMarble:"رخام",baseVal:(k,c)=>`${k}، ${c} × ${c} سم`,lUmbFabric:"القماش",uCanvas:"دك",uHdpe:"كلارو",uWaterproof:"أكريليك ووتر بروف",uCanvasD:"قماش دك خارجي مقاوم للأشعة فوق البنفسجية",uHdpeD:"قماش كلارو (HDPE) يسمح بمرور الهواء ومقاوم للأشعة فوق البنفسجية",uWaterproofD:"قماش أكريليك ووتر بروف خارجي مقاوم للماء والأشعة فوق البنفسجية",uWood:"خشب",uAlu:"ألومنيوم",lUmbSize:"المقاس",lUmbShape:"الشكل",uRound:"دائرية",uSquare:"مربعة",lUmbCol:"لون القماش",uSand:"رملي",openUmb:"افتح الشمسية",closeUmb:"اقفل الشمسية",priceAsk:"السعر عند الطلب",priceAskNote:"أرسل لنا اختيارك على واتساب لمعرفة السعر.",bUmbHeight:"الارتفاع الكلي",bUmbBase:"القاعدة",umbBaseVal:"قاعدة مربعة ثقيلة 50 × 50 سم",bUmbCanopy:"القماش",umbCanopyVal:"قماش خارجي مقاوم للعوامل الجوية والأشعة فوق البنفسجية وطارد للماء",bUmbRibs:"الأضلاع",umbFront:"منظر أمامي",umbTop:"منظر علوي",bQty:"السعر",perUmb:"للشمسية",dlgTitle:"احفظ عرض السعر",dlgText:"يُطبع اسمك ورقم موبايلك على عرض السعر، ليتابع فريقنا معك على نفس التصميم.",dlgName:"الاسم بالكامل",dlgPhone:"رقم الموبايل",dlgCancel:"إلغاء",errName:"أدخل اسمك.",errPhone:"أدخل رقم موبايل من 8 أرقام على الأقل.",preparedFor:"مُعد لـ",quoteNo:"رقم العرض",
   ctBoxT:"احجز معاينة مجانية",ctBoxP:"أرسل لنا موقعك وبعض الصور للمكان. سنأخذ المقاسات وننصحك بالنظام المناسب ونعطيك السعر النهائي.",ctBoxBtn:"راسلنا على واتساب",
   ftName:"مجموعة فنون للصناعات الهندسية",ftLoc:"مدينة 6 أكتوبر، القاهرة",
   waHello:"مرحبًا فنون، أريد عرض سعر لـ:",waContact:"مرحبًا فنون، أريد حجز معاينة للموقع.",
@@ -746,6 +792,7 @@ const T = {
    folding:{name:"نظام فولدينج",desc:"ألواح زجاج سيكوريت 10 مم بدون إطار، تلف وتتجمع بجانب بعضها على جانب واحد لتفتح الحائط تقريبًا بالكامل.",specs:["زجاج بدون إطار","سيكوريت 10 مم","حتى 10 × 2.8 م"]},
    panorama:{name:"نظام بانوراما",desc:"ثلاث ألواح زجاجية تنزلق لأعلى ولأسفل، لتفتح الجزء العلوي أو معظم الفتحة مع بقاء الرؤية واضحة.",specs:["حركة رأسية","3 ألواح زجاج","ارتفاع حتى 3 م"]},
    sliding:{name:"نظام سحاب",desc:"ألواح زجاجية على خمس مجاري ألومنيوم تنزلق وتتجمع على الجانب. حتى 6 م: 5 ألواح على جانب واحد، وحتى 10 م: 10 ألواح تفتح من المنتصف، 5 لكل جانب.",specs:["5 أو 10 ألواح","زجاج سيكوريت 10 مم","عرض حتى 10 م"]},
+   umbrella:{name:"شمسية",desc:"شمسيات للكافيهات والفنادق بهيكل خشب أو ألومنيوم، وقماش مقاوم للعوامل الجوية، وقاعدة مربعة ثقيلة.",specs:["خشب أو ألومنيوم","دائرية أو مربعة","من 3 إلى 4 م"]},
   }
  }
 };
@@ -778,8 +825,42 @@ const GL = (() => {
   gl.linkProgram(prog);
   if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return null;
   gl.useProgram(prog);
-  return { gl, buf: gl.createBuffer(), p: gl.getAttribLocation(prog,"p"), c: gl.getAttribLocation(prog,"c"), k: gl.getUniformLocation(prog,"k"), zab: gl.getUniformLocation(prog,"zab") };
+  // second program: printed logos (a picture laid on a surface)
+  const tp = gl.createProgram();
+  gl.attachShader(tp, sh(gl.VERTEX_SHADER, "attribute vec3 p;attribute vec2 t;uniform vec3 k;uniform vec2 zab;varying vec2 vt;void main(){gl_Position=vec4(k.x*p.x,k.y*p.y-k.z*p.z,zab.x*p.z+zab.y,p.z);vt=t;}"));
+  gl.attachShader(tp, sh(gl.FRAGMENT_SHADER, "precision mediump float;varying vec2 vt;uniform sampler2D img;uniform float dim;void main(){vec4 c=texture2D(img,vt);gl_FragColor=vec4(c.rgb*dim,c.a);}"));
+  gl.linkProgram(tp);
+  const tex = gl.getProgramParameter(tp, gl.LINK_STATUS) ? { prog:tp, p:gl.getAttribLocation(tp,"p"), t:gl.getAttribLocation(tp,"t"), k:gl.getUniformLocation(tp,"k"), zab:gl.getUniformLocation(tp,"zab"), dim:gl.getUniformLocation(tp,"dim"), img:{} } : null;
+  gl.useProgram(prog);
+  return { gl, prog, tex, buf: gl.createBuffer(), p: gl.getAttribLocation(prog,"p"), c: gl.getAttribLocation(prog,"c"), k: gl.getUniformLocation(prog,"k"), zab: gl.getUniformLocation(prog,"zab") };
 })();
+/* the Fonoon logo as two textures: as it is (for light fabric) and with white lettering (for dark fabric) */
+function logoTexture(dark){
+  if (!GL || !GL.tex) return null;
+  const T0 = GL.tex.img; if (T0[dark ? "d" : "l"]) return T0[dark ? "d" : "l"];
+  if (T0.loading) return null;
+  T0.loading = true;
+  const im = new Image();
+  im.onload = () => {
+    const make = white => {
+      const cv = document.createElement("canvas"); cv.width = 512; cv.height = Math.round(512 * im.height / im.width);
+      const c = cv.getContext("2d"); c.drawImage(im, 0, 0, cv.width, cv.height);
+      if (white){ const d = c.getImageData(0, 0, cv.width, cv.height), a = d.data;
+        for (let i = 0; i < a.length; i += 4){ if (Math.max(a[i],a[i+1],a[i+2]) - Math.min(a[i],a[i+1],a[i+2]) < 30){ a[i] = a[i+1] = a[i+2] = 240; } }
+        c.putImageData(d, 0, 0); }
+      const gl = GL.gl, t = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, cv);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      return t;
+    };
+    T0.l = make(false); T0.d = make(true); T0.aspect = im.width / im.height;
+    render3D();
+  };
+  const src = document.querySelector(".brand .logo"); if (src) im.src = src.src;
+  return null;
+}
 const x3d = GL ? null : c3d.getContext("2d");
 const rotX = (v,a) => { const c=Math.cos(a), s=Math.sin(a); return [v[0], v[1]*c - v[2]*s, v[1]*s + v[2]*c]; };
 const rotY = (v,a) => { const c=Math.cos(a), s=Math.sin(a); return [v[0]*c + v[2]*s, v[1], -v[0]*s + v[2]*c]; };
@@ -796,6 +877,105 @@ function panelCount(key, w){
   return Math.max(1, Math.ceil(w/1.2));
 }
 
+
+/* Umbrella: pole, square base, 8 ribs with stretchers, canopy panels (round or square).
+   open = 0 shows it open (the usual view); the button folds it. */
+function buildUmbrella(sp, fold, add, B){
+  const o = 1 - fold, w = sp.w, R = w/2, top = sp.h, apex = top - .1, square = sp.shape === "square";
+  const wood = sp.wood, frame = wood ? UMB_WOOD : (ALU_COLOURS[sp.colour] || "#8C989D"), can = UMB_CANOPY[sp.umbCol] || "#D9C8A2";
+  const polys = [];
+  const seg = (p, q, th, col) => { const d = [q[0]-p[0], q[1]-p[1], q[2]-p[2]], L = Math.hypot(d[0], d[1], d[2]);
+    add([(p[0]+q[0])/2, (p[1]+q[1])/2, (p[2]+q[2])/2], [th, th, L], col, {rx:Math.asin(-d[1]/L), ry:Math.atan2(d[0], d[2])}); };
+  const rho = a => square ? R / Math.max(Math.abs(Math.cos(a)), Math.abs(Math.sin(a))) : R;
+  const SL = .36;   // canopy fall: 36 cm per metre out from the pole
+  // point on the canopy edge (or along a rib, f = 0..1) for direction a
+  const pt = (a, f, lift) => { const rr = rho(a), dropO = (square ? R : rr) * SL;   // square: the same fall to every point of the edge, so the edge is level
+    const L = Math.hypot(rr, dropO), c0 = Math.asin(Math.min(1, .07 / L)), th = c0 + (Math.atan2(rr, dropO) - c0) * o;
+    const r = L*f*Math.sin(th), y = apex - L*f*Math.cos(th) + (lift || 0); return [r*Math.cos(a), y, r*Math.sin(a)]; };
+  // base, pole, finial
+  const bs = sp.baseSize || .5, marble = sp.base === "marble";
+  if (marble){
+    // marble slab on four small wheels, white sleeve
+    add([0,.085,0],[bs,.09,bs],"#E6E1D6");
+    for (const x of [-1,1]) for (const z of [-1,1]) add([x*(bs/2-.06),.022,z*(bs/2-.06)],[.035,.044,.05],"#9AA3A6");
+    add([0,.33,0],[.09,.4,.09],"#F2F2EF");
+    add([.06,.42,0],[.04,.03,.03],"#3A3F42");   // tightening knob
+  } else {
+    // black steel tray filled with river stones, two handles, black sleeve
+    add([0,.05,0],[bs,.1,bs],"#2B2E30");
+    add([0,.095,0],[bs-.04,.012,bs-.04],"#8E6A4E");
+    const n = Math.round((bs - .04) / .055), step = (bs - .06) / n;
+    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++){
+      const k = i*7 + j*13, x = -(bs-.06)/2 + step*(i+.5) + ((k % 5) - 2)*.004, z = -(bs-.06)/2 + step*(j+.5) + ((k % 3) - 1)*.005;
+      if (Math.abs(x) < .07 && Math.abs(z) < .07) continue;      // the sleeve stands here
+      add([x, .106, z],[step*.82, .022, step*.62],["#B07D5A","#D9C3A0","#7E5A44","#C9A27E","#A8876A"][k % 5],{ry:(k % 7)*.45});
+    }
+    for (const x of [-1,1]){ add([x*(bs/2+.03),.13,0],[.012,.012,.16],"#2B2E30"); add([x*(bs/2+.015),.115,-.08],[.03,.012,.012],"#2B2E30"); add([x*(bs/2+.015),.115,.08],[.03,.012,.012],"#2B2E30"); }
+    add([0,.34,0],[.1,.44,.1],"#2B2E30");
+  }
+  const pw = wood ? .055 : .048;
+  add([0,top/2,0],[pw,top,pw],frame);
+  add([0,top-.03,0],[.07,.06,.07],frame);
+  // ribs + stretchers
+  const ribs = Array.from({length:8}, (_, k) => k*Math.PI/4 + (square ? Math.PI/4 : 0));
+  const runY0 = apex - .62, s0 = (() => { const p = pt(0, .42); return Math.hypot(Math.hypot(p[0], p[2]), p[1] - runY0); })();
+  for (const a of ribs){
+    const e = pt(a, .985, -.05), b = [0, apex - .09, 0];
+    seg(b, e, wood ? .028 : .022, frame);
+    const p = pt(a, .42, -.03 * o), pr = Math.hypot(p[0], p[2]), ry = p[1] - Math.sqrt(Math.max(0, s0*s0 - pr*pr));
+    seg([0, ry, 0], p, wood ? .02 : .016, frame);
+  }
+  const p = pt(0, .42), ry = p[1] - Math.sqrt(Math.max(0, s0*s0 - Math.hypot(p[0], p[2])**2));
+  add([0, ry, 0], [.09, .12, .09], frame);   // runner
+  // canopy: 16 gores from the top; when closed the fabric between the ribs hangs out in soft folds
+  const N = 16, A = [0, apex, 0], a0 = square ? Math.PI/4 : 0;
+  const fp = (a, f) => {
+    const p = pt(a, f), between = Math.abs(Math.sin(4*(a - a0)));          // 0 on a rib, 1 half way between
+    const out = (1 - o) * (.06 + .2*f) * between + (1 - o) * .05 * f;    // loose fabric, wider towards the bottom
+    const r = Math.hypot(p[0], p[2]) + out;
+    return [r*Math.cos(a), p[1] - (1 - o)*.06*f*between, r*Math.sin(a)];
+  };
+  const dirs = Array.from({length:N}, (_, k) => a0 + k*2*Math.PI/N);
+  const F = [0, .35, .7, 1];
+  for (let k = 0; k < N; k++){
+    const a1 = dirs[k], a2 = dirs[(k+1) % N];
+    polys.push({ pts:[A, fp(a1, F[1]), fp(a2, F[1])], col:can });
+    for (let j = 1; j < F.length - 1; j++) polys.push({ pts:[fp(a1, F[j]), fp(a1, F[j+1]), fp(a2, F[j+1]), fp(a2, F[j])], col:can });
+  }
+  // valance (square umbrella only): one flap per section between two ribs, with a small open slit at every rib
+  const h = (square ? .2 : .05) * o + .02;   // round: short flaps
+  if (square) for (let k = 0; k < 8; k++){
+    const aA = a0 + k*Math.PI/4, aB = aA + Math.PI/4, mid = (aA + aB)/2;
+    const gap = .045 / rho(mid), segs = 4, pts = [];
+    for (let i = 0; i <= segs; i++) pts.push(fp(aA + gap + (aB - aA - 2*gap)*i/segs, 1));
+    for (let i = 0; i < segs; i++){
+      const p1 = pts[i], p2 = pts[i+1];
+      polys.push({ pts:[p1, p2, [p2[0], p2[1]-h, p2[2]], [p1[0], p1[1]-h, p1[2]]], col:can });
+    }
+  }
+  // printed logo on 4 of the 8 sections (every other one), on the top of the fabric
+  const decals = [];
+  if (sp.print && o > .97){
+    const asp = (GL && GL.tex && GL.tex.img.aspect) || 2.4;
+    // round: every other section between two ribs; square: the middle of each of the 4 sides (corner to corner)
+    const secs = square ? [0,1,2,3].map(k => [a0 + k*Math.PI/2, a0 + (k+1)*Math.PI/2]) : [0,2,4,6].map(k => [a0 + k*Math.PI/4, a0 + (k+1)*Math.PI/4]);
+    for (const [aA, aB] of secs){
+      const E1 = pt(aA, 1), E2 = pt(aB, 1), Em = [(E1[0]+E2[0])/2, (E1[1]+E2[1])/2, (E1[2]+E2[2])/2];
+      const Cc = [(A[0]+E1[0]+E2[0])/3, (A[1]+E1[1]+E2[1])/3, (A[2]+E1[2]+E2[2])/3];   // centre of the section
+      const down = nrm([Em[0]-A[0], Em[1]-A[1], Em[2]-A[2]]), side = nrm([E2[0]-E1[0], E2[1]-E1[1], E2[2]-E1[2]]);
+      const up = nrm([side[1]*down[2]-side[2]*down[1], side[2]*down[0]-side[0]*down[2], side[0]*down[1]-side[1]*down[0]]);
+      const nU = up[1] < 0 ? up.map(v => -v) : up;
+      const chord = Math.hypot(E2[0]-E1[0], E2[2]-E1[2]);
+      const hw = Math.min(chord * (2/3) * (square ? .25 : .32), .6), hh = hw / asp, lift = .03;
+      const P = (sx, sy) => [Cc[0] + side[0]*sx*hw + down[0]*sy*hh + nU[0]*lift, Cc[1] + side[1]*sx*hw + down[1]*sy*hh + nU[1]*lift, Cc[2] + side[2]*sx*hw + down[2]*sy*hh + nU[2]*lift];
+      decals.push({ pts:[P(-1,-1), P(1,-1), P(1,1), P(-1,1)] });   // top edge toward the pole
+    }
+  }
+  const lum = (h => { const c = rgb(h); return .3*c[0] + .59*c[1] + .11*c[2]; })(can);
+  const r = Math.hypot(R*1.1, top/2);
+  return { boxes:B, polys, decals, decalDark: lum < 120, foot:[w*1.05, w*1.05], shadow:o, center:[0, top/2, 0], r };
+}
+
 function buildModel(sp, open){
   const B = [], add = (c,s,col,o={}) => B.push({c, s, col, rx:o.rx||0, ry:o.ry||0, a:o.a||1, emit:!!o.emit});
   // LED light: soft pools on the floor and faint beams, drawn as added light
@@ -807,6 +987,7 @@ function buildModel(sp, open){
   const frame = ALU_COLOURS[sp.colour] || "#8C989D";
   const fabCol = FABRIC_COLOURS[sp.fabricCol] || "#F1EFEA";
   const P = PRICING.products[sp.key];
+  if (sp.key === "umbrella") return buildUmbrella(sp, open, add, B);
   if (sp.key === "fabric"){
     const w=sp.w, d=sp.d, r=sp.rails||2, tk=sp.tk || fabricGeom(w, d, {rails:r, thick:sp.thick}, sp.mount, sp.hf);
     const Hf = tk.hf, rise = tk.rise, a = Math.atan2(rise, d), S = tk.slope;
@@ -1045,6 +1226,12 @@ function render3DGL(){
       quad(b.a < 1 ? trans : opaque, q.map(i => cp[i]), col(b.col, s, b.a));
     }
   }
+  for (const pl of (M.polys || [])){
+    const P = pl.pts, u = [P[1][0]-P[0][0], P[1][1]-P[0][1], P[1][2]-P[0][2]], v = [P[2][0]-P[0][0], P[2][1]-P[0][1], P[2][2]-P[0][2]];
+    const nn = nrm([u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0]]);
+    const c = col(pl.col, (.5 + .5*Math.abs(dot(nn, LIGHT))) * dim, pl.a || 1), cp = P.map(cam);
+    for (let i = 1; i < cp.length - 1; i++){ vert(opaque, cp[0], c); vert(opaque, cp[i], c); vert(opaque, cp[i+1], c); }
+  }
   for (const g of (M.glow || [])){
     const ps = g.pts.map(cam), c = I => [1*I*g.k, .82*I*g.k, .45*I*g.k, 1];
     for (const i of [0,1,2,0,2,3]) vert(glow, ps[i], c(g.I[i]));
@@ -1060,6 +1247,26 @@ function render3DGL(){
   gl.disable(gl.BLEND); gl.depthMask(true);
   draw(opaque, gl.TRIANGLES);
   draw(lines, gl.LINES);
+  // printed logos on the fabric
+  if (M.decals && M.decals.length && GL.tex){
+    const tx = logoTexture(M.decalDark);
+    if (tx){
+      const T1 = GL.tex, arr = [];
+      for (const d of M.decals){ const c = d.pts.map(cam), uv = [[0,0],[1,0],[1,1],[0,1]];
+        for (const i of [0,1,2,0,2,3]) arr.push(c[i][0], c[i][1], c[i][2], uv[i][0], uv[i][1]); }
+      gl.useProgram(T1.prog);
+      gl.uniform3f(T1.k, 2*F/W, 2*F/Hc, 28/Hc); gl.uniform2f(T1.zab, (f+n)/(f-n), -2*f*n/(f-n)); gl.uniform1f(T1.dim, dim);
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tx);
+      gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
+      gl.bindBuffer(gl.ARRAY_BUFFER, GL.buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.DYNAMIC_DRAW);
+      gl.disableVertexAttribArray(GL.c);
+      gl.enableVertexAttribArray(T1.p); gl.vertexAttribPointer(T1.p, 3, gl.FLOAT, false, 20, 0);
+      gl.enableVertexAttribArray(T1.t); gl.vertexAttribPointer(T1.t, 2, gl.FLOAT, false, 20, 12);
+      gl.drawArrays(gl.TRIANGLES, 0, arr.length/5);
+      gl.disableVertexAttribArray(T1.t);
+      gl.useProgram(GL.prog); gl.disable(gl.BLEND); gl.depthMask(true);
+    }
+  }
   gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
   draw(trans, gl.TRIANGLES);
   gl.blendFunc(gl.ONE, gl.ONE);                 // light adds up
@@ -1120,6 +1327,12 @@ function render3DCanvas(){
       faces.push({z:cc[2], pts:q.map(i=>proj(cp[i])), fill:`rgba(${col[0]*s|0},${col[1]*s|0},${col[2]*s|0},${b.a})`, solid:b.a===1, emit:b.emit});
     }
   }
+  for (const pl of (M.polys || [])){
+    const P = pl.pts, cp = P.map(cam); if (cp.some(v=>v[2] < .2)) continue;
+    const u = [P[1][0]-P[0][0], P[1][1]-P[0][1], P[1][2]-P[0][2]], v = [P[2][0]-P[0][0], P[2][1]-P[0][1], P[2][2]-P[0][2]];
+    const nn = nrm([u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0]]), sh = .5 + .5*Math.abs(dot(nn, LIGHT)), cc = rgb(pl.col);
+    faces.push({z:cp.reduce((a,q)=>a+q[2],0)/cp.length, pts:cp.map(proj), fill:`rgb(${cc[0]*sh|0},${cc[1]*sh|0},${cc[2]*sh|0})`, solid:true, emit:false});
+  }
   faces.sort((a,b)=> (a.emit - b.emit) || (b.z - a.z));   // LED light drawn last so its glow shows through the fabric
   ctx.lineJoin = "round"; ctx.lineWidth = .6;
   for (const f of faces) poly(f.pts, f.fill, f.solid ? f.fill : null);
@@ -1150,7 +1363,7 @@ c3d.addEventListener("pointermove", e => {
 c3d.addEventListener("wheel", e => { e.preventDefault(); setZoom(V3.zoom * Math.exp(-e.deltaY * .0015)); }, { passive: false });
 $("zoomIn").addEventListener("click", () => setZoom(V3.zoom * 1.25));
 $("zoomOut").addEventListener("click", () => setZoom(V3.zoom / 1.25));
-$("zoomReset").addEventListener("click", () => { V3.zoom = 1; V3.yaw = V3.yaw0; V3.pitch = .42; });
+$("zoomReset").addEventListener("click", () => { V3.zoom = 1; V3.yaw = V3.yaw0; V3.pitch = $("product").value === "umbrella" ? .16 : .42; });
 c3d.addEventListener("keydown", e => {
   if (e.key === "+" || e.key === "="){ e.preventDefault(); setZoom(V3.zoom * 1.25); return; }
   if (e.key === "-"){ e.preventDefault(); setZoom(V3.zoom / 1.25); return; }
